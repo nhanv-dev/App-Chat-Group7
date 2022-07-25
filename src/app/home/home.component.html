@@ -7,7 +7,9 @@
           <h3>Recent</h3>
           <p>Chat from your friends 😘</p>
         </div>
-        <button class="custom-button button-light"><i class="fa-solid fa-expand"></i></button>
+        <button class="custom-button button-light">
+          <i class="fa-solid fa-expand"></i>
+        </button>
       </div>
       <div class="box-chat__sidebar__header">
         <div class="box-chat__sidebar__header__title">
@@ -49,11 +51,40 @@
       </div>
     </div>
     <div class="box-chat__content">
-      <app-box-chat class="chat-conversation" [room]="room" [user]="user"></app-box-chat>
+      <app-box-chat class="chat-conversation" [room]="room" [user]="user">
+      </app-box-chat>
       <div class="box-chat__content__form">
         <form class="d-flex align-items-center gap-3">
-          <button class="custom-button button-primary">
+          <button class="custom-button button-primary" (click)="toggleEmoji()">
             <i class="fa-solid fa-face-grin"></i>
+            <div class="box-emojis" *ngIf="emoji">
+              <ul class="list-emoji">
+                <li class="list-emoji__item">
+                  <div style="width: 40px; height: 40px; padding: 5px">
+                    <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f600.png"
+                         alt="" class="emoji-img">
+                  </div>
+                </li>
+                <li class="list-emoji__item">
+                  <div style=" width: 40px; height: 40px; padding: 5px">
+                    <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f600.png"
+                         alt="" class="emoji-img">
+                  </div>
+                </li>
+                <li class="list-emoji__item">
+                  <div style=" width: 40px; height: 40px; padding: 5px">
+                    <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f600.png"
+                         alt="" class="emoji-img">
+                  </div>
+                </li>
+                <li class="list-emoji__item">
+                  <div style=" width: 40px; height: 40px; padding: 5px">
+                    <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f600.png"
+                         alt="" class="emoji-img">
+                  </div>
+                </li>
+              </ul>
+            </div>
           </button>
           <button class="custom-button button-primary">
             <i class="fa-solid fa-plus"></i>
