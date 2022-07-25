@@ -8,15 +8,18 @@ export class AuthenticationService {
   }
 
   getToken() {
-    const token: any = sessionStorage.getItem('userData')
+    const token: any = localStorage.getItem('userData')
     return JSON.parse(token);
   }
 
   setToken(token: string) {
-    sessionStorage.setItem('userData', token);
+    this.isUserAuthenticated = true;
+    localStorage.setItem('userData', token);
   }
 
   removeToken() {
-    sessionStorage.removeItem('userData');
+    this.isUserAuthenticated = false;
+    localStorage.removeItem('userData');
   }
+
 }

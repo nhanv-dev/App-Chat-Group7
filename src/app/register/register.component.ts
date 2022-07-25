@@ -18,11 +18,11 @@ export class RegisterComponent implements OnInit {
 
 
   constructor(private chatService: ChatService, private authenticationService: AuthenticationService, private router: Router) {
-    // if (authenticationService.getToken()) router.navigateByUrl('/home')
+    if (authenticationService.getToken()) router.navigateByUrl('/home')
     chatService.messages.subscribe(message => {
-      if (message.event === 'REGISTER' && message.status === 'success' && message.data === 'Creating a successful account')
-        router.navigateByUrl('/login');
       console.log("Response from websocket: ", message);
+      if (message.event === 'REGISTER' && message.status === 'success')
+        router.navigateByUrl('/login');
     });
   }
 

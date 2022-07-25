@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
 import {ChatService} from "../services/chat.service";
 import {Router} from "@angular/router";
@@ -9,7 +9,7 @@ import {environment} from "../../environments/environment";
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  providers: [ChatService],
+  providers: [ChatService, AuthenticationService],
 })
 export class LoginComponent implements OnInit {
   public loginForm = new FormGroup({
@@ -23,22 +23,40 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.chatService.messages.subscribe(message => {
-      console.log("Response from websocket: ", message);
-      if (message.event === environment.event.LOGIN && message.status === 'success') {
-        const data: any = {
-          user: this.loginForm.controls.username.value,
-          code: message.data?.RE_LOGIN_CODE
+    this.initialize();
+  }
+
+  private initialize() {
+    this.chatService.messages.subscribe(async (message) => {
+      if (message.event === environment.event.LOGIN) {
+        if (message.status === 'success') {
+          const data: any = {
+            user: this.loginForm.controls.username.value,
+            code: message.data.RE_LOGIN_CODE
+          }
+          this.authenticationService.setToken(JSON.stringify(data))
+          await this.router.navigate(['/home']);
         }
-        this.authenticationService.setToken(JSON.stringify(data))
-        this.authenticationService.isUserAuthenticated = true;
-        this.router.navigateByUrl('/home');
+
       }
     });
   }
 
-  login() {
-    this.chatService.login({
+  async handleSuccess(message: any) {
+    const data: any = {
+      user: this.loginForm.controls.username.value,
+      code: message.data.RE_LOGIN_CODE
+    }
+    await this.authenticationService.setToken(JSON.stringify(data))
+    await this.router.navigate(['/home']);
+  }
+
+  async handleError(message: any) {
+    await alert('Error')
+  }
+
+  async login() {
+    await this.chatService.login({
       user: this.loginForm.controls.username.value,
       pass: this.loginForm.controls.password.value
     })

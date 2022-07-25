@@ -9,6 +9,10 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {WebsocketService} from "./services/websocket.service";
 import {ChatService} from "./services/chat.service";
 import {AuthenticationService} from "./services/authentication.service";
+import { BoxChatComponent } from './components/box-chat/box-chat.component';
+import { SearchChatComponent } from './components/search-chat/search-chat.component';
+import { SearchMessageComponent } from './components/search-message/search-message.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +20,10 @@ import {AuthenticationService} from "./services/authentication.service";
     HomeComponent,
     LoginComponent,
     RegisterComponent,
+    BoxChatComponent,
+    SearchChatComponent,
+    SearchMessageComponent,
+    SidebarComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,32 @@
+<div class="sidebar">
+  <div class="sidebar__logo">
+    <img alt="logo" src="https://vue.pixelstrap.com/chitchat/_nuxt/img/logo.740e2c9.png">
+  </div>
+  <div class="d-flex flex-column gap-3 justify-content-between flex-grow-1 align-items-center">
+    <div class="sidebar__group-button">
+      <div class="sidebar__avatar">
+        <img alt="avatar"
+             src="https://www.seekpng.com/png/full/115-1150053_avatar-png-transparent-png-royalty-free-default-user.png">
+        <p class="sidebar__avatar__name">{{user?.name || 'Anonymous'}}</p>
+      </div>
+      <button class="custom-button button-light">
+        <i class="fa-regular fa-moon"></i>
+        <p class="custom-button__name">Dark Mode</p>
+      </button>
+      <button class="custom-button button-light">
+        <i class="fa-solid fa-power-off"></i>
+        <p class="custom-button__name">SignOut</p>
+      </button>
+    </div>
+    <div class="sidebar__group-button">
+      <button class="custom-button button-light">
+        <i class="fa-regular fa-moon"></i>
+        <p class="custom-button__name">Dark Mode</p>
+      </button>
+      <button class="custom-button button-light" (click)="handleLogout()">
+        <i class="fa-solid fa-power-off"></i>
+        <p class="custom-button__name">SignOut</p>
+      </button>
+    </div>
+  </div>
+</div>
