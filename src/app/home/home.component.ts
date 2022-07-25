@@ -1,94 +1,154 @@
 import {Component, OnInit} from '@angular/core';
 import {ChatService} from "../services/chat.service";
-import {FormControl, FormGroup} from "@angular/forms";
 import {AuthenticationService} from "../services/authentication.service";
 import {Router} from "@angular/router";
 import {environment} from "../../environments/environment";
+import {FormControl, FormGroup} from "@angular/forms";
+
+export interface User {
+  name: string,
+}
+
+export interface Message {
+  id: number,
+  name: string,
+  type: number,
+  to: string,
+  mes: string,
+  createAt: string,
+}
+
+export interface Room {
+  users: User[],
+  messages: Message[],
+  name: string,
+  type: string,
+}
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
+
 export class HomeComponent implements OnInit {
-  public send: any[] = [];
-  public received: any[] = [];
-  public user: any = undefined;
-  public connectedChatting: any = undefined;
-  public users: any[] = [];
+  public user: User | undefined;
+  public room: Room = {users: [], messages: [], type: '', name: ''};
+  public users: User[] = [];
+  public groups: any[] = [];
   public messageForm = new FormGroup({
     to: new FormControl(),
     mes: new FormControl(),
   })
 
+  private ready: any;
+
   constructor(private chatService: ChatService, private authenticationService: AuthenticationService, private router: Router) {
-    if (!authenticationService.isUserAuthenticated) {
-      authenticationService.removeToken();
-      router.navigateByUrl('/login');
+    this.subscribe();
+    const token = this.authenticationService.getToken();
+    this.user = {name: token.user};
+  }
+
+  ngOnInit(): void {
+    const dataUser: any = this.authenticationService.getToken()
+    if (dataUser && !this.authenticationService.isUserAuthenticated) {
+      clearInterval(this.ready)
+      this.ready = setInterval(() => {
+        this.chatService.reLogin(dataUser);
+      }, 500)
     }
-    chatService.messages.subscribe(message => {
+    this.setup();
+
+  }
+
+  private async subscribe() {
+    await this.chatService.messages.subscribe((message) => {
       const {event, status, data} = message
       console.log("Response from websocket: ", message);
-      if (event === environment.event.SEND_CHAT && status === 'success') {
-        this.received.push(data);
-        this.send.push({
-          name: this.user.username,
-          mes: this.messageForm.controls.mes.value,
-          to: this.messageForm.controls.to.value,
-        })
+      if (event === 'AUTH' && status === 'error' && data.mes === 'User not Login') {
+        this.chatService.reLogin(this.authenticationService.getToken())
+      } else if (event === environment.event.RE_LOGIN) {
+        if (status === 'success') {
+          this.handleRefreshPage({
+            user: {user: this.authenticationService.getToken()?.user, code: data.RE_LOGIN_CODE}
+          })
+        } else {
+          this.logout();
+        }
+        clearInterval(this.ready);
+      } else if (event === environment.event.SEND_CHAT && status === 'success') {
+        this.handleSendChat(data);
+      } else if (event === environment.event.GET_USER_LIST && status === 'success') {
+        this.setUsers(data);
+        // console.log(this.room)
+      } else if (event === environment.event.GET_PEOPLE_CHAT_MES && status === 'success') {
+        this.room.messages = [...data];
+        this.room.type = 'people';
+      } else if (event === environment.event.GET_ROOM_CHAT_MES && status === 'success') {
+
+
+      } else {
+        if (this.ready) clearInterval(this.ready)
       }
-      if (event === environment.event.GET_USER_LIST && status === 'success') this.setUsers(data);
-      if (event === environment.event.CHECK_USER && status !== 'success') this.logout();
     });
   }
 
+  async setup() {
+    await this.chatService.getUserList();
+  }
 
-  ngOnInit(): void {
-    const dataUser = this.authenticationService.getToken();
-    if (dataUser) {
-      this.user = this.authenticationService.getToken();
-      this.chatService.getUserList();
-    } else {
-      this.logout();
+
+  async handleRefreshPage(data: any) {
+    await this.authenticationService.setToken(JSON.stringify(data.user));
+    await this.chatService.getUserList();
+  }
+
+  handleSendChat(data: any) {
+
+  }
+
+  setMessagesUser(data: any) {
+    if (data instanceof Array) {
+      data.forEach((item) => {
+
+      })
     }
   }
 
-  async reLogin() {
-    const dataUser = this.authenticationService.getToken();
-    if (dataUser) {
-
-    }
-  }
-
-  async setUsers(data: any) {
+  setUsers(data: any) {
     this.users = data;
+    this.room.users.push(this.users[0]);
+    this.users.forEach(user => {
+      this.getMessages(user.name, 1, 'people');
+    })
   }
 
-  async connectPeople(name: string) {
+  setUser(data: any) {
 
   }
 
-  async checkUser() {
-    const dataUser: any = this.authenticationService.getToken();
-    const data: any = {user: dataUser.user}
-    await this.chatService.checkUser(data)
+  connectChat(name: string, type: string) {
+    this.getMessages(name, 1, type);
   }
 
-  async sendChat() {
-    await this.chatService.sendChat({
+  getMessages(name: string, page: number, type: string) {
+    if (type === 'people') this.chatService.getPeopleMessage(name, page);
+    else if (type === 'room') this.chatService.getRoomMessage(name, page);
+  }
+
+
+  sendChat() {
+    this.chatService.sendChat({
       type: 'people',
       to: this.messageForm.controls.to.value,
       mes: this.messageForm.controls.mes.value
     });
   }
 
-  async handleSendChat() {
 
-  }
-
-  async logout() {
+  public logout() {
     this.authenticationService.removeToken();
-    await this.chatService.logout();
-    await this.router.navigateByUrl('/login');
+    this.chatService.logout();
+    this.router.navigateByUrl('/login');
   }
 }

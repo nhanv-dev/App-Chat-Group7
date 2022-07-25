@@ -8,18 +8,16 @@ import {AuthenticationService} from "./services/authentication.service";
   selector: "app-root",
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"],
-  providers: [WebsocketService, ChatService]
+  providers: [WebsocketService, ChatService, AuthenticationService]
 })
 
 export class AppComponent implements OnInit {
   public title = 'App Chat';
 
-  constructor(private chatService: ChatService, private authenticationService: AuthenticationService) {
+  constructor() {
 
   }
 
   ngOnInit() {
-    const dataUser = this.authenticationService.getToken();
-    this.chatService.reLogin(dataUser)
   }
 }

@@ -1,0 +1,33 @@
+<div class="chat-conversation__header">
+  <div class="d-flex">
+    <div class="chat-conversation__avatar">
+      <img src="https://vue.pixelstrap.com/chitchat/_nuxt/img/1.5d73494.jpg" alt="avatar">
+    </div>
+    <div class="chat-conversation__header__info">
+      <h5 class="chat-conversation__header__info__name">{{ user?.name || 'Anonymous'}}</h5>
+      <p class="chat-conversation__header__info__status mt-2">Active</p>
+    </div>
+  </div>
+  <app-search-message></app-search-message>
+</div>
+<div class="chat-conversation__content" [ngClass]="room?.messages ? 'show': 'hidden'">
+  <div *ngFor="let message of room?.messages" class="chat-conversation__message-container"
+       [ngClass]="message.to !== user?.name ? 'flex-row-reverse':''">
+    <div class="chat-conversation__avatar">
+      <img src="https://vue.pixelstrap.com/chitchat/_nuxt/img/1.5d73494.jpg" alt="avatar">
+    </div>
+    <div class="d-flex flex-column" [ngClass]="message.to !== user?.name ? 'align-items-end':''">
+      <div class="d-flex align-items-center gap-4" [ngClass]="message.to !== user?.name ? 'flex-row-reverse':''">
+        <p class="chat-conversation__message-container__name">{{message.name || 'Anonymous'}}</p>
+        <p class="chat-conversation__message-container__time">01:42 AM</p>
+      </div>
+      <p class="chat-conversation__message-container__message" [ngClass]="message.to !== user?.name ? 'right':'left'">
+        {{message.mes}}
+      </p>
+    </div>
+  </div>
+</div>
+<div class="chat-conversation__background" [ngClass]="room?.messages ? 'hidden': 'show'">
+  <img src="https://vue.pixelstrap.com/chitchat/_nuxt/img/chat.3ae7d20.png" alt="No message">
+  <p class="chat-conversation__background__title ">Select a chat to read messages</p>
+</div>

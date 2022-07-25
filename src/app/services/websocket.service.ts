@@ -1,10 +1,13 @@
 import {Injectable, OnInit} from "@angular/core";
 import * as Rx from 'rxjs';
 import {AnonymousSubject} from "rxjs/internal/Subject";
+import {webSocket} from 'rxjs/webSocket';
+import {environment} from "../../environments/environment";
 
+// @ts-ignore
 @Injectable()
 export class WebsocketService {
-  private subject: AnonymousSubject<MessageEvent> | undefined;
+  public subject: AnonymousSubject<MessageEvent> | undefined;
 
   constructor() {
   }
@@ -29,7 +32,7 @@ export class WebsocketService {
       error: null,
       complete: null,
       next: (data: Object) => {
-        console.log('Message sent to websocket: ', data);
+        // console.log('Message sent to websocket: ', data);
         if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(data));
       }
     };

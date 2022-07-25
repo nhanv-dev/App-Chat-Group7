@@ -1,183 +1,73 @@
-<div class="box-chat h-100">
-  <div class="d-flex gap-0 h-100">
-    <div class="box-chat__sidebar h-100">
-      <h3>Chats</h3>
-      <button (click)="logout()">Đăng xuất</button>
-      <form class="box-chat__search">
-        <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-        <input type="text" placeholder="Tìm kiếm bạn bè hoặc nhóm chat...">
-      </form>
-      <div *ngFor="let data of users" class="box-chat__user">
-        <div class="box-chat__user__avatar">
-          <img src="https://toppng.com/uploads/preview/avatar-png-115540218987bthtxfhls.png" alt="avatar">
+<div class="d-flex h-100 gap-0">
+  <app-sidebar [user]="user"></app-sidebar>
+  <div class="box-chat">
+    <div class="box-chat__sidebar">
+      <div class="box-chat__sidebar__header">
+        <div class="box-chat__sidebar__header__title">
+          <h3>Recent</h3>
+          <p>Chat from your friends 😘</p>
         </div>
-        <div class="h-100 d-flex flex-column justify-content-between">
-          <p class="box-chat__user__name">{{data.name}}</p>
+        <button class="custom-button button-light"><i class="fa-solid fa-expand"></i></button>
+      </div>
+      <div class="box-chat__sidebar__header">
+        <div class="box-chat__sidebar__header__title">
+          <h3>Chats</h3>
+          <p>Start New Conversation</p>
         </div>
+        <button class="custom-button button-light">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </div>
+      <div class="box-chat__group-button">
+        <button class="active">Direct</button>
+        <button>Group</button>
+      </div>
+      <div class="box-chat__users">
+        <ul class="box-chat__users__list">
+          <li *ngFor="let item of users" class="box-chat__users__item" (click)="connectChat(item.name,'people')"
+              [ngClass]="room?.name === item.name ? 'active': ''">
+            <div class="box-chat__users__item__avatar">
+              <img alt="avatar"
+                   src="http://themes.pixelstrap.com/chitchat/assets/images/contact/1.jpg">
+            </div>
+            <div class="box-chat__users__item__content">
+              <p class="box-chat__users__item__name">
+                {{item.name || 'Anonymous'}}
+              </p>
+              <div class="d-flex align-items-center gap-0">
+                <p class="box-chat__users__item__message">
+                  {{"Let's start a new conversation"}}
+                </p>
+                <i class="fa-solid fa-circle box-chat__users__item__dot"></i>
+                <p class="box-chat__users__item__time">
+                  <!--                  {{item.actionTime | date :'mediumDate'}}-->
+                </p>
+              </div>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
-    <div class="width height">
-      <div class="user-chat h-100">
-        <div class="w-100 h-100 d-flex flex-column">
-          <div class="p-3 border-bottom">
-            <div class="align-items-center row">
-              <div class="d-flex col-8">
-                <div class="d-flex align-items-center">
-                  <div class="user-status user-status--on me-3 ms-0">
-                    <img
-                      src="data:image/jpeg;base64,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"
-                      class="rounded-circle avatar-xs" alt="chatvia">
-                  </div>
-                  <div class="flex-grow-1 overflow-hidden" style="margin-top: 10px">
-                    <h5 class="font-size-16 mb-0 text-truncate">
-                      <a class="text-reset user-profile-show" href="#">Chí Nguyên</a>
-                    </h5>
-                    <div class="badge badge-success">
-                      Connect
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="message-search">
-                  <a class="message-search__link">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
+    <div class="box-chat__content">
+      <app-box-chat class="chat-conversation" [room]="room" [user]="user"></app-box-chat>
+      <div class="box-chat__content__form">
+        <form class="d-flex align-items-center gap-3">
+          <button class="custom-button button-primary">
+            <i class="fa-solid fa-face-grin"></i>
+          </button>
+          <button class="custom-button button-primary">
+            <i class="fa-solid fa-plus"></i>
+          </button>
+          <div class="box-chat__content__form__input">
+            <input type="text" placeholder="Write your message...">
           </div>
-          <div class="chat-conversation p-4" style="flex: 1">
-            <ul class="list-unstyled mb-0" style="display: none">
-              <li>
-                <div class="conversation-list">
-                  <div class="chat-avatar">
-                    <img
-                      src="data:image/jpeg;base64,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"
-                      class="rounded-circle avatar-xs" alt="chatvia">
-                  </div>
-                  <div class="user-chat-content">
-                    <div class="ctext-wrap">
-                      <div class="ctext-wrap-content">
-                        <p class="mb-0">Good Morning</p>
-                        <p class="chat-time mb-0 d-flex justify-content-end align-items-center">
-                          <i class="fa-solid fa-clock"></i>
-                          <span class="align-middle">10:00</span>
-                        </p>
-                      </div>
-                      <div class="align-self-start dropdown">
-                        <a class="btn" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                           aria-haspopup="true" aria-expanded="false">
-                          <i class="fa-solid fa-ellipsis-vertical"></i>
-                        </a>
-                        <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu">
-                          <button type="button" tabindex="0" role="menuitem"
-                                  class="dropdown-item d-flex justify-content-between align-items-center">
-                            Copy <i class="fa-solid fa-copy text-muted"></i>
-                          </button>
-                          <button type="button" tabindex="0" role="menuitem"
-                                  class="dropdown-item d-flex justify-content-between align-items-center">
-                            Save <i class="fa-solid fa-floppy-disk text-muted"></i>
-                          </button>
-                          <button type="button" tabindex="0" role="menuitem"
-                                  class="dropdown-item d-flex justify-content-between align-items-center">
-                            Forward <i class="fa-solid fa-share text-muted"></i>
-                          </button>
-                          <button type="button" tabindex="0" role="menuitem"
-                                  class="dropdown-item d-flex justify-content-between align-items-center">
-                            Delete <i class="fa-solid fa-trash-can text-muted"></i>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="conversation-name">Chí Nguyên</div>
-                  </div>
-                </div>
-              </li>
-              <li class="right">
-                <div class="conversation-list">
-                  <div class="chat-avatar">
-                    <img
-                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAVV37UyvEhFWdL64genRKIq84ujmO6zSodA&usqp=CAU"
-                      alt="chatvia">
-                  </div>
-                  <div class="user-chat-content">
-                    <div class="ctext-wrap">
-                      <div class="ctext-wrap-content">
-                        <p class="mb-0">
-                          Good morning, How are you? What about our next meeting?
-                        </p>
-                        <p class="chat-time mb-0 d-flex justify-content-end align-items-center">
-                          <i class="fa-solid fa-clock"></i>
-                          <span class="align-middle">10:02</span>
-                        </p>
-                      </div>
-                      <div class="align-self-start dropdown">
-                        <a class="btn" href="#" role="button" data-toggle="dropdown"
-                           aria-haspopup="true" aria-expanded="false">
-                          <i class="fa-solid fa-ellipsis-vertical"></i>
-                        </a>
-                        <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu">
-                          <button type="button" tabindex="0" role="menuitem"
-                                  class="dropdown-item d-flex justify-content-between align-items-center">
-                            Copy <i class="fa-solid fa-copy text-muted"></i>
-                          </button>
-                          <button type="button" tabindex="0" role="menuitem"
-                                  class="dropdown-item d-flex justify-content-between align-items-center">
-                            Save <i class="fa-solid fa-floppy-disk text-muted"></i>
-                          </button>
-                          <button type="button" tabindex="0" role="menuitem"
-                                  class="dropdown-item d-flex justify-content-between align-items-center">
-                            Forward <i class="fa-solid fa-share text-muted"></i>
-                          </button>
-                          <button type="button" tabindex="0" role="menuitem"
-                                  class="dropdown-item d-flex justify-content-between align-items-center">
-                            Delete <i class="fa-solid fa-trash-can text-muted"></i>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="conversation-name">Trọng Nghĩa</div>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="chat-day-title">
-                  <span class="title">Today</span>
-                </div>
-              </li>
-            </ul>
-            <div class="no-message" style="display: block">
-              <img src="https://vue.pixelstrap.com/chitchat/_nuxt/img/chat.3ae7d20.png" alt="No message"
-                   class="no-message__img">
-              <p class="no-message__title">Select a chat to read messages</p>
-            </div>
-          </div>
-          <div class="p-4 border-top mb-0">
-            <div class="message-input">
-              <div class="wrap emojis-main">
-                <div class="dot-btn dot-primary mr-3">
-                  <a href="" class="icon-btn btn-outline-primary button-effect toggle-emoji d-flex justify-content-center align-items-center">
-                    <i class="fa-solid fa-face-grin"></i>
-                  </a>
-                </div>
-                <div class="dot-btn dot-primary mr-3">
-                  <a href="" class="icon-btn btn-outline-primary button-effect toggle-emoji d-flex justify-content-center align-items-center">
-                    <i class="fa-solid fa-plus"></i>
-                  </a>
-                </div>
-                <input type="text" placeholder="Write your message...">
-                <div class="dot-btn dot-primary mr-3 ">
-                  <a href="" class="icon-btn btn-outline-primary button-effect toggle-emoji d-flex justify-content-center align-items-center">
-                    <i class="fa-solid fa-paper-plane"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+          <button class="custom-button send-button" type="submit">
+            <i class="fa-solid fa-paper-plane"></i>
+          </button>
+        </form>
       </div>
     </div>
   </div>
 </div>
+
 
