@@ -34,6 +34,8 @@ export interface Room {
 
 export class HomeComponent implements OnInit {
   public emoji = false;
+  public screen = true;
+  public toggleStatus: any[] = [];
   public user: User | undefined;
   public room: Room = {users: [], messages: [], type: '', name: ''};
   public users: User[] = [];
@@ -62,6 +64,7 @@ export class HomeComponent implements OnInit {
     this.setup().then(() => {
       this.user = {name: dataUser.user, type: 'people'};
     });
+    this.toggleStatus.push(this.screen);
   }
 
   private async subscribe() {
@@ -84,7 +87,7 @@ export class HomeComponent implements OnInit {
       } else if (event === environment.event.GET_USER_LIST && status === 'success') {
         this.setUsers(data);
       } else if (event === environment.event.GET_PEOPLE_CHAT_MES && status === 'success') {
-        this.room.messages = [...data];
+        this.room.messages = [...data].reverse();
         this.room.type = 'people';
       } else if (event === environment.event.GET_ROOM_CHAT_MES && status === 'success') {
         console.log("Response from websocket: ", message);
@@ -162,5 +165,10 @@ export class HomeComponent implements OnInit {
 
   public toggleEmoji(){
       this.emoji = !this.emoji;
+  }
+  public toggleScreen() {
+    this.screen = !this.screen;
+    this.toggleStatus.push(this.screen);
+    console.log(this.toggleStatus[this.toggleStatus.length - 1])
   }
 }
