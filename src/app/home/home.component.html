@@ -1,5 +1,5 @@
 <div class="d-flex h-100 gap-0">
-  <app-sidebar [user]="user" (logout)="logout()"></app-sidebar>
+  <app-sidebar [user]="user" (logout)="logout()" [toggle]="toggleStatus[toggleStatus.length - 1]"></app-sidebar>
   <div class="box-chat">
     <div class="box-chat__sidebar position-relative">
       <div class="box-chat__sidebar__header">
@@ -7,7 +7,7 @@
           <h3>Recent</h3>
           <p>Chat from your friends 😘</p>
         </div>
-        <button class="custom-button button-light">
+        <button class="custom-button button-light" (click)="toggleScreen()">
           <i class="fa-solid fa-expand"></i>
         </button>
       </div>
@@ -34,7 +34,7 @@
         <form class="d-flex align-items-center gap-3">
 
           <app-chat-bar></app-chat-bar>
-        
+
         </form>
       </div>
     </div>
