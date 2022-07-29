@@ -6,7 +6,8 @@ import {environment} from "../../environments/environment";
 import {FormControl, FormGroup} from "@angular/forms";
 
 export interface User {
-  name: string,
+  name: any,
+  type: any,
 }
 
 export interface Message {
@@ -44,9 +45,7 @@ export class HomeComponent implements OnInit {
   private ready: any;
 
   constructor(private chatService: ChatService, private authenticationService: AuthenticationService, private router: Router) {
-    this.subscribe();
-    const token = this.authenticationService.getToken();
-    this.user = {name: token.user};
+
   }
 
   ngOnInit(): void {
@@ -54,17 +53,20 @@ export class HomeComponent implements OnInit {
     if (dataUser && !this.authenticationService.isUserAuthenticated) {
       clearInterval(this.ready)
       this.ready = setInterval(() => {
-        this.chatService.reLogin(dataUser);
-      }, 500)
+        this.chatService.reLogin(dataUser).then(() => {
+          this.user = {name: dataUser.user, type: 'people'};
+        });
+      }, 500);
     }
-    this.setup();
-
+    this.setup().then(() => {
+      this.user = {name: dataUser.user, type: 'people'};
+    });
   }
 
   private async subscribe() {
     await this.chatService.messages.subscribe((message) => {
       const {event, status, data} = message
-      console.log("Response from websocket: ", message);
+
       if (event === 'AUTH' && status === 'error' && data.mes === 'User not Login') {
         this.chatService.reLogin(this.authenticationService.getToken())
       } else if (event === environment.event.RE_LOGIN) {
@@ -80,13 +82,13 @@ export class HomeComponent implements OnInit {
         this.handleSendChat(data);
       } else if (event === environment.event.GET_USER_LIST && status === 'success') {
         this.setUsers(data);
-        // console.log(this.room)
       } else if (event === environment.event.GET_PEOPLE_CHAT_MES && status === 'success') {
         this.room.messages = [...data];
         this.room.type = 'people';
       } else if (event === environment.event.GET_ROOM_CHAT_MES && status === 'success') {
-
-
+        console.log("Response from websocket: ", message);
+        this.room.messages = [...message.data.chatData];
+        this.room.type = 'room';
       } else {
         if (this.ready) clearInterval(this.ready)
       }
@@ -94,6 +96,7 @@ export class HomeComponent implements OnInit {
   }
 
   async setup() {
+    await this.subscribe();
     await this.chatService.getUserList();
   }
 
@@ -115,25 +118,29 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  setUsers(data: any) {
-    this.users = data;
-    this.room.users.push(this.users[0]);
+  async setUsers(data: any) {
+    // @ts-ignore
+    this.users = data?.map((user: any) => {
+      console.log(user)
+      const name: string = user.name;
+      const type: string = user.type === 0 ? 'people' : 'room';
+      if (name && type) return {name, type};
+    });
+
+    // this.room.users.push(this.users[0]);
     this.users.forEach(user => {
-      this.getMessages(user.name, 1, 'people');
+      this.getMessages(user?.name, 1, user?.type);
     })
   }
 
-  setUser(data: any) {
 
+  async connectChat(name: string, type: string) {
+    await this.getMessages(name, 1, type);
   }
 
-  connectChat(name: string, type: string) {
-    this.getMessages(name, 1, type);
-  }
-
-  getMessages(name: string, page: number, type: string) {
-    if (type === 'people') this.chatService.getPeopleMessage(name, page);
-    else if (type === 'room') this.chatService.getRoomMessage(name, page);
+  async getMessages(name: string, page: number, type: string) {
+    if (type === 'people') await this.chatService.getPeopleMessage(name, page);
+    else if (type === 'room') await this.chatService.getRoomMessage(name, page);
   }
 
 
@@ -146,7 +153,7 @@ export class HomeComponent implements OnInit {
   }
 
 
-  public logout() {
+  logout() {
     this.authenticationService.removeToken();
     this.chatService.logout();
     this.router.navigateByUrl('/login');

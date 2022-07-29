@@ -1,10 +1,8 @@
-import {Injectable, OnInit} from "@angular/core";
+import {Injectable} from "@angular/core";
 import * as Rx from 'rxjs';
 import {AnonymousSubject} from "rxjs/internal/Subject";
-import {webSocket} from 'rxjs/webSocket';
-import {environment} from "../../environments/environment";
+import {Observer} from "rxjs";
 
-// @ts-ignore
 @Injectable()
 export class WebsocketService {
   public subject: AnonymousSubject<MessageEvent> | undefined;
@@ -28,16 +26,21 @@ export class WebsocketService {
       ws.onclose = obs.complete.bind(obs);
       return ws.close.bind(ws);
     });
-    const observer = {
-      error: null,
-      complete: null,
+    const observer: Observer<MessageEvent<any>> = {
+      error: (err) => {
+        this.subject?.unsubscribe();
+      },
+      complete: () => {
+        this.subject?.unsubscribe();
+      },
       next: (data: Object) => {
-        // console.log('Message sent to websocket: ', data);
         if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(data));
       }
     };
-
-    // @ts-ignore
     return new AnonymousSubject<MessageEvent>(observer, observable);
+  }
+
+  public close() {
+    this.subject?.unsubscribe();
   }
 }

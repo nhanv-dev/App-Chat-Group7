@@ -1,7 +1,7 @@
 <div class="d-flex h-100 gap-0">
-  <app-sidebar [user]="user"></app-sidebar>
+  <app-sidebar [user]="user" (logout)="logout()"></app-sidebar>
   <div class="box-chat">
-    <div class="box-chat__sidebar">
+    <div class="box-chat__sidebar position-relative">
       <div class="box-chat__sidebar__header">
         <div class="box-chat__sidebar__header__title">
           <h3>Recent</h3>
@@ -14,38 +14,15 @@
           <h3>Chats</h3>
           <p>Start New Conversation</p>
         </div>
-        <button class="custom-button button-light">
-          <i class="fa-solid fa-magnifying-glass"></i>
-        </button>
+        <app-search-chat></app-search-chat>
       </div>
       <div class="box-chat__group-button">
         <button class="active">Direct</button>
         <button>Group</button>
       </div>
+      <app-button-add></app-button-add>
       <div class="box-chat__users">
-        <ul class="box-chat__users__list">
-          <li *ngFor="let item of users" class="box-chat__users__item" (click)="connectChat(item.name,'people')"
-              [ngClass]="room?.name === item.name ? 'active': ''">
-            <div class="box-chat__users__item__avatar">
-              <img alt="avatar"
-                   src="http://themes.pixelstrap.com/chitchat/assets/images/contact/1.jpg">
-            </div>
-            <div class="box-chat__users__item__content">
-              <p class="box-chat__users__item__name">
-                {{item.name || 'Anonymous'}}
-              </p>
-              <div class="d-flex align-items-center gap-0">
-                <p class="box-chat__users__item__message">
-                  {{"Let's start a new conversation"}}
-                </p>
-                <i class="fa-solid fa-circle box-chat__users__item__dot"></i>
-                <p class="box-chat__users__item__time">
-                  <!--                  {{item.actionTime | date :'mediumDate'}}-->
-                </p>
-              </div>
-            </div>
-          </li>
-        </ul>
+        <app-group-chat [groups]="users" [connected]="room"></app-group-chat>
       </div>
     </div>
     <div class="box-chat__content">
@@ -55,9 +32,10 @@
           <button class="custom-button button-primary">
             <i class="fa-solid fa-face-grin"></i>
           </button>
-          <button class="custom-button button-primary">
+          <label class="custom-button button-primary" for="images">
             <i class="fa-solid fa-plus"></i>
-          </button>
+          </label>
+          <input class="d-none" type="file" id="images">
           <div class="box-chat__content__form__input">
             <input type="text" placeholder="Write your message...">
           </div>

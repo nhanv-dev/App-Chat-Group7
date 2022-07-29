@@ -11,21 +11,26 @@
   <app-search-message></app-search-message>
 </div>
 <div class="chat-conversation__content" [ngClass]="room?.messages ? 'show': 'hidden'">
-  <div *ngFor="let message of room?.messages" class="chat-conversation__message-container"
-       [ngClass]="message.to !== user?.name ? 'flex-row-reverse':''">
-    <div class="chat-conversation__avatar">
-      <img src="https://vue.pixelstrap.com/chitchat/_nuxt/img/1.5d73494.jpg" alt="avatar">
-    </div>
-    <div class="d-flex flex-column" [ngClass]="message.to !== user?.name ? 'align-items-end':''">
-      <div class="d-flex align-items-center gap-4" [ngClass]="message.to !== user?.name ? 'flex-row-reverse':''">
-        <p class="chat-conversation__message-container__name">{{message.name || 'Anonymous'}}</p>
-        <p class="chat-conversation__message-container__time">01:42 AM</p>
+  <ng-container *ngFor="let message of room?.messages">
+    <ng-container *ngIf="message.mes != null && message.mes">
+      <div class="chat-conversation__message-container"
+           [ngClass]="message.to !== user?.name ? 'flex-row-reverse':''">
+        <div class="chat-conversation__avatar">
+          <img src="https://vue.pixelstrap.com/chitchat/_nuxt/img/1.5d73494.jpg" alt="avatar">
+        </div>
+        <div class="d-flex flex-column" [ngClass]="message.to !== user?.name ? 'align-items-end':''">
+          <div class="d-flex align-items-center gap-4" [ngClass]="message.to !== user?.name ? 'flex-row-reverse':''">
+            <p class="chat-conversation__message-container__name">{{message.name || 'Anonymous'}}</p>
+            <p class="chat-conversation__message-container__time">01:42 AM</p>
+          </div>
+          <p class="chat-conversation__message-container__message"
+             [ngClass]="message.to !== user?.name ? 'right':'left'">
+            {{message.mes}}
+          </p>
+        </div>
       </div>
-      <p class="chat-conversation__message-container__message" [ngClass]="message.to !== user?.name ? 'right':'left'">
-        {{message.mes}}
-      </p>
-    </div>
-  </div>
+    </ng-container>
+  </ng-container>
 </div>
 <div class="chat-conversation__background" [ngClass]="room?.messages ? 'hidden': 'show'">
   <img src="https://vue.pixelstrap.com/chitchat/_nuxt/img/chat.3ae7d20.png" alt="No message">

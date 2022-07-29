@@ -9,10 +9,12 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {WebsocketService} from "./services/websocket.service";
 import {ChatService} from "./services/chat.service";
 import {AuthenticationService} from "./services/authentication.service";
-import { BoxChatComponent } from './components/box-chat/box-chat.component';
-import { SearchChatComponent } from './components/search-chat/search-chat.component';
-import { SearchMessageComponent } from './components/search-message/search-message.component';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
+import {BoxChatComponent} from './components/box-chat/box-chat.component';
+import {SearchChatComponent} from './components/search-chat/search-chat.component';
+import {SearchMessageComponent} from './components/search-message/search-message.component';
+import {SidebarComponent} from './components/sidebar/sidebar.component';
+import {ButtonAddComponent} from './components/button-add/button-add.component';
+import {GroupChatComponent} from './components/group-chat/group-chat.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,8 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     SearchChatComponent,
     SearchMessageComponent,
     SidebarComponent,
+    ButtonAddComponent,
+    GroupChatComponent,
   ],
   imports: [
     BrowserModule,

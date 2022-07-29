@@ -1,0 +1,23 @@
+<ul class="box-chat__users__list">
+  <li *ngFor="let group of groups" class="box-chat__users__item" (click)="connectChat(group?.name,group?.type)"
+      [ngClass]="connected?.name === group?.name ? 'active': ''">
+    <div class="box-chat__users__item__avatar">
+      <img alt="avatar"
+           src="http://themes.pixelstrap.com/chitchat/assets/images/contact/1.jpg">
+    </div>
+    <div class="box-chat__users__item__content">
+      <p class="box-chat__users__item__name">
+        {{group?.name || 'Anonymous'}}
+      </p>
+      <div class="d-flex align-items-center gap-0">
+        <p class="box-chat__users__item__message">
+          {{"Let's start a new conversation"}}
+        </p>
+        <i class="fa-solid fa-circle box-chat__users__item__dot"></i>
+        <p class="box-chat__users__item__time">
+          <!--                  {{item.actionTime | date :'mediumDate'}}-->
+        </p>
+      </div>
+    </div>
+  </li>
+</ul>
