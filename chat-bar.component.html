@@ -1,0 +1,21 @@
+<!--<h1>Angular Emoji</h1>-->
+<!--<p>This is where the magic happens</p>-->
+<div class="box-chat__content__form">
+  <form class="d-flex align-items-center  width_full">
+    <button class="custom-button button-primary" (click)="isEmojiPickerVisible = !isEmojiPickerVisible;">
+      <i class="fa-solid fa-face-grin"></i>
+    </button>
+    <button class="custom-button button-primary">
+      <i class="fa-solid fa-plus"></i>
+    </button>
+    <div class="box-chat__content__form__input">
+      <input placeholder="Write your message..." type="text" name="textchat" [(ngModel)]="textChat">
+    </div>
+    <button class="custom-button send-button" type="submit">
+      <i class="fa-solid fa-paper-plane"></i>
+    </button>
+
+    <emoji-mart class="emoji-mart" *ngIf="isEmojiPickerVisible" (emojiSelect)="addEmoji($event)"
+                title="Choose your emoji"></emoji-mart>
+  </form>
+</div>
