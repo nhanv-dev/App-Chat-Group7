@@ -15,6 +15,9 @@ import {SearchMessageComponent} from './components/search-message/search-message
 import {SidebarComponent} from './components/sidebar/sidebar.component';
 import {ButtonAddComponent} from './components/button-add/button-add.component';
 import {GroupChatComponent} from './components/group-chat/group-chat.component';
+import {ChatBarComponent} from './components/chat-bar/chat-bar.component';
+import {PickerModule} from "@ctrl/ngx-emoji-mart";
+
 
 @NgModule({
   declarations: [
@@ -28,12 +31,14 @@ import {GroupChatComponent} from './components/group-chat/group-chat.component';
     SidebarComponent,
     ButtonAddComponent,
     GroupChatComponent,
+    ChatBarComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PickerModule
   ],
   providers: [WebsocketService, ChatService, AuthenticationService],
   bootstrap: [AppComponent]

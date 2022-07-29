@@ -572,3 +572,38 @@
 .chat-conversation::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+/*Emojis*/
+.box-emojis {
+  position: absolute;
+  width: 390px;
+  height: 280px;
+  padding: 35px;
+  bottom: 85px;
+  left: -10px;
+  background-color: #fff;
+}
+
+.box-emojis:before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 12px solid #fff;
+  bottom: -12px;
+  left: 15px;
+}
+
+.list-emoji {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+}
+
+.emoji-img {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  font-size: 24px;
+}

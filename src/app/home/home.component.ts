@@ -33,6 +33,7 @@ export interface Room {
 })
 
 export class HomeComponent implements OnInit {
+  public emoji = false;
   public user: User | undefined;
   public room: Room = {users: [], messages: [], type: '', name: ''};
   public users: User[] = [];
@@ -157,5 +158,9 @@ export class HomeComponent implements OnInit {
     this.authenticationService.removeToken();
     this.chatService.logout();
     this.router.navigateByUrl('/login');
+  }
+
+  public toggleEmoji(){
+      this.emoji = !this.emoji;
   }
 }
