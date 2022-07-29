@@ -9,10 +9,13 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {WebsocketService} from "./services/websocket.service";
 import {ChatService} from "./services/chat.service";
 import {AuthenticationService} from "./services/authentication.service";
-import { BoxChatComponent } from './components/box-chat/box-chat.component';
-import { SearchChatComponent } from './components/search-chat/search-chat.component';
-import { SearchMessageComponent } from './components/search-message/search-message.component';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
+import {BoxChatComponent} from './components/box-chat/box-chat.component';
+import {SearchChatComponent} from './components/search-chat/search-chat.component';
+import {SearchMessageComponent} from './components/search-message/search-message.component';
+import {SidebarComponent} from './components/sidebar/sidebar.component';
+import {ChatBarComponent} from './components/chat-bar/chat-bar.component';
+import {PickerModule} from "@ctrl/ngx-emoji-mart";
+
 
 @NgModule({
   declarations: [
@@ -24,12 +27,14 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     SearchChatComponent,
     SearchMessageComponent,
     SidebarComponent,
+    ChatBarComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PickerModule
   ],
   providers: [WebsocketService, ChatService, AuthenticationService],
   bootstrap: [AppComponent]
