@@ -19,15 +19,19 @@ export class LoginComponent implements OnInit {
 
 
   constructor(private chatService: ChatService, private authenticationService: AuthenticationService, private router: Router) {
-    if (authenticationService.getToken()) router.navigateByUrl('/home')
   }
 
   ngOnInit(): void {
-    this.initialize();
+    this.chatService.messages?.unsubscribe();
+    this.initialize().then((r) => {
+      console.log(r)
+    });
   }
 
-  private initialize() {
+  async initialize() {
+    if (this.authenticationService.getToken()) await this.router.navigateByUrl('/home')
     this.chatService.messages.subscribe(async (message) => {
+      console.log("Response: " + message)
       if (message.event === environment.event.LOGIN) {
         if (message.status === 'success') {
           const data: any = {
@@ -37,7 +41,6 @@ export class LoginComponent implements OnInit {
           this.authenticationService.setToken(JSON.stringify(data))
           await this.router.navigate(['/home']);
         }
-
       }
     });
   }

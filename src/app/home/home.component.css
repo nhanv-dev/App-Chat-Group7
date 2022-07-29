@@ -94,6 +94,7 @@
   margin-left: 5px;
   visibility: hidden;
   opacity: 0;
+  z-index: 2;
   transition: all .3s ease;
 }
 
@@ -159,6 +160,11 @@
   align-items: center;
   justify-content: space-between;
   position: relative;
+}
+
+.box-chat__sidebar__header__title {
+  position: relative;
+  max-height: 58px;
 }
 
 .box-chat__sidebar__header__search {
@@ -516,6 +522,7 @@
   border-radius: 50px;
   width: max-content;
 }
+
 .chat-conversation__message-container__message:last-child {
   margin-bottom: 12px;
 }

@@ -10,6 +10,7 @@ export class ChatService {
   messages: AnonymousSubject<any>;
 
   constructor(private wsService: WebsocketService) {
+    this.wsService.close();
     this.messages = <AnonymousSubject<any>>this.wsService.connect(environment.CHAT_URL).pipe(
       Rx.map((response: MessageEvent): any => JSON.parse(response.data))
     );
@@ -34,6 +35,7 @@ export class ChatService {
   async logout() {
     const message = {action: environment.action, data: {event: environment.event.LOGOUT}}
     this.messages.next(message);
+
   }
 
   async register(data: any) {

@@ -1,7 +1,7 @@
 <div class="d-flex h-100 gap-0">
-  <app-sidebar [user]="user"></app-sidebar>
+  <app-sidebar [user]="user" (logout)="logout()"></app-sidebar>
   <div class="box-chat">
-    <div class="box-chat__sidebar">
+    <div class="box-chat__sidebar position-relative">
       <div class="box-chat__sidebar__header">
         <div class="box-chat__sidebar__header__title">
           <h3>Recent</h3>
@@ -16,38 +16,15 @@
           <h3>Chats</h3>
           <p>Start New Conversation</p>
         </div>
-        <button class="custom-button button-light">
-          <i class="fa-solid fa-magnifying-glass"></i>
-        </button>
+        <app-search-chat></app-search-chat>
       </div>
       <div class="box-chat__group-button">
         <button class="active">Direct</button>
         <button>Group</button>
       </div>
+      <app-button-add></app-button-add>
       <div class="box-chat__users">
-        <ul class="box-chat__users__list">
-          <li *ngFor="let item of users" class="box-chat__users__item" (click)="connectChat(item.name,'people')"
-              [ngClass]="room?.name === item.name ? 'active': ''">
-            <div class="box-chat__users__item__avatar">
-              <img alt="avatar"
-                   src="http://themes.pixelstrap.com/chitchat/assets/images/contact/1.jpg">
-            </div>
-            <div class="box-chat__users__item__content">
-              <p class="box-chat__users__item__name">
-                {{item.name || 'Anonymous'}}
-              </p>
-              <div class="d-flex align-items-center gap-0">
-                <p class="box-chat__users__item__message">
-                  {{"Let's start a new conversation"}}
-                </p>
-                <i class="fa-solid fa-circle box-chat__users__item__dot"></i>
-                <p class="box-chat__users__item__time">
-                  <!--                  {{item.actionTime | date :'mediumDate'}}-->
-                </p>
-              </div>
-            </div>
-          </li>
-        </ul>
+        <app-group-chat [groups]="users" [connected]="room"></app-group-chat>
       </div>
     </div>
     <div class="box-chat__content">
@@ -55,52 +32,9 @@
       </app-box-chat>
       <div class="box-chat__content__form">
         <form class="d-flex align-items-center gap-3">
+
           <app-chat-bar></app-chat-bar>
-          <!--          <button class="custom-button button-primary" (click)="toggleEmoji()">-->
-<!--            <i class="fa-solid fa-face-grin"></i>-->
-<!--            <div class="box-emojis" *ngIf="emoji">-->
-<!--              <emoji-mart class="emoji-mart" *ngIf="isEmojiPickerVisible" (emojiSelect)="addEmoji($event)" title="Choose your emoji"></emoji-mart>-->
-
-              <!--              <ul class="list-emoji">-->
-<!--                <li class="list-emoji__item">-->
-<!--                  <div style="width: 40px; height: 40px; padding: 5px">-->
-<!--                    <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f600.png"-->
-<!--                         alt="" class="emoji-img">-->
-<!--                  </div>-->
-<!--                </li>-->
-<!--                <li class="list-emoji__item">-->
-<!--                  <h2 style=" width: 40px; height: 40px; padding: 5px">-->
-<!--                    <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f600.png"-->
-<!--                         alt="" class="emoji-img">-->
-<!--                    &#128512;-->
-<!--                    <angular-emojis [name]="'sneezing_face'" size="50"> </angular-emojis>-->
-
-<!--                  </h2>-->
-<!--                </li>-->
-<!--                <li class="list-emoji__item">-->
-<!--                  <div style=" width: 40px; height: 40px; padding: 5px">-->
-<!--                    <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f600.png"-->
-<!--                         alt="" class="emoji-img">-->
-<!--                  </div>-->
-<!--                </li>-->
-<!--                <li class="list-emoji__item">-->
-<!--                  <div style=" width: 40px; height: 40px; padding: 5px">-->
-<!--                    <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f600.png"-->
-<!--                         alt="" class="emoji-img">-->
-<!--                  </div>-->
-<!--                </li>-->
-<!--              </ul>-->
-<!--            </div>-->
-<!--          </button>-->
-<!--          <button class="custom-button button-primary">-->
-<!--            <i class="fa-solid fa-plus"></i>-->
-<!--          </button>-->
-<!--          <div class="box-chat__content__form__input">-->
-<!--            <input type="text" placeholder="Write your message...">-->
-<!--          </div>-->
-<!--          <button class="custom-button send-button" type="submit">-->
-<!--            <i class="fa-solid fa-paper-plane"></i>-->
-<!--          </button>-->
+        
         </form>
       </div>
     </div>

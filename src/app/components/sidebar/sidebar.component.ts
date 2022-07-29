@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {User} from "../../home/home.component";
 import {ChatService} from "../../services/chat.service";
 import {AuthenticationService} from "../../services/authentication.service";
@@ -11,21 +11,16 @@ import {Router} from "@angular/router";
 })
 export class SidebarComponent implements OnInit {
   @Input() user: User | undefined;
-  @Input() logout = new EventEmitter();
-  @Input() callback: Function | undefined;
+  @Output() logout = new EventEmitter<any>();
 
-  constructor(private chatService: ChatService, private authenticationService: AuthenticationService, private router:Router) {
+  constructor() {
   }
 
   ngOnInit(): void {
   }
 
+
   handleLogout(): void {
-    this.authenticationService.removeToken();
-    this.chatService.logout();
-    this.router.navigateByUrl('/login');
+    this.logout.emit();
   }
-  // suggestionWasClicked(): void {
-  //   this.callback();
-  // }
 }

@@ -13,6 +13,8 @@ import {BoxChatComponent} from './components/box-chat/box-chat.component';
 import {SearchChatComponent} from './components/search-chat/search-chat.component';
 import {SearchMessageComponent} from './components/search-message/search-message.component';
 import {SidebarComponent} from './components/sidebar/sidebar.component';
+import {ButtonAddComponent} from './components/button-add/button-add.component';
+import {GroupChatComponent} from './components/group-chat/group-chat.component';
 import {ChatBarComponent} from './components/chat-bar/chat-bar.component';
 import {PickerModule} from "@ctrl/ngx-emoji-mart";
 
@@ -27,6 +29,8 @@ import {PickerModule} from "@ctrl/ngx-emoji-mart";
     SearchChatComponent,
     SearchMessageComponent,
     SidebarComponent,
+    ButtonAddComponent,
+    GroupChatComponent,
     ChatBarComponent
   ],
   imports: [

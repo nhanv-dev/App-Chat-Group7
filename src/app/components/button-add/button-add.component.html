@@ -1,0 +1,19 @@
+<div class="new-contact">
+  <button class="new-contact__button" (click)="toggle()">
+    <i class="fa-solid fa-plus"></i>
+  </button>
+  <div class="new-contact__options" [ngClass]="isOpened ? 'show':'hidden'">
+    <button class="new-contact__option">
+      <span class="new-contact__option__title">New Chat</span>
+      <div class="new-contact__option__icon">
+        <i class="fa-solid fa-message"></i>
+      </div>
+    </button>
+    <button class="new-contact__option" (click)="toggleAddGroup()">
+      <span class="new-contact__option__title">New Group</span>
+      <div class="new-contact__option__icon">
+        <i class="fa-solid fa-user-group"></i>
+      </div>
+    </button>
+  </div>
+</div>
