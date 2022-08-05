@@ -1,7 +1,7 @@
 emoji-mart{
   position: absolute;
-  bottom: 92px;
-  background-color: white!important;
+  bottom: 100px;
+  background-color: #fff!important;
 }
 .box-chat__content__form {
   width: 100%!important;
@@ -79,4 +79,28 @@ emoji-mart{
   visibility: visible;
   opacity: 1;
 }
+.day   { background: #eee; color: black; }
+.night { background: #333; color: white; }
 
+@media (prefers-color-scheme: dark) {
+  .day.dark-scheme   { background:  #333; color: white; }
+  .night.dark-scheme { background: black; color:  #ddd; }
+}
+
+@media (prefers-color-scheme: light) {
+  .day.light-scheme   { background: white; color:  #555; }
+  .night.light-scheme { background:  #eee; color: black; }
+}
+
+.day, .night {
+  display: inline-block;
+  padding: 1em;
+  width: 7em;
+  height: 2em;
+  vertical-align: middle;
+
+}
+.emoji-mart-dark .emoji-mart-category-label span {
+  background-color: #fff!important;
+  color: black!important;
+}
