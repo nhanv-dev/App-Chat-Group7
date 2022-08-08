@@ -7,8 +7,12 @@ import {FormControl, FormGroup} from "@angular/forms";
   styleUrls: ['../../home/home.component.css']
 })
 export class ChatBarComponent implements OnInit {
+  public message: string = '';
+  public isEmojiPickerVisible: boolean | undefined;
+
   constructor() {
   }
+
   ngOnInit(): void {
   }
 
@@ -16,15 +20,12 @@ export class ChatBarComponent implements OnInit {
     alert('send chat')
   }
 
-  
-  public textChat: string = '';
-  public isEmojiPickerVisible: boolean | undefined;
-  public addEmoji(event: { emoji: { native: any; }; }) {
-    this.textChat = `${this.textChat}${event.emoji.native}`;
-    this.isEmojiPickerVisible = false;
+  toggleEmoji() {
+
   }
 
-  addEmoji(event: any) {
-    this.message += `${event?.emoji?.native}`;
+  public addEmoji(event: { emoji: { native: any; }; }) {
+    this.message = `${this.message}${event.emoji.native}`;
+    this.isEmojiPickerVisible = false;
   }
 }

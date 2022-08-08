@@ -12,7 +12,6 @@ import {environment} from "../../environments/environment";
 })
 
 export class HomeComponent implements OnInit {
-  public emoji = false;
   public screen = true;
   public toggleStatus: any[] = [];
   public user: User | undefined;
