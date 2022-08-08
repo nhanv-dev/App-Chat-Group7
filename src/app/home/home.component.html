@@ -1,5 +1,5 @@
 <div class="d-flex h-100 gap-0">
-  <app-sidebar [user]="user" (logout)="logout()" [toggle]="toggleStatus[toggleStatus.length - 1]"></app-sidebar>
+  <app-sidebar [user]="user" (logout)="handleLogout()" [toggle]="toggleStatus[toggleStatus.length - 1]"></app-sidebar>
   <div class="box-chat">
     <div class="box-chat__sidebar position-relative">
       <div class="box-chat__sidebar__header">
