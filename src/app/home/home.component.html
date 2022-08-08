@@ -24,19 +24,12 @@
       </div>
       <app-button-add></app-button-add>
       <div class="box-chat__users">
-        <app-group-chat [groups]="users" [connected]="room"></app-group-chat>
+        <app-group-chat [rooms]="rooms" [activeRoom]="activeRoom" (changeRoom)="changeRoom($event)"></app-group-chat>
       </div>
     </div>
     <div class="box-chat__content">
-      <app-box-chat class="chat-conversation" [room]="room" [user]="user">
-      </app-box-chat>
-      <div class="box-chat__content__form">
-        <form class="d-flex align-items-center gap-3">
-
-          <app-chat-bar></app-chat-bar>
-
-        </form>
-      </div>
+      <app-box-chat class="chat-conversation" [activeRoom]="activeRoom" [user]="user"></app-box-chat>
+      <app-chat-bar></app-chat-bar>
     </div>
   </div>
 </div>

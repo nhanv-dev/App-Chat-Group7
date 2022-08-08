@@ -15,6 +15,7 @@ export class WebsocketService {
       this.subject = this.create(url);
       console.log("Successfully connected: " + url);
     }
+    console.log(this.subject)
     return this.subject;
   }
 

@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {User} from "../../home/home.component";
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ChatService, Room} from "../../services/chat.service";
 
 @Component({
   selector: 'app-group-chat',
@@ -7,16 +7,20 @@ import {User} from "../../home/home.component";
   styleUrls: ['./group-chat.component.css', '../../home/home.component.css']
 })
 export class GroupChatComponent implements OnInit {
-  @Input() groups: User[] | undefined;
-  @Input() connected: User | undefined;
+  @Input() rooms: Room[] | undefined;
+  @Input() activeRoom: Room | undefined;
+  @Output() changeRoom = new EventEmitter<any>();
 
-  constructor() {
+  constructor(private chatService: ChatService) {
+
   }
 
   ngOnInit(): void {
+
   }
 
-  public connectChat(name: string, type: string) {
+  connectChat(room: Room) {
+    this.changeRoom.emit(room);
   }
 
 }
