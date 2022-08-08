@@ -12,6 +12,9 @@ import {environment} from "../../environments/environment";
 })
 
 export class HomeComponent implements OnInit {
+  public emoji = false;
+  public screen = true;
+  public toggleStatus: any[] = [];
   public user: User | undefined;
   public rooms: Room[] = [];
   public activeRoom: Room = {name: '', type: '', messages: []};
@@ -135,5 +138,10 @@ export class HomeComponent implements OnInit {
     this.router.navigateByUrl('/login').then(() => {
       this.chatService.messages.complete();
     });
+  }
+  public toggleScreen() {
+    this.screen = !this.screen;
+    this.toggleStatus.push(this.screen);
+    console.log(this.toggleStatus[this.toggleStatus.length - 1])
   }
 }

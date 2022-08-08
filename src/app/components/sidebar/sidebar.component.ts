@@ -9,11 +9,12 @@ import {User} from "../../services/chat.service";
 export class SidebarComponent implements OnInit {
   @Input() user: User | undefined;
   @Output() logout = new EventEmitter<any>();
-
+  @Input() toggle: any;
   constructor() {
   }
 
   ngOnInit(): void {
+    console.log(this.toggle)
   }
 
 
