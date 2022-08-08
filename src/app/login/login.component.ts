@@ -22,16 +22,15 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.chatService.messages?.unsubscribe();
     this.initialize().then((r) => {
-      console.log(r)
+
     });
   }
 
   async initialize() {
     if (this.authenticationService.getToken()) await this.router.navigateByUrl('/home')
     this.chatService.messages.subscribe(async (message) => {
-      console.log("Response: " + message)
+      console.log("Response: ", message)
       if (message.event === environment.event.LOGIN) {
         if (message.status === 'success') {
           const data: any = {
@@ -54,12 +53,10 @@ export class LoginComponent implements OnInit {
     await this.router.navigate(['/home']);
   }
 
-  async handleError(message: any) {
-    await alert('Error')
-  }
 
-  async login() {
-    await this.chatService.login({
+   login() {
+    console.log('login')
+     this.chatService.login({
       user: this.loginForm.controls.username.value,
       pass: this.loginForm.controls.password.value
     })
