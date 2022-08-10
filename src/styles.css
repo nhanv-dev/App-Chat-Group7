@@ -82,6 +82,9 @@ body.light-mode {
 .dark-mode app-login div{
   background-color: #fff!important;
 }
+.dark-mode app-register div{
+  background-color: #fff!important;
+}
 .dark-mode .box-chat__sidebar__header__search input{
   background-color: #25262c!important;
   color: #fff!important;
