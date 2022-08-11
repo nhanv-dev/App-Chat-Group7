@@ -4,35 +4,42 @@
       <img src="https://vue.pixelstrap.com/chitchat/_nuxt/img/1.5d73494.jpg" alt="avatar">
     </div>
     <div class="chat-conversation__header__info">
-      <h5 class="chat-conversation__header__info__name">{{ user?.name || 'Anonymous'}}</h5>
+      <h5 class="chat-conversation__header__info__name">{{ activeRoom?.name || 'Anonymous'}}</h5>
       <p class="chat-conversation__header__info__status mt-2">Active</p>
     </div>
   </div>
   <app-search-message></app-search-message>
 </div>
-<div class="chat-conversation__content" [ngClass]="room?.messages ? 'show': 'hidden'">
-  <ng-container *ngFor="let message of room?.messages">
+<div #scrollMe class="chat-conversation__content"
+     [ngClass]="activeRoom && activeRoom.messages && activeRoom.messages.length ? 'show': 'hidden'">
+  <ng-container *ngFor="let message of activeRoom?.messages; let i = index">
     <ng-container *ngIf="message.mes != null && message.mes">
-      <div class="chat-conversation__message-container"
-           [ngClass]="message.to !== user?.name ? 'flex-row-reverse':''">
-        <div class="chat-conversation__avatar">
+      <div class="chat-conversation__message-container pb-4"
+           [ngClass]="message.name === user?.name ? 'flex-row-reverse': ''">
+        <div class="chat-conversation__avatar" [ngClass]="message.name === user?.name ? 'd-none': ''">
           <img src="https://vue.pixelstrap.com/chitchat/_nuxt/img/1.5d73494.jpg" alt="avatar">
         </div>
-        <div class="d-flex flex-column" [ngClass]="message.to !== user?.name ? 'align-items-end':''">
-          <div class="d-flex align-items-center gap-4" [ngClass]="message.to !== user?.name ? 'flex-row-reverse':''">
+        <div class="d-flex flex-column" [ngClass]="message.name === user?.name ? 'align-items-end':''">
+          <div class="d-flex align-items-center gap-4"
+               [ngClass]="message.name === user?.name ? 'flex-row-reverse': ''">
             <p class="chat-conversation__message-container__name">{{message.name || 'Anonymous'}}</p>
-            <p class="chat-conversation__message-container__time">01:42 AM</p>
+            <p class="chat-conversation__message-container__time">{{message.createAt | date:'shortTime'}}</p>
           </div>
-          <p class="chat-conversation__message-container__message"
-             [ngClass]="message.to !== user?.name ? 'right':'left'">
-            {{message.mes}}
-          </p>
+          <div class="d-flex align-items-center gap-3" [ngClass]="message.name === user?.name ? 'flex-row-reverse':''">
+            <div class="chat-conversation__message-container__message"
+                 [ngClass]="message.name === user?.name ? 'right':'left'" [innerHTML]="message.mes">
+            </div>
+            <button class="chat-conversation__message-container__options custom-button button-light">
+              <i class="fa-solid fa-ellipsis-vertical"></i>
+            </button>
+          </div>
         </div>
       </div>
     </ng-container>
   </ng-container>
 </div>
-<div class="chat-conversation__background" [ngClass]="room?.messages ? 'hidden': 'show'">
+<div class="chat-conversation__background"
+     [ngClass]="activeRoom && activeRoom.messages && activeRoom.messages.length ? 'hidden': 'show'">
   <img src="https://vue.pixelstrap.com/chitchat/_nuxt/img/chat.3ae7d20.png" alt="No message">
-  <p class="chat-conversation__background__title ">Select a chat to read messages</p>
+  <p class="chat-conversation__background__title">Select a chat to read messages</p>
 </div>

@@ -1,21 +1,31 @@
 import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-chat-bar',
   templateUrl: './chat-bar.component.html',
-  styleUrls: ['./chat-bar.component.css']
+  styleUrls: ['../../home/home.component.css']
 })
 export class ChatBarComponent implements OnInit {
+  public message: string = '';
+  public isEmojiPickerVisible: boolean | undefined;
 
   constructor() {
   }
+
   ngOnInit(): void {
   }
-  public textChat: string = '';
-  public isEmojiPickerVisible: boolean | undefined;
-  public addEmoji(event: { emoji: { native: any; }; }) {
-    this.textChat = `${this.textChat}${event.emoji.native}`;
-    this.isEmojiPickerVisible = false;
+
+  sendChat() {
+    alert('send chat')
   }
 
+  toggleEmoji() {
+
+  }
+
+  public addEmoji(event: { emoji: { native: any; }; }) {
+    this.message = `${this.message}${event.emoji.native}`;
+    this.isEmojiPickerVisible = false;
+  }
 }

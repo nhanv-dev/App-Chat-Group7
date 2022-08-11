@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ChatService} from "../services/chat.service";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../services/authentication.service";
@@ -12,26 +12,25 @@ import {environment} from "../../environments/environment";
   providers: [ChatService, AuthenticationService],
 })
 export class LoginComponent implements OnInit {
-  public loginForm = new FormGroup({
-    username: new FormControl(),
-    password: new FormControl()
-  })
+  responseLogin = '';
+  loginForm = this.fb.group({
+    "username": ['', [Validators.required]],
+    "password": ['', [Validators.required]],
+  });
 
-
-  constructor(private chatService: ChatService, private authenticationService: AuthenticationService, private router: Router) {
+  constructor(private chatService: ChatService, private authenticationService: AuthenticationService, private router: Router, private fb: FormBuilder) {
   }
 
   ngOnInit(): void {
-    this.chatService.messages?.unsubscribe();
     this.initialize().then((r) => {
-      console.log(r)
+
     });
   }
 
   async initialize() {
     if (this.authenticationService.getToken()) await this.router.navigateByUrl('/home')
     this.chatService.messages.subscribe(async (message) => {
-      console.log("Response: " + message)
+      console.log("Response: ", message)
       if (message.event === environment.event.LOGIN) {
         if (message.status === 'success') {
           const data: any = {
@@ -42,6 +41,7 @@ export class LoginComponent implements OnInit {
           await this.router.navigate(['/home']);
         }
       }
+      this.responseLogin = message.mes;
     });
   }
 
@@ -54,12 +54,10 @@ export class LoginComponent implements OnInit {
     await this.router.navigate(['/home']);
   }
 
-  async handleError(message: any) {
-    await alert('Error')
-  }
 
-  async login() {
-    await this.chatService.login({
+  login() {
+    console.log('login')
+    this.chatService.login({
       user: this.loginForm.controls.username.value,
       pass: this.loginForm.controls.password.value
     })

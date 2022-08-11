@@ -10,13 +10,32 @@
         <div class="form__input">
           <label for="name">Username</label>
           <input id="name" type="text" placeholder="Write your username..." formControlName="username" required>
+          <ng-container
+            *ngIf="loginForm.controls.username.invalid && (loginForm.controls.username.dirty || loginForm.controls.username.touched)">
+            <ng-container *ngIf="loginForm.controls.username.errors">
+              <ng-container *ngIf="loginForm.controls.username.errors?.['required']">
+                <small class="form-text text-danger">*Please fill in username</small>
+              </ng-container>
+            </ng-container>
+          </ng-container>
         </div>
         <div class="form__input">
           <label for="password">Password</label>
           <input id="password" type="password" placeholder="Write your username..." formControlName="password" required>
+          <ng-container
+            *ngIf="loginForm.controls.password.invalid && (loginForm.controls.password.dirty || loginForm.controls.password.touched)">
+            <ng-container *ngIf="loginForm.controls.password.errors">
+              <ng-container *ngIf="loginForm.controls.password.errors?.['required']">
+                <small class="form-text text-danger">*Please fill in password</small><br>
+              </ng-container>
+            </ng-container>
+          </ng-container>
+          <ng-container *ngIf="responseLogin">
+            <small class="text-danger form-text">*{{responseLogin}}</small>
+          </ng-container>
         </div>
         <div class="form__buttons">
-          <button type="submit">Login</button>
+          <button type="submit" [disabled]="!loginForm.valid">Login</button>
           <a routerLink="/register">SignUp</a>
         </div>
       </form>

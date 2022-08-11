@@ -1,10 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {User} from "../../home/home.component";
-import {ChatService} from "../../services/chat.service";
-import {AuthenticationService} from "../../services/authentication.service";
-import {Router} from "@angular/router";
 import {DarkModeService} from "angular-dark-mode";
-
+import {User} from "../../services/chat.service";
 
 @Component({
   selector: 'app-sidebar',

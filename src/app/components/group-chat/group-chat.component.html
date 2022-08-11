@@ -1,23 +1,33 @@
-<ul class="box-chat__users__list">
-  <li *ngFor="let group of groups" class="box-chat__users__item" (click)="connectChat(group?.name,group?.type)"
-      [ngClass]="connected?.name === group?.name ? 'active': ''">
-    <div class="box-chat__users__item__avatar">
-      <img alt="avatar"
-           src="http://themes.pixelstrap.com/chitchat/assets/images/contact/1.jpg">
-    </div>
-    <div class="box-chat__users__item__content">
-      <p class="box-chat__users__item__name">
-        {{group?.name || 'Anonymous'}}
-      </p>
-      <div class="d-flex align-items-center gap-0">
-        <p class="box-chat__users__item__message">
-          {{"Let's start a new conversation"}}
-        </p>
-        <i class="fa-solid fa-circle box-chat__users__item__dot"></i>
-        <p class="box-chat__users__item__time">
-          <!--                  {{item.actionTime | date :'mediumDate'}}-->
-        </p>
-      </div>
-    </div>
-  </li>
+<ul class="box-chat__users__list w-100">
+  <ng-container *ngFor="let room of rooms">
+    <ng-container *ngIf="room">
+      <li class="box-chat__users__item w-100" (click)="connectChat(room)"
+          [ngClass]="room.name === activeRoom?.name && room.type === activeRoom?.type? 'active': ''">
+        <div class="box-chat__users__item__avatar">
+          <img alt="avatar"
+               src="https://img.rawpixel.com/s3fs-private/rawpixel_images/website_content/v916-nunny-117_1.jpg?w=800&dpr=1&fit=default&crop=default&q=65&vib=3&con=3&usm=15&bg=F4F4F3&ixlib=js-2.2.1&s=fbcd152f3cace5eb33a908e3c4cc688a"/>
+        </div>
+        <div class="box-chat__users__item__content w-100">
+          <p class="box-chat__users__item__name">
+            {{room.name || 'Anonymous'}}
+          </p>
+          <div class="d-flex align-items-center justify-content-between gap-0 w-100">
+            <ng-container *ngIf="room.messages && room.messages.length > 0">
+              <p class="box-chat__users__item__message">
+                {{room.messages[0].mes}}
+              </p>
+              <p class="box-chat__users__item__time">
+                {{room.messages[0].createAt | date:'shortTime'}}
+              </p>
+            </ng-container>
+            <ng-container *ngIf="!room.messages || room.messages.length <= 0">
+              <p class="box-chat__users__item__message w-100">
+                Let's start a new conversation
+              </p>
+            </ng-container>
+          </div>
+        </div>
+      </li>
+    </ng-container>
+  </ng-container>
 </ul>
