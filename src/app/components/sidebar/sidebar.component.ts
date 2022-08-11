@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {DarkModeService} from "angular-dark-mode";
 import {User} from "../../services/chat.service";
 
 @Component({
@@ -10,7 +11,9 @@ export class SidebarComponent implements OnInit {
   @Input() user: User | undefined;
   @Output() logout = new EventEmitter<any>();
   @Input() toggle: any;
-  constructor() {
+  darkMode$ = this.darkModeService.darkMode$;
+
+  constructor(private darkModeService: DarkModeService) {
   }
 
   ngOnInit(): void {
@@ -20,5 +23,8 @@ export class SidebarComponent implements OnInit {
 
   handleLogout(): void {
     this.logout.emit();
+  }
+  onToggle(): void {
+    this.darkModeService.toggle();
   }
 }
