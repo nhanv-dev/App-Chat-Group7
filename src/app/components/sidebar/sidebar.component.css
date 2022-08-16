@@ -1,0 +1,59 @@
+
+.toggleSidebar{
+  width: 0 !important;
+  overflow: hidden;
+}
+.toggle {
+  display: none;
+}
+
+.toggle-label {
+  position: relative!important;
+  display: inline-block!important;
+  width: 3rem;
+  height: 3rem;
+  overflow: hidden!important;
+  /*display: none;*/
+  cursor: pointer;
+}
+.toggle-label img{
+  /*width: 40px;*/
+  /*height: 40px;*/
+  margin: 0px auto!important;
+  padding: 7px;
+}
+.sun,
+.moon {
+  position: absolute!important;
+  left: 0!important;
+  width: 100%;
+  height: auto;
+  transition: top 0.3s;
+  user-select: inherit!important;
+  /*margin-bottom: 50px;*/
+}
+
+.sun {
+  top: 0;
+  /*margin-bottom: 50px;*/
+}
+
+.moon {
+  top: -150%;
+}
+
+.toggle:checked + .toggle-label .sun {
+  top: 150%;
+
+}
+
+
+.toggle:checked + .toggle-label .moon {
+  top: 0;
+}
+.dard-mode input{
+  width: 45px;
+  height: 45px;
+  position: absolute;
+  left: 25px;
+}

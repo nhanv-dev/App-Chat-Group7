@@ -1,6 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormControl, FormGroup} from "@angular/forms";
-import {ChatService} from "../services/chat/chat.service";
+
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {ChatService} from "../services/chat.service";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../services/authentication/authentication.service";
 import {environment} from "../../environments/environment";
@@ -12,14 +13,16 @@ import {environment} from "../../environments/environment";
   providers: [ChatService, AuthenticationService],
 })
 export class LoginComponent implements OnInit {
-  public loginForm = new FormGroup({
-    username: new FormControl(),
-    password: new FormControl()
-  })
+  responseLogin = '';
+  loginForm = this.fb.group({
+    "username": ['', [Validators.required]],
+    "password": ['', [Validators.required]],
+  });
 
 
-  constructor(private chatService: ChatService, private authenticationService: AuthenticationService, private router: Router) {
-    if (this.authenticationService.getToken()) this.router.navigateByUrl('/home')
+  constructor(private chatService: ChatService, private authenticationService: AuthenticationService, private router: Router, private fb: FormBuilder) {
+
+if (this.authenticationService.getToken()) this.router.navigateByUrl('/home')
   }
 
   ngOnInit(): void {
@@ -35,6 +38,7 @@ export class LoginComponent implements OnInit {
           await this.handleSuccess(message);
         }
       }
+      this.responseLogin = message.mes;
     });
   }
 

@@ -10,19 +10,29 @@
         <p class="sidebar__avatar__name">{{user?.name || 'Anonymous'}}</p>
       </div>
       <button class="custom-button button-light">
-        <i class="fa-regular fa-moon"></i>
-        <p class="custom-button__name">Dark Mode</p>
-      </button>
-      <button class="custom-button button-light">
         <i class="fa-solid fa-power-off"></i>
         <p class="custom-button__name">SignOut</p>
       </button>
     </div>
     <div class="sidebar__group-button">
-      <button class="custom-button button-light">
-        <i class="fa-regular fa-moon"></i>
-        <p class="custom-button__name">Dark Mode</p>
-      </button>
+      <input
+        id="darkMode"
+        type="checkbox"
+        [checked]="darkMode$ | async"
+        (change)="onToggle()"
+        class="toggle"
+      />
+      <label class="toggle-label" for="darkMode">
+        <img
+          src="https://raw.githubusercontent.com/talohana/angular-dark-mode/master/src/assets/moon.svg"
+          class="moon custom-button button-light"
+        />
+        <img
+          src="https://raw.githubusercontent.com/talohana/angular-dark-mode/master/src/assets/sun.svg"
+          class="sun custom-button button-light"
+        />
+
+      </label>
       <button class="custom-button button-light" (click)="handleLogout()">
         <i class="fa-solid fa-power-off"></i>
         <p class="custom-button__name">SignOut</p>
