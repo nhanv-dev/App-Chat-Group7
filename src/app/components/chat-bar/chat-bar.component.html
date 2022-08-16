@@ -1,5 +1,5 @@
 <div class="box-chat__content__form">
-  <form class="d-flex align-items-center gap-3" (submit)="sendChat()">
+  <form class="d-flex align-items-center gap-3" (submit)="handleSendChat()">
     <button type="button" class="custom-button button-primary" (click)="toggleEmoji()">
       <i class="fa-solid fa-face-grin"></i>
     </button>
@@ -13,8 +13,8 @@
     <button class="custom-button send-button" type="submit">
       <i class="fa-solid fa-paper-plane"></i>
     </button>
-    <emoji-mart color="#1c9dea"  class="emoji-mart" [emojiTooltip]='false' [darkMode]='false' [skin]='3.0' [showPreview]="false" *ngIf="isEmojiPickerVisible" (emojiSelect)="addEmoji($event) "
-                title="Choose your emoji"></emoji-mart>
+    <emoji-mart color="#1c9dea" class="emoji-container" [emojiTooltip]='false' [darkMode]='false' [skin]='3.0'
+                [showPreview]="false" *ngIf="isEmojiPickerVisible" (emojiSelect)="addEmoji($event)"></emoji-mart>
   </form>
 </div>
 <div class="overlay-emoji" (click)="toggleEmoji()"></div>

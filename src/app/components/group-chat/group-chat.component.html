@@ -1,33 +1,41 @@
-<ul class="box-chat__users__list w-100">
-  <ng-container *ngFor="let room of rooms">
-    <ng-container *ngIf="room">
-      <li class="box-chat__users__item w-100" (click)="connectChat(room)"
-          [ngClass]="room.name === activeRoom?.name && room.type === activeRoom?.type? 'active': ''">
-        <div class="box-chat__users__item__avatar">
-          <img alt="avatar"
-               src="https://img.rawpixel.com/s3fs-private/rawpixel_images/website_content/v916-nunny-117_1.jpg?w=800&dpr=1&fit=default&crop=default&q=65&vib=3&con=3&usm=15&bg=F4F4F3&ixlib=js-2.2.1&s=fbcd152f3cace5eb33a908e3c4cc688a"/>
-        </div>
-        <div class="box-chat__users__item__content w-100">
-          <p class="box-chat__users__item__name">
-            {{room.name || 'Anonymous'}}
-          </p>
-          <div class="d-flex align-items-center justify-content-between gap-0 w-100">
-            <ng-container *ngIf="room.messages && room.messages.length > 0">
-              <p class="box-chat__users__item__message">
-                {{room.messages[0].mes}}
-              </p>
-              <p class="box-chat__users__item__time">
-                {{room.messages[0].createAt | date:'shortTime'}}
-              </p>
-            </ng-container>
-            <ng-container *ngIf="!room.messages || room.messages.length <= 0">
-              <p class="box-chat__users__item__message w-100">
-                Let's start a new conversation
-              </p>
+<div class="box-chat__group-button">
+  <button (click)="type='all'" [ngClass]="type!=='room' ? 'active' : ''">Direct</button>
+  <button (click)="type='room'" [ngClass]="type==='room' ? 'active' : ''">Group</button>
+</div>
+<div class="box-chat__users">
+  <ul class="box-chat__users__list w-100">
+    <ng-container *ngFor="let room of rooms">
+      <ng-container *ngIf="filterRoom(room)">
+        <li class="box-chat__users__item w-100" (click)="connectChat(room)"
+            [ngClass]="room.name === activeRoom?.name && room.type === activeRoom?.type? 'active': ''">
+          <div class="box-chat__users__item__avatar">
+            <ng-container [ngSwitch]="room.type">
+              <img *ngSwitchCase="'people'" src="/assets/images/user.jpg" alt="avatar">
+              <img *ngSwitchCase="'room'" src="/assets/images/group.jpg" alt="avatar">
             </ng-container>
           </div>
-        </div>
-      </li>
+          <div class="box-chat__users__item__content w-100">
+            <p class="box-chat__users__item__name">
+              {{room.name || 'Anonymous'}}
+            </p>
+            <div class="d-flex align-items-center justify-content-between gap-0 w-100">
+              <ng-container *ngIf="room.messages && room.messages.length > 0">
+                <p class="box-chat__users__item__message">
+                  {{room.messages[room.messages.length - 1].mes}}
+                </p>
+                <p class="box-chat__users__item__time">
+                  {{room.messages[room.messages.length - 1].createAt | date:'shortTime'}}
+                </p>
+              </ng-container>
+              <ng-container *ngIf="!room.messages || room.messages.length <= 0">
+                <p class="box-chat__users__item__message w-100">
+                  Let's start a new conversation
+                </p>
+              </ng-container>
+            </div>
+          </div>
+        </li>
+      </ng-container>
     </ng-container>
-  </ng-container>
-</ul>
+  </ul>
+</div>

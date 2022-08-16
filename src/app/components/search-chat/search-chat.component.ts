@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'app-search-chat',
@@ -6,7 +6,9 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./search-chat.component.css']
 })
 export class SearchChatComponent implements OnInit {
+  @Output() searchChat = new EventEmitter();
   isOpenedSearch: boolean = false;
+  searching: string = '';
 
   constructor() {
   }
@@ -14,8 +16,15 @@ export class SearchChatComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  toggleSearch() {
-    this.isOpenedSearch = !this.isOpenedSearch;
+  handleSearchChat() {
+    this.searchChat.emit(this.searching)
   }
 
+  toggleSearch() {
+    this.isOpenedSearch = !this.isOpenedSearch;
+    if (!this.isOpenedSearch) {
+      this.searching = ''
+      this.searchChat.emit(this.searching)
+    }
+  }
 }

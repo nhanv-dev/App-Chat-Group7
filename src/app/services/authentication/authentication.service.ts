@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 
 @Injectable({providedIn: 'root'})
 export class AuthenticationService {
-  public isUserAuthenticated: boolean = false;
+  public static isAuthenticated: boolean = false;
 
   constructor() {
   }
@@ -13,12 +13,12 @@ export class AuthenticationService {
   }
 
   setToken(token: string) {
-    this.isUserAuthenticated = true;
+    AuthenticationService.isAuthenticated = true;
     localStorage.setItem('userData', token);
   }
 
   removeToken() {
-    this.isUserAuthenticated = false;
+    AuthenticationService.isAuthenticated = false;
     localStorage.removeItem('userData');
   }
 

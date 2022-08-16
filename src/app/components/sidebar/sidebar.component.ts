@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {User} from "../../services/chat.service";
+import {User} from "../../services/chat/chat.service";
 
 @Component({
   selector: 'app-sidebar',
@@ -9,12 +9,11 @@ import {User} from "../../services/chat.service";
 export class SidebarComponent implements OnInit {
   @Input() user: User | undefined;
   @Output() logout = new EventEmitter<any>();
-  @Input() toggle: any;
+  @Input() showSidebar: boolean = true;
   constructor() {
   }
 
   ngOnInit(): void {
-    console.log(this.toggle)
   }
 
 

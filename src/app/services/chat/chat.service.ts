@@ -1,7 +1,7 @@
-import {Injectable} from '@angular/core';
-import {environment} from "../../environments/environment";
+import {Injectable, OnInit} from '@angular/core';
+import {environment} from "../../../environments/environment";
 import * as Rx from 'rxjs';
-import {WebsocketService} from "./websocket.service";
+import {WebsocketService} from "../websocket/websocket.service";
 import {AnonymousSubject} from "rxjs/internal/Subject";
 
 export interface User {
@@ -26,7 +26,7 @@ export interface Message {
 
 
 @Injectable({providedIn: 'root'})
-export class ChatService {
+export class ChatService implements OnInit {
   public messages: AnonymousSubject<any>;
 
   constructor(private wsService: WebsocketService) {
@@ -35,6 +35,16 @@ export class ChatService {
     );
   }
 
+  ngOnInit(): void {
+    if (this.wsService.subject?.closed) this.connect();
+
+  }
+
+  public connect() {
+    this.messages = <AnonymousSubject<any>>this.wsService.connect(environment.CHAT_URL).pipe(
+      Rx.map((response: MessageEvent): any => JSON.parse(response.data))
+    );
+  }
 
   login(data: any) {
     const {user, pass} = data;
@@ -54,7 +64,8 @@ export class ChatService {
   logout() {
     const message = {action: environment.action, data: {event: environment.event.LOGOUT}}
     this.messages.next(message);
-    this.messages.complete();
+    this.wsService.close();
+    this.connect();
   }
 
 
@@ -103,4 +114,5 @@ export class ChatService {
     const message = {action: environment.action, data: {event: environment.event.GET_USER_LIST}};
     this.messages.next(message);
   }
+
 }

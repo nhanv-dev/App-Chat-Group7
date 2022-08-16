@@ -1,0 +1,214 @@
+.new-contact {
+  position: absolute;
+  bottom: 20px;
+  right: 30px;
+  z-index: 10;
+}
+
+.new-contact__button {
+  width: 42px;
+  height: 42px;
+  outline: none !important;
+  border: none !important;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1c9dea;
+  opacity: 1;
+  color: white;
+  transition: all .3s ease;
+
+}
+
+.new-contact__button:hover {
+  background-color: #1280c1 !important;
+}
+
+.new-contact__options {
+  position: absolute;
+  bottom: 100%;
+  right: 0;
+  z-index: 2;
+  margin-bottom: 12px;
+  min-width: max-content;
+  display: flex;
+  flex-direction: column;;
+  background: white;
+  box-shadow: 0 0 10px #e5edf5;
+  padding: 15px;
+  border-radius: 5px;
+  visibility: hidden;
+  opacity: 0;
+  transition: all .3s ease;
+}
+
+.new-contact__options.show {
+  visibility: visible;
+  opacity: 1
+}
+
+.new-contact__options.hidden {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.new-contact__option {
+  border: none !important;
+  outline: none !important;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+
+}
+
+.new-contact__option:last-child {
+  margin-bottom: 0;
+}
+
+.new-contact__option__icon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: rgba(28, 157, 234, .15) !important;
+  color: #1c9dea !important;
+  transition: all .3s ease;
+}
+
+.new-contact__option__title {
+  padding: 5px;
+  line-height: 1;
+  text-transform: capitalize;
+  margin-right: 15px;
+  font-size: 14px;
+  color: #223645;
+  font-weight: 700;
+  text-align: right;
+}
+
+.new-contact__people, .new-contact__group {
+  position: fixed;
+  visibility: hidden;
+  display: block;
+  top: 0;
+  left: 50%;
+  opacity: 0;
+  width: 500px;
+  height: 500px;
+  pointer-events: auto;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, .2);
+  border-radius: 10px;
+  z-index: 100;
+  transform: translate(-50%, 0);
+  transition: transform .3s ease-out, opacity .15s linear;
+}
+
+.new-contact__people.show, .new-contact__group.show {
+  visibility: visible;
+  opacity: 1;
+  transform: translate(-50%, 100px);
+  transition: transform .3s ease-out, opacity .15s linear;
+}
+
+.new-contact__overlay {
+  position: fixed;
+  display: block;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #000;
+  transition: transform .3s ease-out, opacity .15s linear;
+}
+
+.new-contact__overlay.show {
+  visibility: visible;
+  opacity: .5;
+  z-index: 10;
+
+}
+
+.new-contact__overlay.hidden {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.new-contact__common__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgba(28, 157, 234, .15);
+  border-bottom-color: #eff1f2;
+  padding: 20px 35px;
+}
+
+.new-contact__common__header h5 {
+  margin: 0;
+  padding: 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: #1c9dea;
+  text-transform: capitalize;
+}
+
+.new-contact__common__header button {
+  border: none !important;
+  outline: none !important;
+  background: transparent !important;
+}
+
+.new-contact__common__content {
+  padding: 35px;
+}
+
+.new-contact__common__list {
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+  max-height: 350px;
+  height: 350px;
+  display: block;
+}
+
+.new-contact__common__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.new-contact__common__item__content {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.new-contact__common__item__avatar {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.new-contact__common__item__avatar img {
+  width: 100%;
+  height: auto;
+}
+
+.new-contact__common__item__name {
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 5px;
+}
+
+.new-contact__common__item__name {
+}

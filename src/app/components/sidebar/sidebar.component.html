@@ -1,4 +1,4 @@
-<div class="sidebar" [ngClass]="toggle ?'':'toggleSidebar'">
+<div class="sidebar" [ngClass]="showSidebar ? 'show':'hidden'">
   <div class="sidebar__logo">
     <img alt="logo" src="https://vue.pixelstrap.com/chitchat/_nuxt/img/logo.740e2c9.png">
   </div>
@@ -6,7 +6,7 @@
     <div class="sidebar__group-button">
       <div class="sidebar__avatar">
         <img alt="avatar"
-             src="https://www.seekpng.com/png/full/115-1150053_avatar-png-transparent-png-royalty-free-default-user.png">
+             src="https://secure.gravatar.com/avatar/23c5e746a37525acf9d753281b514a3e?s=50&d=https%3A%2F%2Fwpastra.com%2Fwp-content%2Fuploads%2F2019%2F08%2Fastra-default-gravatar.png&r=g">
         <p class="sidebar__avatar__name">{{user?.name || 'Anonymous'}}</p>
       </div>
       <button class="custom-button button-light">

@@ -1,8 +1,8 @@
 //src\app\app.component.ts
 import {Component, OnInit} from '@angular/core';
-import {WebsocketService} from "./services/websocket.service";
-import {ChatService} from "./services/chat.service";
-import {AuthenticationService} from "./services/authentication.service";
+import {WebsocketService} from "./services/websocket/websocket.service";
+import {ChatService} from "./services/chat/chat.service";
+import {AuthenticationService} from "./services/authentication/authentication.service";
 
 @Component({
   selector: "app-root",
@@ -12,10 +12,8 @@ import {AuthenticationService} from "./services/authentication.service";
 })
 
 export class AppComponent implements OnInit {
-  public title = 'App Chat';
 
   constructor() {
-
   }
 
   ngOnInit() {
