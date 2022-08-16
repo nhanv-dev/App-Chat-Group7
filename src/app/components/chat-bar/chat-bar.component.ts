@@ -1,5 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
+import {Message} from "../../services/chat/chat.service";
 
 @Component({
   selector: 'app-chat-bar',
@@ -9,6 +10,7 @@ import {FormControl, FormGroup} from "@angular/forms";
 export class ChatBarComponent implements OnInit {
   public message: string = '';
   public isEmojiPickerVisible: boolean | undefined;
+  @Output() sendChat = new EventEmitter();
 
   constructor() {
   }
@@ -16,16 +18,16 @@ export class ChatBarComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  sendChat() {
-    alert('send chat')
+  handleSendChat() {
+    this.sendChat.emit(this.message);
+    this.message = '';
   }
 
   toggleEmoji() {
-
+    this.isEmojiPickerVisible = !this.isEmojiPickerVisible;
   }
 
-  public addEmoji(event: { emoji: { native: any; }; }) {
-    this.message = `${this.message}${event.emoji.native}`;
-    this.isEmojiPickerVisible = false;
+  public addEmoji(event: any) {
+    if (event?.emoji?.native) this.message += event.emoji.native;
   }
 }

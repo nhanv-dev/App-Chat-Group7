@@ -13,21 +13,19 @@ export class WebsocketService {
   public connect(url: string): AnonymousSubject<MessageEvent> {
     if (!this.subject) {
       this.subject = this.create(url);
-      console.log("Successfully connected: " + url);
     }
-    console.log(this.subject)
     return this.subject;
   }
 
   private create(url: string): AnonymousSubject<MessageEvent> {
-    const ws = new WebSocket(url);
-    const observable = new Rx.Observable((obs: Rx.Observer<MessageEvent>) => {
+    let ws = new WebSocket(url);
+    let observable = new Rx.Observable((obs: Rx.Observer<MessageEvent>) => {
       ws.onmessage = obs.next.bind(obs);
       ws.onerror = obs.error.bind(obs);
       ws.onclose = obs.complete.bind(obs);
       return ws.close.bind(ws);
     });
-    const observer: Observer<MessageEvent<any>> = {
+    let observer: Observer<MessageEvent<any>> = {
       error: (err) => {
         this.subject?.unsubscribe();
       },
@@ -42,6 +40,6 @@ export class WebsocketService {
   }
 
   public close() {
-    this.subject?.unsubscribe();
+    this.subject = undefined;
   }
 }

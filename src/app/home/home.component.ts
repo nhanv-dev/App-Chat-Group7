@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {ChatService, Message, Room, User} from "../services/chat.service";
-import {AuthenticationService} from "../services/authentication.service";
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {ChatService, Message, Room, User} from "../services/chat/chat.service";
+import {AuthenticationService} from "../services/authentication/authentication.service";
 import {Router} from "@angular/router";
 import {environment} from "../../environments/environment";
+import {TimeService} from "../services/time/time.service";
 
 
 @Component({
@@ -12,39 +13,50 @@ import {environment} from "../../environments/environment";
 })
 
 export class HomeComponent implements OnInit {
-  public screen = true;
-  public toggleStatus: any[] = [];
-  public user: User | undefined;
-  public rooms: Room[] = [];
-  public activeRoom: Room = {name: '', type: '', messages: []};
-  public page: number = 1;
-  private ready: any;
+  user: User | undefined;
+  rooms: Room[] = [];
+  activeRoom: Room = {name: '', type: '', messages: []};
+  page: number = 1;
+  searching: string = '';
+  ready: any = false;
+  @ViewChild('sidebar') sidebar: any;
 
-  constructor(private chatService: ChatService, private authenticationService: AuthenticationService, private router: Router) {
-    this.subscribe();
+  constructor(
+    private chatService: ChatService,
+    private authenticationService: AuthenticationService,
+    private timeService: TimeService,
+    private router: Router
+  ) {
   }
 
   ngOnInit(): void {
-    const token: any = this.authenticationService.getToken()
-    if (token && !this.authenticationService.isUserAuthenticated) {
-      clearInterval(this.ready)
-      this.ready = setInterval(() => this.chatService.reLogin(token), 500);
-    }
-    this.chatService.getUserList();
-    this.user = {name: token.user, type: 'people'};
+    this.subscribe().then(async () => {
+      const token: any = this.authenticationService.getToken()
+      if (!token) {
+        await this.handleLogout()
+      } else {
+        if (AuthenticationService.isAuthenticated) {
+          this.user = {name: token.user, type: 'people'};
+          this.chatService.getUserList();
+        } else {
+          this.ready = setInterval(() => this.chatService.reLogin(token), 300);
+        }
+      }
+    });
   }
 
-  private subscribe() {
+  private async subscribe() {
     this.chatService.messages.subscribe(async (message) => {
       const {event, status, data} = message;
+      console.log('Response from server: ', message)
       if (event === 'AUTH' && status === 'error' && data.mes === 'User not Login') {
-        this.chatService.reLogin(this.authenticationService.getToken());
+        await this.chatService.reLogin(this.authenticationService.getToken());
       } else if (event === environment.event.RE_LOGIN) {
-        this.handleReLogin(message);
-      } else if (event === environment.event.SEND_CHAT && status === 'success') {
-        await this.handleSendChat(data);
+        await this.handleReLogin(message);
+      } else if (event === environment.event.SEND_CHAT) {
+        await this.handleSendChat(message);
       } else if (event === environment.event.GET_USER_LIST && status === 'success') {
-        await this.setUsers(data);
+        await this.connectRooms(data);
       } else if (event === environment.event.GET_PEOPLE_CHAT_MES && status === 'success') {
         await this.convertResponseToPeopleChat(message);
       } else if (event === environment.event.GET_ROOM_CHAT_MES && status === 'success') {
@@ -55,20 +67,18 @@ export class HomeComponent implements OnInit {
     });
   }
 
-
-  async setUsers(data: Room[]) {
-    // @ts-ignore
-    this.rooms = data?.map((room) => {
-      if (room) {
-        const name: any = room.name;
-        const type: string = room.type === 0 ? 'people' : 'room';
-        return {name, type, messages: []};
-      }
+  async connectRooms(data: Room[]) {
+    if (!data) return;
+    this.rooms = data.map((room: any) => {
+      const name: any = room.name;
+      const type: string = room.type === 0 ? 'people' : 'room';
+      const item: Room = {name, type, messages: []}
+      return item;
     });
-    this.rooms.forEach(room => {
-      if (room) this.getMessages(room.name, 1, room.type);
+    this.rooms.forEach((room: Room) => {
+      this.getMessages(room.name, 1, room.type);
     })
-    this.activeRoom = this.rooms[1];
+    this.activeRoom = this.rooms[0]
   }
 
   getMessages(name: string, page: number, type: string) {
@@ -76,30 +86,34 @@ export class HomeComponent implements OnInit {
     else if (type === 'room') this.chatService.getRoomMessage(name, page);
   }
 
-
   async convertResponseToPeopleChat(message: any) {
     const response = message.data[0];
-    for (const room of this.rooms) {
-      const condition1 = room.name === response.name || room.name === response.to;
-      const condition2 = this.user?.name === response.name || this.user?.name === response.to;
-      if (condition1 && condition2 && this.user?.name !== room.name && room.type === 'people') {
-        // @ts-ignore
-        room.messages = message.data.map((item: Message) => {
-          if (item.mes) return item;
-        }).reverse();
-        break;
+    if (response) {
+      for (const room of this.rooms) {
+        const condition1 = room.name === response.name || room.name === response.to;
+        const condition2 = this.user?.name === response.name || this.user?.name === response.to;
+        if (condition1 && condition2 && this.user?.name !== room.name && room.type === 'people') {
+          room.messages = (message.data.map((item: any) => {
+            if (item.mes) {
+              item.createAt = this.timeService.changeTimeZone(item.createAt);
+              return item;
+            }
+          }).reverse());
+          break;
+        }
       }
     }
   }
-
 
   async convertResponseToGroupChat(message: any) {
     const messages = message.data.chatData;
     if (messages && messages.length > 0) {
       for (const room of this.rooms) {
         if (room.name === messages[0].to && room.type === 'room') {
-          room.messages = messages.reverse();
-          console.log(room);
+          room.messages = messages.map((message: any) => {
+            message.createAt = this.timeService.changeTimeZone(message.createAt);
+            return message;
+          }).reverse();
           break;
         }
       }
@@ -112,35 +126,56 @@ export class HomeComponent implements OnInit {
     this.getMessages(this.activeRoom.name, this.page, this.activeRoom.type);
   }
 
-  async sendChat(message: any) {
-    this.chatService.sendChat({});
+  async sendChat(message: string) {
+    console.log('Send message')
+    const data: Message = {
+      id: 0,
+      name: this.user?.name,
+      mes: message,
+      to: this.activeRoom.name,
+      type: this.activeRoom.type === 'people' ? 0 : 1,
+      createAt: this.timeService.now(),
+    };
+    this.activeRoom.messages.push(data);
+    this.rooms = this.rooms.filter(room => room != this.activeRoom);
+    this.rooms.unshift(this.activeRoom);
+    this.chatService.sendChat({type: this.activeRoom.type, to: this.activeRoom.name, mes: data.mes});
   }
 
-  async handleSendChat(data: any) {
-
-  }
-
-  handleReLogin(message: any) {
+  async handleSendChat(message: any) {
+    console.log('Receive message')
     if (message.status === 'success') {
-      const data = {user: this.authenticationService.getToken()?.user, code: message.data.RE_LOGIN_CODE};
-      this.authenticationService.setToken(JSON.stringify(data));
+      const data = message.data;
+      data.createAt = this.timeService.now();
+      console.log(data)
+      for (const room of this.rooms) {
+        if (room.name === data.name) {
+          room.messages.push(data);
+          break;
+        }
+      }
+    }
+  }
+
+  searchChat(searching: string) {
+    this.searching = searching;
+  }
+
+  async handleReLogin(message: any) {
+    if (message.status === 'success') {
+      const token = this.authenticationService.getToken();
+      this.authenticationService.setToken(JSON.stringify({...token, code: message.data.RE_LOGIN_CODE}));
+      this.user = {name: token.user, type: 'people'};
       this.chatService.getUserList();
     } else {
-      this.handleLogout();
+      await this.handleLogout();
     }
     clearInterval(this.ready);
   }
 
-  handleLogout() {
+  async handleLogout() {
     this.authenticationService.removeToken();
     this.chatService.logout();
-    this.router.navigateByUrl('/login').then(() => {
-      this.chatService.messages.complete();
-    });
-  }
-  public toggleScreen() {
-    this.screen = !this.screen;
-    this.toggleStatus.push(this.screen);
-    console.log(this.toggleStatus[this.toggleStatus.length - 1])
+    await this.router.navigateByUrl('/login')
   }
 }

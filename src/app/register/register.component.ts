@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {ChatService} from "../services/chat.service";
-import {AuthenticationService} from "../services/authentication.service";
+import {ChatService} from "../services/chat/chat.service";
+import {AuthenticationService} from "../services/authentication/authentication.service";
 import {Router} from "@angular/router";
 import {FormControl, FormGroup} from "@angular/forms";
 
