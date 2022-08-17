@@ -19,12 +19,12 @@
               {{room.name || 'Anonymous'}}
             </p>
             <div class="d-flex align-items-center justify-content-between gap-0 w-100">
-              <ng-container *ngIf="room.messages && room.messages.length > 0">
+              <ng-container *ngIf="room.messages && room.messages.length > 0 && room.messages[room.messages.length - 1]">
                 <p class="box-chat__users__item__message">
-                  {{room.messages[room.messages.length - 1]?.mes}}
+                  {{room.messages[room.messages.length - 1].mes}}
                 </p>
                 <p class="box-chat__users__item__time">
-                  {{room.messages[room.messages.length - 1]?.createAt | date:'shortTime'}}
+                  {{room.messages[room.messages.length - 1].createAt | date:'shortTime'}}
                 </p>
               </ng-container>
               <ng-container *ngIf="!room.messages || room.messages.length <= 0">
