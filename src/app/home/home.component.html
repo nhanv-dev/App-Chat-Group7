@@ -22,10 +22,10 @@
       <app-group-chat [rooms]="rooms" [activeRoom]="activeRoom" [searching]="searching"
                       (changeRoom)="changeRoom($event)"
                       class="d-flex flex-column overflow-hidden"></app-group-chat>
-      <app-new-contact [rooms]="rooms"></app-new-contact>
+      <app-new-contact [rooms]="rooms" (joinRoom)="joinRoom($event)"></app-new-contact>
     </div>
     <div class="box-chat__content position-relative">
-      <app-box-chat class="chat-conversation" [activeRoom]="activeRoom" [user]="user"></app-box-chat>
+      <app-box-chat class="chat-conversation" [activeRoom]="activeRoom" [user]="user" ngModel #boxChat></app-box-chat>
       <app-chat-bar (sendChat)="sendChat($event)"></app-chat-bar>
     </div>
   </div>

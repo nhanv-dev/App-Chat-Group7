@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Room} from "../../services/chat/chat.service";
 
 @Component({
@@ -8,14 +8,26 @@ import {Room} from "../../services/chat/chat.service";
 })
 export class NewContactComponent implements OnInit {
   @Input() rooms: Room[] | undefined;
+  @Output() addNewPeople = new EventEmitter<any>();
+  @Output() joinRoom = new EventEmitter<any>();
   isOpened: boolean = false;
   isOpenedPeople: boolean = false;
   isOpenedGroup: boolean = false;
+  public newContact: string = '';
 
   constructor() {
   }
 
   ngOnInit(): void {
+  }
+
+  handleAddNewPeople() {
+    this.addNewPeople.emit(this.newContact);
+  }
+
+  handleJoinRoom() {
+    console.log(this.newContact)
+    this.joinRoom.emit(this.newContact);
   }
 
   toggle() {

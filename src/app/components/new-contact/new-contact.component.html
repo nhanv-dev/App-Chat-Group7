@@ -22,19 +22,35 @@
       <button (click)="close()"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="new-contact__common__content">
+      <div class="new-contact__common__form">
+        <div class="new-contact__common__form__container">
+          <input type="text" placeholder="Search new chat" [(ngModel)]="newContact">
+          <button (click)="handleJoinRoom()"><i class="fa-solid fa-plus"></i></button>
+        </div>
+      </div>
       <div class="new-contact__common__list">
         <ng-container *ngFor="let room of rooms">
           <div *ngIf="room.type==='people'" class="new-contact__common__item">
             <div class="new-contact__common__item__content">
               <div class="new-contact__common__item__avatar">
-                <img src="/assets/images/user.jpg" alt="avatar">
+                <img src="https://cdn4.iconfinder.com/data/icons/instagram-ui-twotone/48/Paul-18-512.png" alt="avatar">
               </div>
-              <p class="new-contact__common__item__name">
-                {{room.name || 'Anonymous'}}
-              </p>
+              <div class="d-flex flex-column gap-0">
+                <p class="new-contact__common__item__name">{{room.name || 'Anonymous'}}</p>
+                <ng-container *ngIf="room.messages.length > 0">
+                  <div class="d-flex gap-3 align-items-center">
+                    <p class="new-contact__common__item__message">{{room.messages[0].mes}}</p>
+                    <p class="new-contact__common__item__time">{{room.messages[0].createAt | date:'shortTime'}}</p>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="room.messages.length <= 0">
+                  <div class="d-flex gap-3 align-items-center">
+                    <p class="new-contact__common__item__message">Let's start a new conversation</p>
+                  </div>
+                </ng-container>
+              </div>
             </div>
             <div class="new-contact__common__item__status">
-              <i class="fa-solid fa-check"></i>
               <span>Đã kết nối</span>
             </div>
           </div>

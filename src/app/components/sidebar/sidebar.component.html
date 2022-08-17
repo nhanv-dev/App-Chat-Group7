@@ -9,29 +9,12 @@
              src="https://secure.gravatar.com/avatar/23c5e746a37525acf9d753281b514a3e?s=50&d=https%3A%2F%2Fwpastra.com%2Fwp-content%2Fuploads%2F2019%2F08%2Fastra-default-gravatar.png&r=g">
         <p class="sidebar__avatar__name">{{user?.name || 'Anonymous'}}</p>
       </div>
-      <button class="custom-button button-light">
-        <i class="fa-solid fa-power-off"></i>
-        <p class="custom-button__name">SignOut</p>
-      </button>
     </div>
     <div class="sidebar__group-button">
-      <input
-        id="darkMode"
-        type="checkbox"
-        [checked]="darkMode$ | async"
-        (change)="onToggle()"
-        class="toggle"
-      />
-      <label class="toggle-label" for="darkMode">
-        <img
-          src="https://raw.githubusercontent.com/talohana/angular-dark-mode/master/src/assets/moon.svg"
-          class="moon custom-button button-light"
-        />
-        <img
-          src="https://raw.githubusercontent.com/talohana/angular-dark-mode/master/src/assets/sun.svg"
-          class="sun custom-button button-light"
-        />
-
+      <input id="theme" type="checkbox" [checked]="theme$ | async" (change)="toggleTheme()"/>
+      <label class="dark-mode__button" for="theme">
+        <i class="fa-solid fa-sun sun"></i>
+        <i class="fa-solid fa-moon moon"></i>
       </label>
       <button class="custom-button button-light" (click)="handleLogout()">
         <i class="fa-solid fa-power-off"></i>
