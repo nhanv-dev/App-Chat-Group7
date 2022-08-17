@@ -1,5 +1,5 @@
 <div class="box-chat__group-button">
-  <button (click)="type='all'" [ngClass]="type!=='room' ? 'active' : ''">Direct</button>
+  <button (click)="type='direct'" [ngClass]="type!=='room' ? 'active' : ''">Direct</button>
   <button (click)="type='room'" [ngClass]="type==='room' ? 'active' : ''">Group</button>
 </div>
 <div class="box-chat__users">
@@ -21,10 +21,10 @@
             <div class="d-flex align-items-center justify-content-between gap-0 w-100">
               <ng-container *ngIf="room.messages && room.messages.length > 0">
                 <p class="box-chat__users__item__message">
-                  {{room.messages[room.messages.length - 1].mes}}
+                  {{room.messages[room.messages.length - 1]?.mes}}
                 </p>
                 <p class="box-chat__users__item__time">
-                  {{room.messages[room.messages.length - 1].createAt | date:'shortTime'}}
+                  {{room.messages[room.messages.length - 1]?.createAt | date:'shortTime'}}
                 </p>
               </ng-container>
               <ng-container *ngIf="!room.messages || room.messages.length <= 0">

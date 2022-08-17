@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewChecked, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ChatService, Message, Room, User} from "../services/chat/chat.service";
 import {AuthenticationService} from "../services/authentication/authentication.service";
 import {Router} from "@angular/router";
@@ -12,7 +12,7 @@ import {TimeService} from "../services/time/time.service";
   styleUrls: ['./home.component.css']
 })
 
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewChecked {
   user: User | undefined;
   rooms: Room[] = [];
   activeRoom: Room = {name: '', type: '', messages: []};
@@ -20,6 +20,7 @@ export class HomeComponent implements OnInit {
   searching: string = '';
   ready: any = false;
   @ViewChild('sidebar') sidebar: any;
+  @ViewChild('boxChat') boxChat: any;
 
   constructor(
     private chatService: ChatService,
@@ -43,20 +44,33 @@ export class HomeComponent implements OnInit {
         }
       }
     });
+
   }
 
-  private async subscribe() {
+  ngAfterViewChecked() {
+    this.scrollToBottom();
+  }
+
+  scrollToBottom() {
+    try {
+      this.boxChat.nativeElement.scrollTop = this.boxChat.nativeElement.scrollHeight;
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  async subscribe() {
     this.chatService.messages.subscribe(async (message) => {
-      const {event, status, data} = message;
+      const {event, status} = message;
       console.log('Response from server: ', message)
-      if (event === 'AUTH' && status === 'error' && data.mes === 'User not Login') {
+      if (event === 'AUTH' && status === 'error' && message.mes === 'User not Login') {
         await this.chatService.reLogin(this.authenticationService.getToken());
       } else if (event === environment.event.RE_LOGIN) {
         await this.handleReLogin(message);
       } else if (event === environment.event.SEND_CHAT) {
-        await this.handleSendChat(message);
+        await this.receiveChat(message);
       } else if (event === environment.event.GET_USER_LIST && status === 'success') {
-        await this.connectRooms(data);
+        await this.connectRooms(message.data);
       } else if (event === environment.event.GET_PEOPLE_CHAT_MES && status === 'success') {
         await this.convertResponseToPeopleChat(message);
       } else if (event === environment.event.GET_ROOM_CHAT_MES && status === 'success') {
@@ -126,6 +140,11 @@ export class HomeComponent implements OnInit {
     this.getMessages(this.activeRoom.name, this.page, this.activeRoom.type);
   }
 
+  async joinRoom(name: string) {
+    console.log('home', name);
+    this.chatService.joinRoom(name);
+  }
+
   async sendChat(message: string) {
     console.log('Send message')
     const data: Message = {
@@ -142,14 +161,14 @@ export class HomeComponent implements OnInit {
     this.chatService.sendChat({type: this.activeRoom.type, to: this.activeRoom.name, mes: data.mes});
   }
 
-  async handleSendChat(message: any) {
+  async receiveChat(message: any) {
     console.log('Receive message')
     if (message.status === 'success') {
       const data = message.data;
       data.createAt = this.timeService.now();
       console.log(data)
       for (const room of this.rooms) {
-        if (room.name === data.name) {
+        if (room.name === data.to) {
           room.messages.push(data);
           break;
         }

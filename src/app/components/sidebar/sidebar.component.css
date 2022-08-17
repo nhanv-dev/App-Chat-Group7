@@ -1,59 +1,49 @@
 
-.toggleSidebar{
-  width: 0 !important;
-  overflow: hidden;
-}
-.toggle {
+#theme {
   display: none;
 }
 
-.toggle-label {
-  position: relative!important;
-  display: inline-block!important;
-  width: 3rem;
-  height: 3rem;
-  overflow: hidden!important;
-  /*display: none;*/
-  cursor: pointer;
-}
-.toggle-label img{
-  /*width: 40px;*/
-  /*height: 40px;*/
-  margin: 0px auto!important;
-  padding: 7px;
-}
-.sun,
-.moon {
-  position: absolute!important;
-  left: 0!important;
-  width: 100%;
-  height: auto;
-  transition: top 0.3s;
-  user-select: inherit!important;
-  /*margin-bottom: 50px;*/
+
+.dark-mode__button {
+  width: 42px;
+  height: 42px;
+  border: none !important;
+  outline: none !important;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  color: #223645 !important;
+  background-color: #eff1f2 !important;
+  transition: all .3s ease;
+  overflow: hidden;
 }
 
-.sun {
-  top: 0;
-  /*margin-bottom: 50px;*/
+.dark-mode__button:hover {
+  background-color: #d3d8db !important;
 }
 
-.moon {
-  top: -150%;
-}
-
-.toggle:checked + .toggle-label .sun {
-  top: 150%;
-
-}
-
-
-.toggle:checked + .toggle-label .moon {
-  top: 0;
-}
-.dard-mode input{
-  width: 45px;
-  height: 45px;
+.dark-mode__button .sun {
   position: absolute;
-  left: 25px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: all .3s ease;
+}
+
+.dark-mode__button .moon {
+  position: absolute;
+  left: 50%;
+  top: -50%;
+  transform: translate(-50%, -50%);
+  transition: all .3s ease;
+}
+
+#theme:checked + .dark-mode__button .sun {
+  top: 150%;
+}
+
+#theme:checked + .dark-mode__button .moon {
+  top: 50%;
 }

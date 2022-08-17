@@ -4,30 +4,19 @@ import {Room, User} from "../../services/chat/chat.service";
 @Component({
   selector: 'app-box-chat',
   templateUrl: './box-chat.component.html',
-  styleUrls: ['./box-chat.component.css', '../../home/home.component.css'],
+  styleUrls: ['./box-chat.component.css'],
   encapsulation: ViewEncapsulation.None,
 })
-export class BoxChatComponent implements OnInit, AfterViewChecked {
+export class BoxChatComponent implements OnInit {
   @Input() user: User | undefined;
   @Input() activeRoom: Room | undefined;
-  @ViewChild('scrollMe') myScrollContainer: ElementRef | undefined;
+  public nativeElement: HTMLElement;
 
-  constructor() {
+  constructor(element: ElementRef) {
+    this.nativeElement = element.nativeElement;
   }
 
   ngOnInit(): void {
-    this.scrollToBottom();
   }
 
-  ngAfterViewChecked() {
-    this.scrollToBottom();
-  }
-
-  scrollToBottom(): void {
-    try {
-      // @ts-ignore
-      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
-    } catch (err) {
-    }
-  }
 }

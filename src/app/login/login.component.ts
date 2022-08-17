@@ -1,10 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {ChatService} from "../services/chat.service";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../services/authentication/authentication.service";
 import {environment} from "../../environments/environment";
+import {ChatService} from "../services/chat/chat.service";
 
 @Component({
   selector: 'app-login',
@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
 
   constructor(private chatService: ChatService, private authenticationService: AuthenticationService, private router: Router, private fb: FormBuilder) {
 
-if (this.authenticationService.getToken()) this.router.navigateByUrl('/home')
+    if (this.authenticationService.getToken()) this.router.navigateByUrl('/home')
   }
 
   ngOnInit(): void {
@@ -30,8 +30,7 @@ if (this.authenticationService.getToken()) this.router.navigateByUrl('/home')
   }
 
   subscribe() {
-    this.chatService.connect();
-    this.chatService.messages.subscribe(async (message) => {
+    this.chatService.messages.subscribe(async (message: any) => {
       console.log("Response: ", message)
       if (message.event === environment.event.LOGIN) {
         if (message.status === 'success') {

@@ -99,12 +99,11 @@
   left: 50%;
   opacity: 0;
   width: 500px;
-  height: 500px;
   pointer-events: auto;
   background-color: #fff;
-  background-clip: padding-box;
   border: 1px solid rgba(0, 0, 0, .2);
   border-radius: 10px;
+  overflow: hidden;
   z-index: 100;
   transform: translate(-50%, 0);
   transition: transform .3s ease-out, opacity .15s linear;
@@ -165,7 +164,37 @@
 }
 
 .new-contact__common__content {
-  padding: 35px;
+  padding: 10px 20px;
+}
+
+.new-contact__common__form {
+  padding: 15px;
+}
+
+.new-contact__common__form__container {
+  border-radius: 5px;
+  border: 1px solid #efefef;
+  display: flex;
+  align-items: center;
+  max-height: 40px;
+  justify-content: space-between;
+}
+
+.new-contact__common__form__container input {
+  border: none !important;
+  outline: none !important;
+  flex: 1;
+  font-size: 14px;
+  padding: 5px 10px;
+}
+
+.new-contact__common__form__container button {
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  border: none !important;
+  outline: none !important;
+  font-size: 14px;
 }
 
 .new-contact__common__list {
@@ -181,11 +210,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 12px 15px;
 }
 
 .new-contact__common__item__content {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 16px;
 }
 
@@ -197,6 +227,8 @@
   justify-content: center;
   border-radius: 8px;
   overflow: hidden;
+  background: #eff1f2;
+  padding: 2px;
 }
 
 .new-contact__common__item__avatar img {
@@ -205,10 +237,49 @@
 }
 
 .new-contact__common__item__name {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 500;
-  margin-top: 5px;
+  margin: 5px 0 0;
 }
 
-.new-contact__common__item__name {
+.new-contact__common__item__message {
+  font-size: 14px;
+  font-weight: 400;
+  margin: 0;
+}
+
+.new-contact__common__item__time {
+  font-size: 13px;
+  font-weight: 400;
+  margin: 0;
+}
+
+.new-contact__common__item__status {
+  font-size: 12px;
+  padding: 4px 12px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border-radius: 5px;
+  background-color: rgba(63, 204, 53, .15);
+  color: #3fcc35;
+}
+
+
+.new-contact__common__list::-webkit-scrollbar {
+  width: 10px;
+}
+
+.new-contact__common__list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.new-contact__common__list::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+.new-contact__common__list::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

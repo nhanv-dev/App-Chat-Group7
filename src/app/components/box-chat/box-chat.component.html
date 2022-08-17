@@ -1,7 +1,7 @@
 <ng-container *ngIf="activeRoom">
   <div class="chat-conversation__header">
     <div class="d-flex">
-      <div class="chat-conversation__avatar">
+      <div class="chat-conversation__avatar" style="width: 60px;height: 60px">
         <ng-container [ngSwitch]="activeRoom.type">
           <img *ngSwitchCase="'people'" src="/assets/images/user.jpg" alt="avatar">
           <img *ngSwitchCase="'room'" src="/assets/images/group.jpg" alt="avatar">
@@ -18,27 +18,29 @@
 <div class="chat-conversation__content"
      [ngClass]="activeRoom && activeRoom.messages && activeRoom.messages.length ? 'show': 'hidden'">
   <ng-container *ngFor="let message of activeRoom?.messages; let i = index">
-    <ng-container *ngIf="message.mes != null && message.mes">
-      <div class="chat-conversation__message-container pb-4"
+    <ng-container *ngIf="message && message.mes">
+      <div class="d-flex gap-3 pb-4 align-items-end"
            [ngClass]="message.name === user?.name ? 'flex-row-reverse': ''">
-        <div class="chat-conversation__avatar" [ngClass]="message.name === user?.name ? 'd-none': ''">
+        <div class="chat-conversation__avatar">
           <img
-            src="https://images.vexels.com/media/users/3/137047/isolated/lists/5831a17a290077c646a48c4db78a81bb-user-profile-blue-icon.png"
+            src="https://png.pngtree.com/png-vector/20190805/ourlarge/pngtree-account-avatar-user-abstract-circle-background-flat-color-icon-png-image_1650938.jpg"
             alt="avatar">
         </div>
-        <div class="d-flex flex-column" [ngClass]="message.name === user?.name ? 'align-items-end':''">
-          <div class="d-flex align-items-center gap-4"
-               [ngClass]="message.name === user?.name ? 'flex-row-reverse': ''">
-            <p class="chat-conversation__message-container__name">{{message.name || 'Anonymous'}}</p>
-            <p class="chat-conversation__message-container__time">{{message.createAt | date:'mediumTime'}}</p>
-          </div>
-          <div class="d-flex align-items-center gap-3" [ngClass]="message.name === user?.name ? 'flex-row-reverse':''">
+        <div class="d-flex flex-column gap-0" [ngClass]="message.name === user?.name ? 'align-items-end':''">
+          <div class="chat-conversation__message-container"
+               [ngClass]="message.name === user?.name ? 'flex-row-reverse':''">
             <div class="chat-conversation__message-container__message"
                  [ngClass]="message.name === user?.name ? 'right':'left'" [innerHTML]="message.mes">
             </div>
-            <button class="chat-conversation__message-container__options custom-button button-light">
-              <i class="fa-solid fa-ellipsis-vertical"></i>
+            <button class="chat-conversation__message-forward" [ngClass]="message.name === user?.name ? 'right':'left'">
+              <i class="fa-solid fa-share-nodes"></i>
+              <p>Forward</p>
             </button>
+          </div>
+          <div class="d-flex align-items-center gap-3 mt-2 mb-1"
+               [ngClass]="message.name === user?.name ? 'flex-row-reverse': ''">
+            <p class="chat-conversation__message-container__name">{{message.name || 'Anonymous'}}</p>
+            <p class="chat-conversation__message-container__time">{{message.createAt | date:'shortTime'}}</p>
           </div>
         </div>
       </div>
