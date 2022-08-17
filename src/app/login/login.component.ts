@@ -21,7 +21,6 @@ export class LoginComponent implements OnInit {
 
 
   constructor(private chatService: ChatService, private authenticationService: AuthenticationService, private router: Router, private fb: FormBuilder) {
-
     if (this.authenticationService.getToken()) this.router.navigateByUrl('/home')
   }
 

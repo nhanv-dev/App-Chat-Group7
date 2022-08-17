@@ -125,13 +125,13 @@
   font-size: 14px;
   letter-spacing: 1px;
   font-weight: 500;
-  margin: 0;
+  margin: 12px 0;
   color: #223645;
 }
 
 .chat-conversation__message-container__time {
   font-size: 12px;
-  margin: 0;
+  margin: 12px 0;
   font-weight: 500;
   color: #647589;
 }

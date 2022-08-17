@@ -61,16 +61,20 @@ export class HomeComponent implements OnInit, AfterViewChecked {
 
   async subscribe() {
     this.chatService.messages.subscribe(async (message) => {
-      const {event, status} = message;
+      const {event, status, data} = message;
       console.log('Response from server: ', message)
       if (event === 'AUTH' && status === 'error' && message.mes === 'User not Login') {
-        await this.chatService.reLogin(this.authenticationService.getToken());
+        const token = this.authenticationService.getToken();
+        if (token)
+          await this.chatService.reLogin(token);
+        else
+          await this.handleLogout();
       } else if (event === environment.event.RE_LOGIN) {
         await this.handleReLogin(message);
       } else if (event === environment.event.SEND_CHAT) {
         await this.receiveChat(message);
       } else if (event === environment.event.GET_USER_LIST && status === 'success') {
-        await this.connectRooms(message.data);
+        await this.connectRooms(data);
       } else if (event === environment.event.GET_PEOPLE_CHAT_MES && status === 'success') {
         await this.convertResponseToPeopleChat(message);
       } else if (event === environment.event.GET_ROOM_CHAT_MES && status === 'success') {

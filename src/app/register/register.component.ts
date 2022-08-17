@@ -17,7 +17,6 @@ export class RegisterComponent implements OnInit {
   })
 
 
-
   constructor(private chatService: ChatService, private authenticationService: AuthenticationService, private router: Router) {
     if (authenticationService.getToken()) router.navigateByUrl('/home')
     chatService.messages.subscribe(message => {
@@ -28,7 +27,7 @@ export class RegisterComponent implements OnInit {
         router.navigateByUrl('/login');
 
       } else if (message.mes === 'Creating account error, Duplicate Username') {
-        aaa.innerHTML="Account already exists";
+        aaa.innerHTML = "Account already exists";
       }
     });
   }
@@ -41,22 +40,18 @@ export class RegisterComponent implements OnInit {
   }
 
   register() {
-    this.chatService.register({
-      user: this.registerForm.controls.username.value,
-      pass: this.registerForm.controls.password.value,
-
-    })
     const password = document.querySelector('#password') as HTMLInputElement;
     const re_password = document.querySelector("#repeat-password") as HTMLInputElement;
     const notification = document.querySelector('#notification_repassword') as HTMLDivElement;
     if (!(password.value === re_password.value)) {
-      notification.style.display='block';
+      notification.style.display = 'block';
       notification.innerHTML = "Passwords entered are not duplicates";
-    }else {
-      notification.style.display='none';
-
+    } else {
+      notification.style.display = 'none';
     }
-
-
+    this.chatService.register({
+      user: this.registerForm.controls.username.value,
+      pass: this.registerForm.controls.password.value,
+    })
   }
 }
