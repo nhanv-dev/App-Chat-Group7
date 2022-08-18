@@ -1,19 +1,16 @@
 
-emoji-mart{
-  position: absolute;
-  bottom: 100px;
-  background-color: #fff!important;
-}
 .box-chat__content__form {
-  width: 100%!important;
+  width: 100% !important;
   height: 95px;
   padding: 0px 20px;
-  margin-bottom: 100px!important;
+  margin-bottom: 100px !important;
   position: relative;
 }
-.width_full{
-  width: 100%!important;
+
+.width_full {
+  width: 100% !important;
 }
+
 .custom-button {
   width: 42px;
   height: 42px;
@@ -28,6 +25,7 @@ emoji-mart{
   margin-right: 20px;
 
 }
+
 .button-primary {
   background-color: rgba(28, 157, 234, .15) !important;
   color: #1c9dea !important;
@@ -37,6 +35,7 @@ emoji-mart{
 .button-primary:hover {
   background-color: rgba(28, 157, 234, .25) !important;
 }
+
 .box-chat__content__form__input {
   flex: 1;
   width: 500px;
@@ -53,6 +52,7 @@ emoji-mart{
   font-size: 20px;
   color: #647589;
 }
+
 .send-button {
   background-color: #1c9dea !important;
   border-color: #1c9dea !important;
@@ -65,6 +65,7 @@ emoji-mart{
   background-color: #1280c1 !important;
   border-color: #1280c1 !important;
 }
+
 .custom-button {
   width: 42px;
   height: 42px;
@@ -76,21 +77,44 @@ emoji-mart{
   justify-content: center;
   position: relative;
 }
+
 .custom-button:hover .custom-button__name {
   visibility: visible;
   opacity: 1;
 }
-.day   { background: #eee; color: black; }
-.night { background: #333; color: white; }
+
+.day {
+  background: #eee;
+  color: black;
+}
+
+.night {
+  background: #333;
+  color: white;
+}
 
 @media (prefers-color-scheme: dark) {
-  .day.dark-scheme   { background:  #333; color: white; }
-  .night.dark-scheme { background: black; color:  #ddd; }
+  .day.dark-scheme {
+    background: #333;
+    color: white;
+  }
+
+  .night.dark-scheme {
+    background: black;
+    color: #ddd;
+  }
 }
 
 @media (prefers-color-scheme: light) {
-  .day.light-scheme   { background: white; color:  #555; }
-  .night.light-scheme { background:  #eee; color: black; }
+  .day.light-scheme {
+    background: white;
+    color: #555;
+  }
+
+  .night.light-scheme {
+    background: #eee;
+    color: black;
+  }
 }
 
 .day, .night {
@@ -101,7 +125,4 @@ emoji-mart{
   vertical-align: middle;
 
 }
-.emoji-mart-dark .emoji-mart-category-label span {
-  background-color: #fff!important;
-  color: black!important;
-}
+

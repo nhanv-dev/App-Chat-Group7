@@ -361,6 +361,12 @@
   max-width: 150px;
 }
 
+.box-chat__users__item__message--greetings {
+  font-weight: 500 !important;
+  width: max-content !important;
+  max-width: 100% !important;
+}
+
 .box-chat__users__item__time {
   font-size: 13px;
   font-weight: 500;
@@ -384,42 +390,18 @@
 /*================================================================================*/
 
 
-.box-chat__users::-webkit-scrollbar,
-.chat-conversation::-webkit-scrollbar,
-.emoji-mart-scroll::-webkit-scrollbar {
+.box-chat__users::-webkit-scrollbar {
   width: 10px;
 }
 
-.box-chat__users::-webkit-scrollbar-track,
-.chat-conversation::-webkit-scrollbar-track,
-.emoji-mart-scroll::-webkit-scrollbar-track {
+.box-chat__users::-webkit-scrollbar-track {
   background: #f1f1f1;
 }
 
-.box-chat__users::-webkit-scrollbar-thumb,
-.chat-conversation::-webkit-scrollbar-thumb,
-.emoji-mart-scroll::-webkit-scrollbar-thumb {
+.box-chat__users::-webkit-scrollbar-thumb {
   background: #888;
 }
 
-.box-chat__users::-webkit-scrollbar-thumb:hover,
-.chat-conversation::-webkit-scrollbar-thumb:hover,
-.emoji-mart-scroll::-webkit-scrollbar-thumb:hover {
+.box-chat__users::-webkit-scrollbar-thumb:hover {
   background: #555;
-}
-
-
-/*Emojis*/
-
-.emoji-container {
-  position: absolute;
-  bottom: 86px;
-}
-
-.emoji-mart {
-  box-shadow: rgb(100 100 111 / 20%) 0 7px 29px 0;
-}
-
-.emoji-mart-category-label span {
-  transform: translateY(-1px);
 }

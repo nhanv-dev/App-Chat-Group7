@@ -4,14 +4,14 @@ import {Injectable} from '@angular/core';
   providedIn: 'root'
 })
 export class TimeService {
-  public timeZone: string = "Asia/Ho_Chi_Minh";
 
   constructor() {
   }
 
-  public changeTimeZone(date: string) {
-    return new Date(new Date(date).toLocaleString('en-US', {timeZone: this.timeZone}))
-
+  public changeTimeZone(date: string, timeZone: string) {
+    const time = new Date(date).toLocaleString('en-US', {timeZone});
+    const localDate = this.convertUTCDateToLocalDate(new Date(time));
+    return localDate.toLocaleString();
   }
 
   public now() {
@@ -19,5 +19,13 @@ export class TimeService {
     const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
     const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     return date + ' ' + time;
+  }
+
+  public convertUTCDateToLocalDate(date: Date) {
+    let newDate = new Date(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
+    let offset = date.getTimezoneOffset() / 60;
+    let hours = date.getHours();
+    newDate.setHours(hours - offset);
+    return newDate;
   }
 }

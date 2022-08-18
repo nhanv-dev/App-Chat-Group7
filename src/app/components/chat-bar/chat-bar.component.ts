@@ -1,6 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormControl, FormGroup} from "@angular/forms";
-import {Message} from "../../services/chat/chat.service";
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'app-chat-bar',
@@ -9,6 +7,7 @@ import {Message} from "../../services/chat/chat.service";
 })
 export class ChatBarComponent implements OnInit {
   public message: string = '';
+  public icons: any[] = [];
   public isEmojiPickerVisible: boolean | undefined;
   @Output() sendChat = new EventEmitter();
 
@@ -19,15 +18,31 @@ export class ChatBarComponent implements OnInit {
   }
 
   handleSendChat() {
+    this.icons.forEach((icon: any) => {
+      this.message = this.message.replace(icon.native, icon.unified);
+    })
     this.sendChat.emit(this.message);
     this.message = '';
+    this.icons = [];
   }
 
   toggleEmoji() {
     this.isEmojiPickerVisible = !this.isEmojiPickerVisible;
   }
 
-  public addEmoji(event: any) {
-    if (event?.emoji?.native) this.message += event.emoji.native;
+  changeMessage(event: any) {
+    this.icons = this.icons.filter((icon: any) => (icon.index <= event.length))
+  }
+
+  addEmoji(event: any) {
+    if (event?.emoji?.native) {
+      this.message += event.emoji.native;
+      let icon = {
+        index: this.message.length,
+        native: event.emoji.native,
+        unified: `&#x${event.emoji.unified};`,
+      }
+      this.icons.push(icon);
+    }
   }
 }

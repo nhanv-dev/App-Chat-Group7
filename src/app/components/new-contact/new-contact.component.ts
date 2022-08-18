@@ -8,7 +8,8 @@ import {Room} from "../../services/chat/chat.service";
 })
 export class NewContactComponent implements OnInit {
   @Input() rooms: Room[] | undefined;
-  @Output() addNewPeople = new EventEmitter<any>();
+  @Output() addPeople = new EventEmitter<any>();
+  @Output() createRoom = new EventEmitter<any>();
   @Output() joinRoom = new EventEmitter<any>();
   isOpened: boolean = false;
   isOpenedPeople: boolean = false;
@@ -21,12 +22,16 @@ export class NewContactComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  handleAddNewPeople() {
-    this.addNewPeople.emit(this.newContact);
+  handleAddPeople() {
+    this.addPeople.emit(this.newContact);
+  }
+
+  handleCreateRoom() {
+    this.createRoom.emit(this.newContact);
+
   }
 
   handleJoinRoom() {
-    console.log(this.newContact)
     this.joinRoom.emit(this.newContact);
   }
 
