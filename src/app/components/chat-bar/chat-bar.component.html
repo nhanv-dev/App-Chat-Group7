@@ -3,12 +3,25 @@
     <button type="button" class="custom-button button-primary" (click)="toggleEmoji()">
       <i class="fa-solid fa-face-grin"></i>
     </button>
-    <label for="image" class="custom-button button-primary">
+    <label for="imageFile" class="custom-button button-primary">
       <i class="fa-solid fa-plus"></i>
-      <input id="image" type="file" class="d-none">
+      <input id="imageFile" type="file" class="d-none" accept=""
+             (change)="chooseFile($event)">
     </label>
     <div class="box-chat__content__form__input">
-      <input placeholder="Write your message..." type="text" name="message" autocomplete="false"
+      <ng-container *ngIf="images.length != 0">
+        <div class="box-chat__content__form__box-images">
+          <ng-container *ngFor="let image of images">
+            <div class="box-chat__content__form__box-images__item mt-2">
+              <img id="image" src="{{image.url}}" alt="">
+              <a  class="box-chat__content__form__box-images__item-remove" (click)="removeFile(image.id)" >
+                <i class="fa-solid fa-xmark"></i>
+              </a>
+            </div>
+          </ng-container>
+        </div>
+      </ng-container>
+     <input placeholder="Write your message..." type="text" name="message" autocomplete="false"
              [(ngModel)]="message" (ngModelChange)="changeMessage($event)">
     </div>
     <button class="custom-button send-button" type="submit">
