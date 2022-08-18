@@ -12,6 +12,7 @@ import {AuthenticationService} from "./services/authentication/authentication.se
 })
 
 export class AppComponent implements OnInit {
+  title: string = 'Chitchat';
 
   constructor() {
   }

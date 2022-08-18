@@ -1,4 +1,4 @@
-import {AfterViewChecked, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewChecked, Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
 import {ChatService, Message, Room, User} from "../services/chat/chat.service";
 import {AuthenticationService} from "../services/authentication/authentication.service";
 import {Router} from "@angular/router";
@@ -12,7 +12,7 @@ import {TimeService} from "../services/time/time.service";
   styleUrls: ['./home.component.css']
 })
 
-export class HomeComponent implements OnInit, AfterViewChecked {
+export class HomeComponent implements OnInit {
   user: User | undefined;
   rooms: Room[] = [];
   activeRoom: Room = {name: '', type: '', messages: []};
@@ -20,7 +20,6 @@ export class HomeComponent implements OnInit, AfterViewChecked {
   searching: string = '';
   ready: any = false;
   @ViewChild('sidebar') sidebar: any;
-  @ViewChild('boxChat') boxChat: any;
 
   constructor(
     private chatService: ChatService,
@@ -44,19 +43,6 @@ export class HomeComponent implements OnInit, AfterViewChecked {
         }
       }
     });
-
-  }
-
-  ngAfterViewChecked() {
-    this.scrollToBottom();
-  }
-
-  scrollToBottom() {
-    try {
-      this.boxChat.nativeElement.scrollTop = this.boxChat.nativeElement.scrollHeight;
-    } catch (err) {
-      console.log(err)
-    }
   }
 
   async subscribe() {
@@ -65,58 +51,63 @@ export class HomeComponent implements OnInit, AfterViewChecked {
       console.log('Response from server: ', message)
       if (event === 'AUTH' && status === 'error' && message.mes === 'User not Login') {
         const token = this.authenticationService.getToken();
-        if (token)
+        if (token) {
           await this.chatService.reLogin(token);
-        else
-          await this.handleLogout();
+        } else {
+          this.authenticationService.removeToken();
+          await this.router.navigateByUrl('/login')
+        }
       } else if (event === environment.event.RE_LOGIN) {
         await this.handleReLogin(message);
       } else if (event === environment.event.SEND_CHAT) {
         await this.receiveChat(message);
-      } else if (event === environment.event.GET_USER_LIST && status === 'success') {
-        await this.connectRooms(data);
-      } else if (event === environment.event.GET_PEOPLE_CHAT_MES && status === 'success') {
+      } else if (event === environment.event.GET_USER_LIST) {
+        await this.connectRooms(message);
+      } else if (event === environment.event.GET_PEOPLE_CHAT_MES) {
         await this.convertResponseToPeopleChat(message);
-      } else if (event === environment.event.GET_ROOM_CHAT_MES && status === 'success') {
+      } else if (event === environment.event.GET_ROOM_CHAT_MES) {
         await this.convertResponseToGroupChat(message);
+      } else if (event === environment.event.CREATE_ROOM) {
+        await this.handleCreateRoom(message);
+      } else if (event === environment.event.JOIN_ROOM) {
+        await this.handleJoinRoom(message);
       } else {
         if (this.ready) clearInterval(this.ready);
       }
     });
   }
 
-  async connectRooms(data: Room[]) {
-    if (!data) return;
-    this.rooms = data.map((room: any) => {
+  async connectRooms(message: any) {
+    if (message.status !== 'success' || !message.data) return;
+    this.rooms = message.data.map((room: any) => {
       const name: any = room.name;
       const type: string = room.type === 0 ? 'people' : 'room';
       const item: Room = {name, type, messages: []}
       return item;
     });
-    this.rooms.forEach((room: Room) => {
-      this.getMessages(room.name, 1, room.type);
-    })
+    this.rooms.forEach((room: Room) => this.getMessages(room.name, 1, room.type))
     this.activeRoom = this.rooms[0]
   }
 
-  getMessages(name: string, page: number, type: string) {
+  async getMessages(name: string, page: number, type: string) {
     if (type === 'people') this.chatService.getPeopleMessage(name, page);
     else if (type === 'room') this.chatService.getRoomMessage(name, page);
   }
 
   async convertResponseToPeopleChat(message: any) {
+    if (message.status !== 'success') return;
     const response = message.data[0];
     if (response) {
       for (const room of this.rooms) {
         const condition1 = room.name === response.name || room.name === response.to;
         const condition2 = this.user?.name === response.name || this.user?.name === response.to;
         if (condition1 && condition2 && this.user?.name !== room.name && room.type === 'people') {
-          room.messages = (message.data.map((item: any) => {
-            if (item.mes) {
-              item.createAt = this.timeService.changeTimeZone(item.createAt);
-              return item;
+          room.messages = message.data.filter((message: any) => {
+            if (message.mes) {
+              message.createAt = this.timeService.changeTimeZone(message.createAt, "Asia/Ho_Chi_Minh");
+              return message;
             }
-          }).reverse());
+          }).reverse();
           break;
         }
       }
@@ -124,13 +115,16 @@ export class HomeComponent implements OnInit, AfterViewChecked {
   }
 
   async convertResponseToGroupChat(message: any) {
+    if (message.status !== 'success') return;
     const messages = message.data.chatData;
     if (messages && messages.length > 0) {
       for (const room of this.rooms) {
         if (room.name === messages[0].to && room.type === 'room') {
-          room.messages = messages.map((message: any) => {
-            message.createAt = this.timeService.changeTimeZone(message.createAt);
-            return message;
+          room.messages = messages.filter((message: any) => {
+            if (message.mes) {
+              message.createAt = this.timeService.changeTimeZone(message.createAt, "Asia/Ho_Chi_Minh");
+              return message;
+            }
           }).reverse();
           break;
         }
@@ -144,13 +138,30 @@ export class HomeComponent implements OnInit, AfterViewChecked {
     this.getMessages(this.activeRoom.name, this.page, this.activeRoom.type);
   }
 
+  async addPeople(name: string) {
+    console.log('home', name);
+    this.chatService.joinRoom(name);
+  }
+
   async joinRoom(name: string) {
     console.log('home', name);
     this.chatService.joinRoom(name);
   }
 
+  async handleJoinRoom(message: any) {
+
+  }
+
+  async createRoom(name: string) {
+    console.log('home', name);
+    this.chatService.createRoom(name);
+  }
+
+  async handleCreateRoom(message: any) {
+
+  }
+
   async sendChat(message: string) {
-    console.log('Send message')
     const data: Message = {
       id: 0,
       name: this.user?.name,
@@ -166,11 +177,9 @@ export class HomeComponent implements OnInit, AfterViewChecked {
   }
 
   async receiveChat(message: any) {
-    console.log('Receive message')
     if (message.status === 'success') {
       const data = message.data;
-      data.createAt = this.timeService.now();
-      console.log(data)
+      data.createAt = this.timeService.changeTimeZone(data.createAt, 'Asia/Ho_Chi_Minh');
       for (const room of this.rooms) {
         if (room.name === data.to) {
           room.messages.push(data);
@@ -180,7 +189,7 @@ export class HomeComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  searchChat(searching: string) {
+  async searchChat(searching: string) {
     this.searching = searching;
   }
 

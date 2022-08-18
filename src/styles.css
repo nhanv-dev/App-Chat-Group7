@@ -1,4 +1,3 @@
-/* You can add global styles to this file, and also import other style files */
 @import '~@ctrl/ngx-emoji-mart/picker.css';
 
 * {
@@ -87,4 +86,45 @@ body {
 /*  padding: 5px;*/
 /*}*/
 
+
+/*Emojis*/
+emoji-mart {
+  position: absolute;
+  bottom: 100px;
+  background-color: #fff !important;
+}
+
+.emoji-container {
+  position: absolute;
+  bottom: 86px;
+}
+
+.emoji-mart {
+  box-shadow: rgb(100 100 111 / 20%) 0 7px 29px 0;
+}
+
+.emoji-mart-category-label span {
+  transform: translateY(-1px);
+}
+
+.emoji-mart-scroll::-webkit-scrollbar {
+  width: 10px;
+}
+
+.emoji-mart-scroll::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.emoji-mart-scroll::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+.emoji-mart-scroll::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.emoji-mart-dark .emoji-mart-category-label span {
+  background-color: #fff !important;
+  color: black !important;
+}
 

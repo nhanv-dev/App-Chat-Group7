@@ -1,5 +1,5 @@
 <div class="box-chat__content__form">
-  <form class="d-flex align-items-center gap-3" (submit)="handleSendChat()">
+  <form class="d-flex align-items-center gap-3" (submit)="handleSendChat()" autocomplete="off">
     <button type="button" class="custom-button button-primary" (click)="toggleEmoji()">
       <i class="fa-solid fa-face-grin"></i>
     </button>
@@ -21,7 +21,8 @@
           </ng-container>
         </div>
       </ng-container>
-      <input placeholder="Write your message..." type="text" name="message" [(ngModel)]="message">
+     <input placeholder="Write your message..." type="text" name="message" autocomplete="false"
+             [(ngModel)]="message" (ngModelChange)="changeMessage($event)">
     </div>
     <button class="custom-button send-button" type="submit">
       <i class="fa-solid fa-paper-plane"></i>
