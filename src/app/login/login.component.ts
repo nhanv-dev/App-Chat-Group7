@@ -1,7 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {ChatService} from "../services/chat.service";
+import {ChatService} from "../services/chat/chat.service";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../services/authentication/authentication.service";
 import {environment} from "../../environments/environment";
