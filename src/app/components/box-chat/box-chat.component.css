@@ -144,6 +144,9 @@
   margin: 12px 0;
   color: #223645;
 }
+.light-mode .box-chat__sidebar h3,p:not(app-box-chat .chat-conversation__message-container__message){
+  color: black;
+}
 
 .chat-conversation__message-container__time {
   font-size: 12px;
