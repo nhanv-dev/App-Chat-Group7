@@ -1,4 +1,8 @@
-import {AfterViewChecked, Component, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {
+  AfterViewChecked, Component, Input, OnChanges, OnInit, SimpleChanges,
+  ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
 import {Room, User} from "../../services/chat/chat.service";
 import {HostListener} from '@angular/core';
 
@@ -8,25 +12,34 @@ import {HostListener} from '@angular/core';
   styleUrls: ['./box-chat.component.css'],
   encapsulation: ViewEncapsulation.None,
 })
-export class BoxChatComponent implements OnInit, AfterViewChecked {
+export class BoxChatComponent implements OnInit, AfterViewChecked, OnChanges {
   @Input() user: User | undefined;
   @Input() activeRoom: Room | undefined;
   @ViewChild('boxChat') boxChat: any;
+  public dataRetrieved: boolean = true;
+  public firstChange: boolean = true;
 
   constructor() {
   }
 
-  ngOnInit(): void {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['activeRoom']) this.dataRetrieved = true;
   }
 
+  ngOnInit(): void {
+    this.dataRetrieved = true;
+  }
 
-  @HostListener('scroll', ['$event'])
   onScroll($event: any) {
     console.log($event)
   }
 
   ngAfterViewChecked() {
-    this.scrollToBottom();
+    console.log(this.dataRetrieved)
+    if (this.dataRetrieved || this.firstChange) {
+      this.scrollToBottom();
+      this.dataRetrieved = false;
+    }
   }
 
   scrollToBottom() {

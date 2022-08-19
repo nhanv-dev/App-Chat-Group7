@@ -16,8 +16,12 @@ import {SidebarComponent} from './components/sidebar/sidebar.component';
 import {GroupChatComponent} from './components/group-chat/group-chat.component';
 import {ChatBarComponent} from './components/chat-bar/chat-bar.component';
 import {PickerModule} from "@ctrl/ngx-emoji-mart";
-import { NewContactComponent } from './components/new-contact/new-contact.component';
-
+import {NewContactComponent} from './components/new-contact/new-contact.component';
+import {initializeApp, provideFirebaseApp} from "@angular/fire/app";
+import {environment} from "../environments/environment";
+import {provideAuth, getAuth} from "@angular/fire/auth";
+import {provideFirestore, getFirestore} from "@angular/fire/firestore";
+import {provideStorage, getStorage} from "@angular/fire/storage";
 
 @NgModule({
   declarations: [
@@ -38,9 +42,13 @@ import { NewContactComponent } from './components/new-contact/new-contact.compon
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    PickerModule
+    PickerModule,
+    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore()),
+    provideStorage(() => getStorage()),
   ],
-  providers: [WebsocketService, ChatService, AuthenticationService],
+  providers: [WebsocketService, ChatService, AuthenticationService,],
   bootstrap: [AppComponent]
 })
 export class AppModule {
