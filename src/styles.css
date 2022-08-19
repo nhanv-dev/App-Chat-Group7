@@ -38,9 +38,15 @@ body.light-mode {
   background-color:#191b1f!important;
 
 }
-.dark-mode .box-chat__sidebar h3,p:not(app-box-chat .chat-conversation__message-container__message){
-  color: #fff!important;
+.dark-mode .box-chat__sidebar h3{
+  color: #fff;
 }
+.dark-mode .box-chat__sidebar p:not(app-box-chat .chat-conversation__message-container__message){
+  color: #fff;
+}
+/*.light-mode .box-chat__sidebar h3,p:not(app-box-chat .chat-conversation__message-container__message){*/
+/*  color: black!important;*/
+/*}*/
 .dark-mode .box-chat__content__form__input input{
   background-color: #191b1f!important;
 
@@ -97,6 +103,11 @@ body.light-mode {
   background-color: #25262c!important;
   color: #fff!important;
 }
+.dark-mode .box-chat__sidebar__header__title{
+  color: #fff!important;
+}
+
+
 /*Emojis*/
 emoji-mart {
   position: absolute;
