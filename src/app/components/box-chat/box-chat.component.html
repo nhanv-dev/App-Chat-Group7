@@ -1,4 +1,4 @@
-<div class="chat-conversation" #boxChat>
+<div class="chat-conversation" #boxChat (scroll)="onScroll($event)">
   <ng-container *ngIf="activeRoom">
     <div class="chat-conversation__header">
       <div class="d-flex">
@@ -20,9 +20,9 @@
        [ngClass]="activeRoom && activeRoom.messages && activeRoom.messages.length ? 'show': 'hidden'">
     <ng-container *ngFor="let message of activeRoom?.messages; let i = index">
       <ng-container *ngIf="message && message.mes && activeRoom && activeRoom.messages">
-        <ng-container *ngIf="compareDate(i)">
-          <div class="chat-conversation__content__divide-time">{{message.createAt | date:'fullDate'}}</div>
-        </ng-container>
+        <div class="chat-conversation__content__divide-time" *ngIf="divideDate(i)">
+          {{message.createAt | date:'fullDate'}}
+        </div>
         <div class="d-flex gap-3 pb-4 align-items-end"
              [ngClass]="message.name === user?.name ? 'flex-row-reverse': ''">
           <div class="chat-conversation__avatar">
@@ -43,7 +43,7 @@
             <div class="d-flex align-items-center gap-3"
                  [ngClass]="message.name === user?.name ? 'flex-row-reverse': ''">
               <p class="chat-conversation__message-container__name">{{message.name || 'Anonymous'}}</p>
-              <p class="chat-conversation__message-container__time">{{message.createAt }}</p>
+              <p class="chat-conversation__message-container__time">{{message.createAt | date: 'shortTime'}}</p>
             </div>
           </div>
         </div>

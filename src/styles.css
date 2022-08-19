@@ -29,82 +29,101 @@ body.light-mode {
   background-color: #fff;
   color: #191b1f;
 }
-.dark-mode .chat-conversation__header{
-  background-color: #191b1f!important;
-  border: unset!important;
-  box-shadow: 0 -55px 0 0 #25262c!important;
+
+.dark-mode .chat-conversation__header {
+  background-color: #191b1f !important;
+  border: unset !important;
+  box-shadow: 0 -55px 0 0 #25262c !important;
 }
-.dark-mode .sidebar{
-  background-color:#191b1f!important;
+
+.dark-mode .sidebar {
+  background-color: #191b1f !important;
 
 }
-.dark-mode .box-chat__sidebar h3{
+
+.dark-mode .box-chat__sidebar h3 {
   color: #fff;
 }
-.dark-mode .box-chat__sidebar p:not(app-box-chat .chat-conversation__message-container__message){
+
+.dark-mode .box-chat__sidebar p:not(.chat-conversation__message-container__message) {
   color: #fff;
 }
+
 /*.light-mode .box-chat__sidebar h3,p:not(app-box-chat .chat-conversation__message-container__message){*/
 /*  color: black!important;*/
 /*}*/
-.dark-mode .box-chat__content__form__input input{
-  background-color: #191b1f!important;
+.dark-mode .box-chat__content__form__input input {
+  background-color: #191b1f !important;
 
 }
-.dark-mode .chat-conversation{
-  background-color: #25262c!important;
+
+.dark-mode .chat-conversation {
+  background-color: #25262c !important;
 
 }
-.dark-mode  .box-chat__sidebar,.dark-mode .sidebar,.dark-mode .sidebar__logo {
+
+.dark-mode .box-chat__sidebar, .dark-mode .sidebar, .dark-mode .sidebar__logo {
   border-color: #667b89 !important;
 }
-.dark-mode .chat-conversation__message-container{
-  /*background-color:blue!important;*/
 
+.dark-mode .chat-conversation__message-container {
+  /*background-color:blue!important;*/
 }
-.dark-mode .box-chat__content__form emoji-mart{
-  background-color: black!important;
-  color: black!important;
+
+.dark-mode .box-chat__content__form emoji-mart {
+  background-color: black !important;
+  color: black !important;
 }
-.dark-mode .box-chat__content__form__input input,.dark-mode .chat-conversation__header__info__name{
-  color: #fff!important;
+
+.dark-mode .box-chat__content__form__input input, .dark-mode .chat-conversation__header__info__name {
+  color: #fff !important;
 }
-.dark-mode app-login div{
-  background-color: #fff!important;
+
+.dark-mode app-login div {
+  background-color: #fff !important;
 }
-.dark-mode app-register div{
-  background-color: #fff!important;
+
+.dark-mode app-register div {
+  background-color: #fff !important;
 }
-.dark-mode .box-chat__sidebar__header__search input{
-  background-color: #191b1f!important;
-  color: #fff!important;
+
+.dark-mode .box-chat__sidebar__header__search input {
+  background-color: #191b1f !important;
+  color: #fff !important;
   padding: 5px;
 }
-.dark-mode .new-contact__options{
-  background-color: #191b1f!important;
+
+.dark-mode .new-contact__options {
+  background-color: #191b1f !important;
 }
+
 .dark-mode .new-contact__options button {
-  background-color: #191b1f!important;
-  color: #fff!important;
+  background-color: #191b1f !important;
+  color: #fff !important;
 }
+
 .dark-mode .new-contact__options button span {
   /*background-color: #191b1f!important;*/
-  color: #fff!important;
+  color: #fff !important;
 }
-.dark-mode .chat-conversation__message-container .right{
-  background-color: #191b1f!important;
-  color: #fff!important;
+
+.dark-mode .chat-conversation__message-container .right {
+  background-color: #191b1f !important;
+  color: #fff !important;
 }
-.dark-mode .chat-conversation__message-container .left{
-  background-color: #1c9dea!important;
-  color: #fff!important;
+
+.dark-mode .chat-conversation__message-container .left {
+  background-color: #1c9dea !important;
+  color: #fff !important;
 }
-.dark-mode .button-light{
-  background-color: #25262c!important;
-  color: #fff!important;
+
+.dark-mode .button-light {
+  background-color: #25262c !important;
+  color: #fff !important;
 }
-.dark-mode .box-chat__sidebar__header__title{
-  color: #fff!important;
+
+.dark-mode .box-chat__sidebar__header__title {
+  color: #fff !important;
 }
 
 

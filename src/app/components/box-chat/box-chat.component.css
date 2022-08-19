@@ -71,7 +71,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: white !important;
   background: #3fcc35;
   font-weight: 500;
   letter-spacing: .25px;
