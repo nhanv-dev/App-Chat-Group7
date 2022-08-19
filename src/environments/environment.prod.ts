@@ -14,5 +14,14 @@ export const environment = {
     GET_PEOPLE_CHAT_MES: "GET_PEOPLE_CHAT_MES",
     CHECK_USER: "CHECK_USER",
     GET_USER_LIST: "GET_USER_LIST",
+  },
+  firebaseConfig: {
+    apiKey: "AIzaSyCR44lmiTtk7OyWTEH5F8cvwg31nkYsAkM",
+    authDomain: "chitchat-e6ec4.firebaseapp.com",
+    projectId: "chitchat-e6ec4",
+    storageBucket: "chitchat-e6ec4.appspot.com",
+    messagingSenderId: "21589694984",
+    appId: "1:21589694984:web:fe03ef737e374c9756cfbd",
+    measurementId: "G-B0B5LLEHG0"
   }
 };

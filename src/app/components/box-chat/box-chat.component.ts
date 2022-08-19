@@ -1,5 +1,5 @@
 import {
-  AfterViewChecked, Component, Input, OnChanges, OnInit, SimpleChanges,
+  AfterViewChecked, AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges,
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
@@ -15,6 +15,7 @@ import {HostListener} from '@angular/core';
 export class BoxChatComponent implements OnInit, AfterViewChecked, OnChanges {
   @Input() user: User | undefined;
   @Input() activeRoom: Room | undefined;
+  @Output() loadHistory = new EventEmitter();
   @ViewChild('boxChat') boxChat: any;
   public dataRetrieved: boolean = true;
   public firstChange: boolean = true;
@@ -22,31 +23,32 @@ export class BoxChatComponent implements OnInit, AfterViewChecked, OnChanges {
   constructor() {
   }
 
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['activeRoom']) this.dataRetrieved = true;
   }
 
   ngOnInit(): void {
-    this.dataRetrieved = true;
+
   }
 
-  onScroll($event: any) {
-    console.log($event)
-  }
-
-  ngAfterViewChecked() {
-    console.log(this.dataRetrieved)
-    if (this.dataRetrieved || this.firstChange) {
-      this.scrollToBottom();
-      this.dataRetrieved = false;
+  onScroll(event: any) {
+    if (event.target.scrollTop <= 400) {
+      this.loadHistory.emit()
     }
   }
 
-  scrollToBottom() {
-    this.boxChat.nativeElement.scrollTop = this.boxChat.nativeElement.scrollHeight;
+  ngAfterViewChecked() {
+    if (this.dataRetrieved) this.dataRetrieved = this.scrollToBottom();
   }
 
-  compareDate(index: any): boolean {
+  scrollToBottom(): boolean {
+    const nativeElement = this.boxChat.nativeElement;
+    nativeElement.scrollTop = nativeElement.scrollHeight;
+    return nativeElement.scrollTop === 0;
+  }
+
+  divideDate(index: any): boolean {
     if (index === 0) return true;
     const prev: any = this.activeRoom?.messages[index - 1].createAt;
     const current: any = this.activeRoom?.messages[index].createAt;

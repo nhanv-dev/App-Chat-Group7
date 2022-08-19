@@ -71,7 +71,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: white !important;
   background: #3fcc35;
   font-weight: 500;
   letter-spacing: .25px;
@@ -143,6 +143,9 @@
   font-weight: 500;
   margin: 12px 0;
   color: #223645;
+}
+.light-mode .box-chat__sidebar h3,p:not(app-box-chat .chat-conversation__message-container__message){
+  color: black;
 }
 
 .chat-conversation__message-container__time {
