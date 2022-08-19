@@ -158,6 +158,9 @@
   flex-direction: column;
   border-right: 1px solid #eff1f2;
 }
+.light-mode .chat-conversation__message-container__name{
+  color: blue!important;
+}
 
 .box-chat__sidebar__header {
   padding: 40px 40px 0;
@@ -220,7 +223,7 @@
 .box-chat__sidebar__header__title h3 {
   font-size: 26px;
   font-weight: 800;
-  color: #223645;
+  /*color: #223645;*/
   margin: 0;
 }
 
