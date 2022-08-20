@@ -13,7 +13,7 @@
           <p class="chat-conversation__header__info__status mt-2">{{ activeRoom.type || 'Anonymous'}}</p>
         </div>
       </div>
-      <app-search-message></app-search-message>
+      <app-search-message [activeRoom]="activeRoom"></app-search-message>
     </div>
   </ng-container>
   <div class="chat-conversation__content"
@@ -23,7 +23,7 @@
         <div class="chat-conversation__content__divide-time" *ngIf="divideDate(i) && message.createAt">
           {{message.createAt | date:'fullDate'}}
         </div>
-        <div class="d-flex gap-3 pb-4 align-items-end"
+        <div class="d-flex gap-3 pb-4 align-items-end" id="{{message.id}}"
              [ngClass]="message.name === user?.name ? 'flex-row-reverse': ''">
           <div class="chat-conversation__avatar">
             <img src="/assets/images/user.jpg" alt="avatar">
