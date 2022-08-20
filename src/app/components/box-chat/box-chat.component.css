@@ -5,7 +5,8 @@
   flex-direction: column;
   overflow: hidden;
 }
-app-forward{
+
+app-forward {
   background-color: white;
   visibility: visible;
 }
@@ -149,7 +150,8 @@ app-forward{
   margin: 12px 0;
   color: #223645;
 }
-.light-mode .box-chat__sidebar h3,p:not(app-box-chat .chat-conversation__message-container__message){
+
+.light-mode .box-chat__sidebar h3, p:not(app-box-chat .chat-conversation__message-container__message) {
   color: black;
 }
 
@@ -221,8 +223,8 @@ app-forward{
   padding: 5px 15px;
   border-radius: 5px;
   transform: translateY(-50%);
-  background-color: #1c9dea !important;
-  color: #fff;
+  background-color: rgba(28, 157, 234, .15) !important;
+  color: #1c9dea !important;
   width: max-content;
   transition: all .3s ease;
   box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
@@ -249,7 +251,6 @@ app-forward{
   width: 100%;
   border-radius: 8px;
   margin: 10px 0;
-
 }
 
 .chat-conversation__message-container__message:last-child {
@@ -257,24 +258,18 @@ app-forward{
 }
 
 .chat-conversation__message-container__message.left {
-  /*border-radius: 0 10px 10px 10px;*/
-  /*border-bottom-left-radius: 0;*/
   background-color: #1c9dea;
   color: #fff;
 
 }
 
 
-
 .chat-conversation__message-container__message.right {
-  /*border-radius: 10px 0 10px 10px;*/
-  /*border-bottom-right-radius: 0;*/
   background-color: #e5edf5;
   color: #223645;
   float: right;
 
 }
-
 
 
 .chat-conversation::-webkit-scrollbar {
@@ -293,39 +288,6 @@ app-forward{
   background: #555;
 }
 
-/*---------------------------forward------------------------------------*/
-/*.forward{*/
-/*  width: 500px;*/
-/*  height: 200px;*/
-/*  !*overflow: fi;*!*/
-/*  background-color: black;*/
-/*  !*position: fixed;*!*/
-/*  !*top: 50%;*!*/
-/*  !*right: 20%;*!*/
-/*}*/
-.new-contact__people, .new-contact__group {
-  position: fixed;
-  display: block;
-  top: 0;
-  left: 50%;
-  visibility: hidden;
-  opacity: 0;
-  width: 500px;
-  pointer-events: auto;
-  background-color: #fff;
-  border: 1px solid rgba(0, 0, 0, .2);
-  border-radius: 10px;
-  overflow: hidden;
-  z-index: 100;
-  transform: translate(-50%, 0);
-  transition: transform .3s ease-out, opacity .15s linear;
-}
-
-.new-contact__people.show, .new-contact__group.show {
-  visibility: visible;
-  opacity: 1;
-  transform: translate(-50%, 100px);
-}
 
 
 

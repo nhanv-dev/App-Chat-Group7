@@ -21,8 +21,8 @@
             <div class="d-flex align-items-center justify-content-between gap-0 w-100">
               <ng-container
                 *ngIf="room.messages && room.messages.length > 0 && room.messages[room.messages.length - 1]">
-                <p class="box-chat__users__item__message" [innerHTML]="room.messages[room.messages.length - 1].mes">
-                </p>
+                <div class="box-chat__users__item__message" [innerHTML]="room.messages[room.messages.length - 1].mes">
+                </div>
                 <p class="box-chat__users__item__time">
                   {{room.messages[room.messages.length - 1].createAt | date:'shortTime'}}
                 </p>

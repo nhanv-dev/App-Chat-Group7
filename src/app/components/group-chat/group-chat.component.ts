@@ -14,7 +14,7 @@ import {ChatService, Room} from "../../services/chat/chat.service";
 @Component({
   selector: 'app-group-chat',
   templateUrl: './group-chat.component.html',
-  styleUrls: ['./group-chat.component.css', '../../home/home.component.css']
+  styleUrls: ['./group-chat.component.css']
 })
 export class GroupChatComponent implements OnInit {
   @Input() rooms: Room[] | undefined;

@@ -165,6 +165,11 @@ emoji-mart {
   background: #555;
 }
 
+.box-chat__users__item__message img {
+  height: 50px !important;
+  border-radius: 8px;
+}
+
 .overlay-emoji {
   position: fixed;
   display: block;
@@ -184,6 +189,5 @@ emoji-mart {
   visibility: hidden;
   opacity: 0;
 }
-
 
 

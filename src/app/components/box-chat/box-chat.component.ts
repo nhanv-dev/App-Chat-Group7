@@ -16,21 +16,18 @@ import {ForwardComponent} from "../forward/forward.component";
 export class BoxChatComponent implements OnInit, OnChanges, AfterViewChecked {
   @Input() user: User | undefined;
   @Input() activeRoom: Room | undefined;
-  @Input() dataRetrieved: boolean | undefined;
+  @Input() dataRetrieved: any | undefined;
+  @Input() isOpenForward: boolean = false;
+  @Output() forwardMessage = new EventEmitter();
   @Output() loadHistory = new EventEmitter();
   @ViewChild('boxChat') boxChat: any;
-  @Input() rooms: Room [] | undefined;
-  @Input() isOpenForward: boolean=false;
-  @Output() forwardMessage = new EventEmitter();
-  public isOpened: boolean = false;
-   content: any | undefined;
-  private isChangedRoom: boolean = false;
+  private scroll: boolean = true;
 
   constructor() {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['activeRoom']) this.isChangedRoom = true;
+    this.scroll = !!(changes['activeRoom'] || changes['dataRetrieved']);
   }
 
   ngOnInit(): void {
@@ -42,11 +39,7 @@ export class BoxChatComponent implements OnInit, OnChanges, AfterViewChecked {
   }
 
   ngAfterViewChecked() {
-    console.log(this.dataRetrieved, this.isChangedRoom);
-    if (this.dataRetrieved || this.isChangedRoom) {
-      this.isChangedRoom = this.scrollToBottom();
-      this.dataRetrieved = false;
-    }
+    if (this.scroll) this.scroll = this.scrollToBottom();
   }
 
   scrollToBottom(): boolean {
@@ -66,23 +59,7 @@ export class BoxChatComponent implements OnInit, OnChanges, AfterViewChecked {
       prevDate.getFullYear() !== currentDate.getFullYear();
   }
 
-  getMess(value: any) {
-    this.forwardMessage.emit({isOpenForward:true,content:value});
+  handleForwardMessage(value: any) {
+    this.forwardMessage.emit({isOpenForward: true, content: value});
   }
-
-  resetValue() {
-    this.isOpened = !this.isOpened;
-    console.log(this.isOpened);
-
-
-  }
-
-  forward(mess: any) {
-
-  }
-  mess(){
-    console.log("Sent"+this.content);
-    return  this.content;
-  }
-
 }

@@ -28,7 +28,6 @@ export class NewContactComponent implements OnInit {
 
   handleCreateRoom() {
     this.createRoom.emit(this.newContact);
-
   }
 
   handleJoinRoom() {

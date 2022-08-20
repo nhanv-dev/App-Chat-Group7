@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Room} from "../../services/chat/chat.service";
-import {BoxChatComponent} from "../box-chat/box-chat.component";
 
 @Component({
   selector: 'app-forward',
@@ -8,13 +7,11 @@ import {BoxChatComponent} from "../box-chat/box-chat.component";
   styleUrls: ['./forward.component.css']
 })
 export class ForwardComponent implements OnInit {
-
   @Input() rooms: Room[] | undefined;
-  @Input() content :any |undefined;
+  @Input() forwardMessage: any | undefined;
+  @Input() isOpenForward: boolean = false;
   @Output() sendChat = new EventEmitter();
-  @Input() isOpenForward: boolean=false;
   @Output() closeForward = new EventEmitter();
-
 
   constructor() {
   }
@@ -22,20 +19,11 @@ export class ForwardComponent implements OnInit {
   ngOnInit(): void {
   }
 
-
   close() {
     this.closeForward.emit();
   }
-  forwardChat(room: Room){
+
+  forwardChat(room: Room) {
     this.sendChat.emit(room);
-
-
-
-
-  // console.log(number);
-  //   console.log("this is forward"+this.content);
-  //   console.log(this.rooms?.length);
   }
-
-
 }
