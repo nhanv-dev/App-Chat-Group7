@@ -12,6 +12,7 @@ export class SidebarComponent implements OnInit {
   @Input() showSidebar: boolean = true;
   @Output() logout = new EventEmitter<any>();
   public theme$ = this.darkModeService.darkMode$;
+  style : String ="";
 
   constructor(private darkModeService: DarkModeService) {
   }
@@ -26,5 +27,6 @@ export class SidebarComponent implements OnInit {
 
   toggleTheme(): void {
     this.darkModeService.toggle();
+
   }
 }

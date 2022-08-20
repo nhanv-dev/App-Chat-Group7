@@ -17,6 +17,7 @@ import {GroupChatComponent} from './components/group-chat/group-chat.component';
 import {ChatBarComponent} from './components/chat-bar/chat-bar.component';
 import {PickerModule} from "@ctrl/ngx-emoji-mart";
 import { NewContactComponent } from './components/new-contact/new-contact.component';
+import { ForwardComponent } from './components/forward/forward.component';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { NewContactComponent } from './components/new-contact/new-contact.compon
     SidebarComponent,
     GroupChatComponent,
     ChatBarComponent,
-    NewContactComponent
+    NewContactComponent,
+    ForwardComponent
   ],
   imports: [
     BrowserModule,

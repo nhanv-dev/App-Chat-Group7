@@ -41,7 +41,7 @@ body.light-mode {
 .dark-mode .box-chat__sidebar h3{
   color: #fff;
 }
-.dark-mode .box-chat__sidebar p:not(app-box-chat .chat-conversation__message-container__message){
+.dark-mode .box-chat__sidebar p:not(app-box-chat .chat-conversation__message-container__message,app-new-contact .new-contact__common__item__name,.new-contact__common__item__message){
   color: #fff;
 }
 /*.light-mode .box-chat__sidebar h3,p:not(app-box-chat .chat-conversation__message-container__message){*/
@@ -144,8 +144,5 @@ emoji-mart {
   background: #555;
 }
 
-.emoji-mart-dark .emoji-mart-category-label span {
-  background-color: #fff !important;
-  color: black !important;
-}
+
 

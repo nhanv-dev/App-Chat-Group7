@@ -1,6 +1,16 @@
-import {AfterViewChecked, Component, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {
+  AfterViewChecked,
+  Component,
+  Input,
+  Output,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation,
+  EventEmitter
+} from '@angular/core';
 import {Room, User} from "../../services/chat/chat.service";
 import {HostListener} from '@angular/core';
+import {ForwardComponent} from "../forward/forward.component";
 
 @Component({
   selector: 'app-box-chat',
@@ -12,6 +22,11 @@ export class BoxChatComponent implements OnInit, AfterViewChecked {
   @Input() user: User | undefined;
   @Input() activeRoom: Room | undefined;
   @ViewChild('boxChat') boxChat: any;
+  @Input() rooms: Room [] | undefined;
+  @Input() isOpenForward: boolean=false;
+  @Output() forwardMessage = new EventEmitter();
+  public isOpened: boolean = false;
+   content: any | undefined;
 
   constructor() {
   }
@@ -43,4 +58,24 @@ export class BoxChatComponent implements OnInit, AfterViewChecked {
       prevDate.getMonth() !== currentDate.getMonth() ||
       prevDate.getFullYear() !== currentDate.getFullYear();
   }
+
+  getMess(value: any) {
+    this.forwardMessage.emit({isOpenForward:true,content:value});
+  }
+
+  resetValue() {
+    this.isOpened = !this.isOpened;
+    console.log(this.isOpened);
+
+
+  }
+
+  forward(mess: any) {
+
+  }
+  mess(){
+    console.log("Sent"+this.content);
+    return  this.content;
+  }
+
 }
