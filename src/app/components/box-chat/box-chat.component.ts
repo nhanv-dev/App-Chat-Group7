@@ -15,7 +15,7 @@ import {HostListener} from '@angular/core';
 export class BoxChatComponent implements OnInit, OnChanges, AfterViewChecked {
   @Input() user: User | undefined;
   @Input() activeRoom: Room | undefined;
-  @Input() dataRetrieved: boolean = false;
+  @Input() dataRetrieved: boolean | undefined;
   @Output() loadHistory = new EventEmitter();
   @ViewChild('boxChat') boxChat: any;
   private isChangedRoom: boolean = false;
@@ -36,6 +36,7 @@ export class BoxChatComponent implements OnInit, OnChanges, AfterViewChecked {
   }
 
   ngAfterViewChecked() {
+    console.log(this.dataRetrieved, this.isChangedRoom);
     if (this.dataRetrieved || this.isChangedRoom) {
       this.isChangedRoom = this.scrollToBottom();
       this.dataRetrieved = false;
