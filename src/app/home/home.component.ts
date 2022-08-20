@@ -1,10 +1,10 @@
-import {AfterViewChecked, Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
-import {ChatService, Message, Room, User} from "../services/chat/chat.service";
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {ChatService, Room, User} from "../services/chat/chat.service";
 import {AuthenticationService} from "../services/authentication/authentication.service";
 import {Router} from "@angular/router";
 import {environment} from "../../environments/environment";
 import {TimeService} from "../services/time/time.service";
-import {user} from "@angular/fire/auth";
+import {Message} from "../services/message-convert/message-convert.service";
 
 
 @Component({
@@ -164,25 +164,38 @@ export class HomeComponent implements OnInit {
 
   async addPeople(name: string) {
     const room: Room = {name: name, type: 'people', messages: []};
-    this.chatService.sendChat({type: 0, to: room.name, mes: ''})
+    this.rooms.unshift(room);
+    this.chatService.sendChat({type: room.type, to: room.name, mes: ''});
   }
 
   async joinRoom(name: string) {
-    console.log('home', name);
     this.chatService.joinRoom(name);
   }
 
   async createRoom(name: string) {
-    console.log('home', name);
     this.chatService.createRoom(name);
   }
 
   async handleJoinRoom(message: any) {
-    console.log(message)
+    if (message.status === 'success') {
+      const room: Room = {
+        type: 'room',
+        name: message.data.name,
+        messages: message.data.chatData,
+      }
+      this.rooms.unshift(room);
+    }
   }
 
   async handleCreateRoom(message: any) {
-    console.log(message)
+    if (message.status === 'success') {
+      const room: Room = {
+        type: 'room',
+        name: message.data.name,
+        messages: message.data.chatData,
+      }
+      this.rooms.unshift(room);
+    }
   }
 
   async sendChat(message: string) {

@@ -188,6 +188,7 @@
   transform: scale(0);
   transition: all .3s ease;
 }
+
 .move-message {
   position: absolute;
   right: 70px;
@@ -201,6 +202,7 @@
   color: #647589;
   border: none;
 }
+
 .active-message {
   color: #f00 !important;
 }
@@ -260,3 +262,33 @@
   flex-direction: column;
 }
 
+.preload {
+  position: absolute;
+  z-index: 999;
+  background: white;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.preload__logo {
+  height: 150px;
+  max-height: 150px;
+}
+
+.preload__logo img {
+  width: auto;
+  height: 100%;
+}
+
+.preload__title {
+  font-size: 20px;
+  font-weight: 500;
+  color: #828282;
+}

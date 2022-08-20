@@ -1,5 +1,4 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {FirebaseService} from "../../services/firebase/firebase.service";
 import {UploadState} from "../upload-file/upload-file.component";
 
 @Component({
@@ -8,16 +7,16 @@ import {UploadState} from "../upload-file/upload-file.component";
   styleUrls: ['./chat-bar.component.css']
 })
 export class ChatBarComponent implements OnInit {
-  public message: string = '';
-  public icons: any[] = [];
-  public isEmojiPickerVisible: boolean | undefined;
-  @Output() sendChat = new EventEmitter();
-  public images: any = [];
-  public isUpload: UploadState = {status: false};
+  message: string = '';
+  icons: any[] = [];
+  isEmojiPickerVisible: boolean | undefined;
+  images: any = [];
+  isUpload: UploadState = {status: false};
   private countImage: number = 0;
+  @Output() sendChat = new EventEmitter();
   style: String = "";
 
-  constructor(private firebaseService: FirebaseService) {
+  constructor() {
   }
 
   ngOnInit(): void {

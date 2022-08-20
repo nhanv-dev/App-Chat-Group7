@@ -248,9 +248,10 @@ app-forward {
 }
 
 .chat-conversation__message-container__message img {
-  width: 100%;
+  height: 180px;
+  width: auto;
   border-radius: 8px;
-  margin: 10px 0;
+  margin: 0;
 }
 
 .chat-conversation__message-container__message:last-child {

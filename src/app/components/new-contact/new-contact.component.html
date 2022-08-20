@@ -30,20 +30,21 @@
       </div>
       <div class="new-contact__common__list">
         <ng-container *ngFor="let room of rooms">
-          <div *ngIf="room.type==='people'" class="new-contact__common__item">
+          <div *ngIf="room.type==='people'" class="new-contact__common__item" (click)="handleChangeRoom(room)">
             <div class="new-contact__common__item__content">
               <div class="new-contact__common__item__avatar">
                 <img src="assets/images/user.jpg" alt="avatar">
               </div>
               <div class="d-flex flex-column gap-0">
                 <p class="new-contact__common__item__name">{{room.name || 'Anonymous'}}</p>
-                <ng-container *ngIf="room.messages.length > 0">
+                <ng-container *ngIf="room.messages && room.messages.length > 0">
                   <div class="d-flex gap-3 align-items-center">
-                    <p class="new-contact__common__item__message">{{room.messages[0].mes}}</p>
+                    <p class="new-contact__common__item__message"
+                       [innerHtml]="messageConverter.convertMessage(room.messages[room.messages.length-1])"></p>
                     <p class="new-contact__common__item__time">{{room.messages[0].createAt | date:'shortTime'}}</p>
                   </div>
                 </ng-container>
-                <ng-container *ngIf="room.messages.length <= 0">
+                <ng-container *ngIf="!room.messages || room.messages.length <= 0">
                   <div class="d-flex gap-3 align-items-center">
                     <p class="new-contact__common__item__message">Let's start a new conversation</p>
                   </div>
@@ -81,22 +82,22 @@
       </div>
       <div class="new-contact__common__list">
         <ng-container *ngFor="let room of rooms">
-          <div *ngIf="room.type==='room'" class="new-contact__common__item">
+          <div *ngIf="room.type==='room'" class="new-contact__common__item" (click)="handleChangeRoom(room)">
             <div class="new-contact__common__item__content">
               <div class="new-contact__common__item__avatar">
                 <img src="assets/images/user.jpg" alt="avatar">
               </div>
               <div class="d-flex flex-column gap-0">
                 <p class="new-contact__common__item__name">{{room.name || 'Anonymous'}}</p>
-                <ng-container *ngIf="room.messages.length > 0">
+                <ng-container *ngIf="room.messages && room.messages.length > 0">
                   <div class="d-flex gap-3 align-items-center">
                     <p class="new-contact__common__item__message"
-                       [innerHtml]="room.messages[room.messages.length-1].mes"></p>
+                       [innerHtml]="messageConverter.convertMessage(room.messages[room.messages.length-1])"></p>
                     <p
                       class="new-contact__common__item__time">{{room.messages[room.messages.length - 1].createAt | date:'shortTime'}}</p>
                   </div>
                 </ng-container>
-                <ng-container *ngIf="room.messages.length <= 0">
+                <ng-container *ngIf="!room.messages || room.messages.length <= 0">
                   <div class="d-flex gap-3 align-items-center">
                     <p class="new-contact__common__item__message">Let's start a new conversation</p>
                   </div>
