@@ -27,7 +27,7 @@
     </div>
     <div class="box-chat__content position-relative">
       <app-box-chat class="container__chat-conversation" [activeRoom]="activeRoom" [user]="user"
-                    (loadHistory)="loadHistory()"></app-box-chat>
+                    (loadHistory)="loadHistory()" [dataRetrieved]="dataRetrieved"></app-box-chat>
       <app-chat-bar (sendChat)="sendChat($event)"></app-chat-bar>
     </div>
   </div>

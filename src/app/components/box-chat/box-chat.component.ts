@@ -12,20 +12,19 @@ import {HostListener} from '@angular/core';
   styleUrls: ['./box-chat.component.css'],
   encapsulation: ViewEncapsulation.None,
 })
-export class BoxChatComponent implements OnInit, AfterViewChecked, OnChanges {
+export class BoxChatComponent implements OnInit, OnChanges, AfterViewChecked {
   @Input() user: User | undefined;
   @Input() activeRoom: Room | undefined;
+  @Input() dataRetrieved: boolean = false;
   @Output() loadHistory = new EventEmitter();
   @ViewChild('boxChat') boxChat: any;
-  public dataRetrieved: boolean = true;
-  public firstChange: boolean = true;
+  private isChangedRoom: boolean = false;
 
   constructor() {
   }
 
-
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['activeRoom']) this.dataRetrieved = true;
+    if (changes['activeRoom']) this.isChangedRoom = true;
   }
 
   ngOnInit(): void {
@@ -33,13 +32,14 @@ export class BoxChatComponent implements OnInit, AfterViewChecked, OnChanges {
   }
 
   onScroll(event: any) {
-    if (event.target.scrollTop <= 400) {
-      this.loadHistory.emit()
-    }
+    if (event.target.scrollTop <= 500) this.loadHistory.emit()
   }
 
   ngAfterViewChecked() {
-    if (this.dataRetrieved) this.dataRetrieved = this.scrollToBottom();
+    if (this.dataRetrieved || this.isChangedRoom) {
+      this.isChangedRoom = this.scrollToBottom();
+      this.dataRetrieved = false;
+    }
   }
 
   scrollToBottom(): boolean {
