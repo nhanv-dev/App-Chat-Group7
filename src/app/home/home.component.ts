@@ -20,6 +20,7 @@ export class HomeComponent implements OnInit {
   searching: string = '';
   ready: any = false;
   isLoadingHistory: boolean = false;
+  dataRetrieved: boolean = true;
   @ViewChild('sidebar') sidebar: any;
 
   constructor(
@@ -100,7 +101,8 @@ export class HomeComponent implements OnInit {
     const response = message.data[0];
     if (!response) return;
     if (this.isLoadingHistory) {
-      this.activeRoom.messages.unshift(...this.convertMessages(message.data))
+      this.activeRoom.messages.unshift(...this.convertMessages(message.data));
+      this.isLoadingHistory = false;
     } else {
       for (const room of this.rooms) {
         const condition1 = room.name === response.name || room.name === response.to;
@@ -111,7 +113,7 @@ export class HomeComponent implements OnInit {
         }
       }
     }
-    this.isLoadingHistory = false;
+
   }
 
   async convertResponseToGroupChat(message: any) {
@@ -119,7 +121,8 @@ export class HomeComponent implements OnInit {
     const messages = message.data.chatData;
     if (messages && messages.length > 0) {
       if (this.isLoadingHistory) {
-        this.activeRoom.messages.unshift(...this.convertMessages(messages))
+        this.activeRoom.messages.unshift(...this.convertMessages(messages));
+        this.isLoadingHistory = false;
       } else {
         for (const room of this.rooms) {
           if (room.name === messages[0].to && room.type === 'room') {
@@ -129,7 +132,7 @@ export class HomeComponent implements OnInit {
         }
       }
     }
-    this.isLoadingHistory = false;
+
   }
 
   private convertMessages(messages: Message[]): Message[] {
@@ -154,7 +157,6 @@ export class HomeComponent implements OnInit {
     if (!this.isLoadingHistory) {
       this.page++;
       this.isLoadingHistory = true;
-      console.log('loading...', this.page, this.isLoadingHistory)
       await this.getMessages(this.activeRoom.name, this.page, this.activeRoom.type);
     }
   }
@@ -169,13 +171,13 @@ export class HomeComponent implements OnInit {
     this.chatService.joinRoom(name);
   }
 
-  async handleJoinRoom(message: any) {
-
-  }
-
   async createRoom(name: string) {
     console.log('home', name);
     this.chatService.createRoom(name);
+  }
+
+  async handleJoinRoom(message: any) {
+
   }
 
   async handleCreateRoom(message: any) {
@@ -191,6 +193,7 @@ export class HomeComponent implements OnInit {
       type: this.activeRoom.type === 'people' ? 0 : 1,
       createAt: this.timeService.now(),
     };
+    this.dataRetrieved = true;
     this.activeRoom.messages.push(data);
     this.rooms = this.rooms.filter(room => room != this.activeRoom);
     this.rooms.unshift(this.activeRoom);
