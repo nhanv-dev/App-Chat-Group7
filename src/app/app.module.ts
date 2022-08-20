@@ -16,6 +16,7 @@ import {SidebarComponent} from './components/sidebar/sidebar.component';
 import {GroupChatComponent} from './components/group-chat/group-chat.component';
 import {ChatBarComponent} from './components/chat-bar/chat-bar.component';
 import {PickerModule} from "@ctrl/ngx-emoji-mart";
+import { ForwardComponent } from './components/forward/forward.component';
 import {NewContactComponent} from './components/new-contact/new-contact.component';
 import {initializeApp, provideFirebaseApp} from "@angular/fire/app";
 import {environment} from "../environments/environment";
@@ -35,7 +36,8 @@ import {provideStorage, getStorage} from "@angular/fire/storage";
     SidebarComponent,
     GroupChatComponent,
     ChatBarComponent,
-    NewContactComponent
+    NewContactComponent,
+    ForwardComponent
   ],
   imports: [
     BrowserModule,

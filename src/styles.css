@@ -45,6 +45,7 @@ body.light-mode {
   color: #fff;
 }
 
+
 .dark-mode .box-chat__sidebar p:not(.chat-conversation__message-container__message) {
   color: #fff;
 }
@@ -163,8 +164,5 @@ emoji-mart {
   background: #555;
 }
 
-.emoji-mart-dark .emoji-mart-category-label span {
-  background-color: #fff !important;
-  color: black !important;
-}
+
 

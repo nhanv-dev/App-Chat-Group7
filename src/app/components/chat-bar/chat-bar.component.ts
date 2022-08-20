@@ -1,4 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {SidebarComponent} from "../sidebar/sidebar.component";
+import {style} from "@angular/animations";
 import {FirebaseService} from "../../services/firebase/firebase.service";
 
 @Component({
@@ -12,6 +14,7 @@ export class ChatBarComponent implements OnInit {
   public isEmojiPickerVisible: boolean | undefined;
   @Output() sendChat = new EventEmitter();
   public images: any = [];
+  style :String ="";
 
   constructor(private firebaseService: FirebaseService) {
   }
@@ -32,6 +35,8 @@ export class ChatBarComponent implements OnInit {
 
   toggleEmoji() {
     this.isEmojiPickerVisible = !this.isEmojiPickerVisible;
+    let nameClass = document.getElementsByTagName('body')[0].classList.value;
+    this.style=nameClass;
   }
 
   changeMessage(event: any) {
@@ -67,5 +72,12 @@ export class ChatBarComponent implements OnInit {
 
   public removeFile(id: number) {
     this.images = this.images.filter((image: any) => image.id !== id);
+  }
+  check(){
+    if(this.style==="dark-mode"){
+      return true;
+    }else {
+      return false;
+    }
   }
 }

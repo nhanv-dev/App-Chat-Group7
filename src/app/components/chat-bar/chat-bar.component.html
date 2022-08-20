@@ -27,7 +27,7 @@
     <button class="custom-button send-button" type="submit">
       <i class="fa-solid fa-paper-plane"></i>
     </button>
-    <emoji-mart color="#1c9dea" class="emoji-container" [emojiTooltip]='false' [darkMode]='false' [skin]='3.0'
+    <emoji-mart color="#1c9dea" class="emoji-container" [emojiTooltip]='false' [darkMode]='check()' [skin]='3.0'
                 [showPreview]="false" *ngIf="isEmojiPickerVisible" (emojiSelect)="addEmoji($event)"></emoji-mart>
   </form>
 </div>
