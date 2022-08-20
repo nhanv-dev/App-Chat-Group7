@@ -1,6 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {SidebarComponent} from "../sidebar/sidebar.component";
 import {style} from "@angular/animations";
+import {FirebaseService} from "../../services/firebase/firebase.service";
 
 @Component({
   selector: 'app-chat-bar',
@@ -15,13 +16,15 @@ export class ChatBarComponent implements OnInit {
   public images: any = [];
   style :String ="";
 
-  constructor() {
+  constructor(private firebaseService: FirebaseService) {
   }
 
   ngOnInit(): void {
   }
 
   handleSendChat() {
+    console.log('image')
+    this.firebaseService.addData();
     this.icons.forEach((icon: any) => {
       this.message = this.message.replace(icon.native, icon.unified);
     })
@@ -46,7 +49,7 @@ export class ChatBarComponent implements OnInit {
       let icon = {
         index: this.message.length,
         native: event.emoji.native,
-        unified: `&#x${event.emoji.unified};`,
+        unified: `&#x${event.emoji.unified.split('-')[0]};`,
       }
       this.icons.push(icon);
     }
@@ -56,16 +59,18 @@ export class ChatBarComponent implements OnInit {
     if (event.target.files) {
       let reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
+      const image = {
+        id: this.images.length,
+        file: event.target.files[0],
+      }
+      this.firebaseService.chooseFile(event)
       reader.onload = (event: any) => {
-        this.images.push({
-          id: this.images.length,
-          url: event.target.result
-        });
+        this.images.push({...image, url: event.target.result});
       };
-    };
+    }
   };
 
-  public removeFile(id: any) {
+  public removeFile(id: number) {
     this.images = this.images.filter((image: any) => image.id !== id);
   }
   check(){

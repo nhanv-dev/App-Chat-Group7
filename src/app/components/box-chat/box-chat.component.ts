@@ -1,12 +1,7 @@
 import {
-  AfterViewChecked,
-  Component,
-  Input,
-  Output,
-  OnInit,
+  AfterViewChecked, AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges,
   ViewChild,
-  ViewEncapsulation,
-  EventEmitter
+  ViewEncapsulation
 } from '@angular/core';
 import {Room, User} from "../../services/chat/chat.service";
 import {HostListener} from '@angular/core';
@@ -18,37 +13,48 @@ import {ForwardComponent} from "../forward/forward.component";
   styleUrls: ['./box-chat.component.css'],
   encapsulation: ViewEncapsulation.None,
 })
-export class BoxChatComponent implements OnInit, AfterViewChecked {
+export class BoxChatComponent implements OnInit, OnChanges, AfterViewChecked {
   @Input() user: User | undefined;
   @Input() activeRoom: Room | undefined;
+  @Input() dataRetrieved: boolean = false;
+  @Output() loadHistory = new EventEmitter();
   @ViewChild('boxChat') boxChat: any;
   @Input() rooms: Room [] | undefined;
   @Input() isOpenForward: boolean=false;
   @Output() forwardMessage = new EventEmitter();
   public isOpened: boolean = false;
    content: any | undefined;
+  private isChangedRoom: boolean = false;
 
   constructor() {
   }
 
-  ngOnInit(): void {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['activeRoom']) this.isChangedRoom = true;
   }
 
+  ngOnInit(): void {
 
-  @HostListener('scroll', ['$event'])
-  onScroll($event: any) {
-    console.log($event)
+  }
+
+  onScroll(event: any) {
+    if (event.target.scrollTop <= 500) this.loadHistory.emit()
   }
 
   ngAfterViewChecked() {
-    this.scrollToBottom();
+    if (this.dataRetrieved || this.isChangedRoom) {
+      this.isChangedRoom = this.scrollToBottom();
+      this.dataRetrieved = false;
+    }
   }
 
-  scrollToBottom() {
-    this.boxChat.nativeElement.scrollTop = this.boxChat.nativeElement.scrollHeight;
+  scrollToBottom(): boolean {
+    const nativeElement = this.boxChat.nativeElement;
+    nativeElement.scrollTop = nativeElement.scrollHeight;
+    return nativeElement.scrollTop === 0;
   }
 
-  compareDate(index: any): boolean {
+  divideDate(index: any): boolean {
     if (index === 0) return true;
     const prev: any = this.activeRoom?.messages[index - 1].createAt;
     const current: any = this.activeRoom?.messages[index].createAt;

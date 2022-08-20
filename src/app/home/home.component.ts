@@ -19,6 +19,8 @@ export class HomeComponent implements OnInit {
   page: number = 1;
   searching: string = '';
   ready: any = false;
+  isLoadingHistory: boolean = false;
+  dataRetrieved: boolean = true;
   @ViewChild('sidebar') sidebar: any;
 
   constructor(
@@ -97,45 +99,66 @@ export class HomeComponent implements OnInit {
   async convertResponseToPeopleChat(message: any) {
     if (message.status !== 'success') return;
     const response = message.data[0];
-    if (response) {
+    if (!response) return;
+    if (this.isLoadingHistory) {
+      this.activeRoom.messages.unshift(...this.convertMessages(message.data));
+      this.isLoadingHistory = false;
+    } else {
       for (const room of this.rooms) {
         const condition1 = room.name === response.name || room.name === response.to;
         const condition2 = this.user?.name === response.name || this.user?.name === response.to;
         if (condition1 && condition2 && this.user?.name !== room.name && room.type === 'people') {
-          room.messages = message.data.filter((message: any) => {
-            if (message.mes) {
-              message.createAt = this.timeService.changeTimeZone(message.createAt, "Asia/Ho_Chi_Minh");
-              return message;
-            }
-          }).reverse();
+          room.messages = this.convertMessages(message.data);
           break;
         }
       }
     }
+
   }
 
   async convertResponseToGroupChat(message: any) {
     if (message.status !== 'success') return;
     const messages = message.data.chatData;
     if (messages && messages.length > 0) {
-      for (const room of this.rooms) {
-        if (room.name === messages[0].to && room.type === 'room') {
-          room.messages = messages.filter((message: any) => {
-            if (message.mes) {
-              message.createAt = this.timeService.changeTimeZone(message.createAt, "Asia/Ho_Chi_Minh");
-              return message;
-            }
-          }).reverse();
-          break;
+      if (this.isLoadingHistory) {
+        this.activeRoom.messages.unshift(...this.convertMessages(messages));
+        this.isLoadingHistory = false;
+      } else {
+        for (const room of this.rooms) {
+          if (room.name === messages[0].to && room.type === 'room') {
+            room.messages = this.convertMessages(messages);
+            break;
+          }
         }
       }
     }
+
+  }
+
+  private convertMessages(messages: Message[]): Message[] {
+    return messages.filter((message: any) => {
+      if (message.mes) {
+        message.createAt = this.timeService.changeTimeZone(message.createAt, "Asia/Ho_Chi_Minh");
+        return message;
+      }
+    }).reverse()
   }
 
   async changeRoom(room: Room) {
-    this.activeRoom = room;
-    this.page = 1;
-    this.getMessages(this.activeRoom.name, this.page, this.activeRoom.type);
+    if (this.activeRoom !== room) {
+      this.isLoadingHistory = false;
+      this.activeRoom = room;
+      this.page = 1;
+      await this.getMessages(this.activeRoom.name, this.page, this.activeRoom.type);
+    }
+  }
+
+  async loadHistory() {
+    if (!this.isLoadingHistory) {
+      this.page++;
+      this.isLoadingHistory = true;
+      await this.getMessages(this.activeRoom.name, this.page, this.activeRoom.type);
+    }
   }
 
   async addPeople(name: string) {
@@ -148,13 +171,13 @@ export class HomeComponent implements OnInit {
     this.chatService.joinRoom(name);
   }
 
-  async handleJoinRoom(message: any) {
-
-  }
-
   async createRoom(name: string) {
     console.log('home', name);
     this.chatService.createRoom(name);
+  }
+
+  async handleJoinRoom(message: any) {
+
   }
 
   async handleCreateRoom(message: any) {
@@ -170,6 +193,7 @@ export class HomeComponent implements OnInit {
       type: this.activeRoom.type === 'people' ? 0 : 1,
       createAt: this.timeService.now(),
     };
+    this.dataRetrieved = true;
     this.activeRoom.messages.push(data);
     this.rooms = this.rooms.filter(room => room != this.activeRoom);
     this.rooms.unshift(this.activeRoom);
