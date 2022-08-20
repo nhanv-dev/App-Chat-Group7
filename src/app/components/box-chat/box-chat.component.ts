@@ -5,6 +5,7 @@ import {
 } from '@angular/core';
 import {Room, User} from "../../services/chat/chat.service";
 import {HostListener} from '@angular/core';
+import {ForwardComponent} from "../forward/forward.component";
 
 @Component({
   selector: 'app-box-chat',
@@ -18,6 +19,11 @@ export class BoxChatComponent implements OnInit, OnChanges, AfterViewChecked {
   @Input() dataRetrieved: boolean | undefined;
   @Output() loadHistory = new EventEmitter();
   @ViewChild('boxChat') boxChat: any;
+  @Input() rooms: Room [] | undefined;
+  @Input() isOpenForward: boolean=false;
+  @Output() forwardMessage = new EventEmitter();
+  public isOpened: boolean = false;
+   content: any | undefined;
   private isChangedRoom: boolean = false;
 
   constructor() {
@@ -59,4 +65,24 @@ export class BoxChatComponent implements OnInit, OnChanges, AfterViewChecked {
       prevDate.getMonth() !== currentDate.getMonth() ||
       prevDate.getFullYear() !== currentDate.getFullYear();
   }
+
+  getMess(value: any) {
+    this.forwardMessage.emit({isOpenForward:true,content:value});
+  }
+
+  resetValue() {
+    this.isOpened = !this.isOpened;
+    console.log(this.isOpened);
+
+
+  }
+
+  forward(mess: any) {
+
+  }
+  mess(){
+    console.log("Sent"+this.content);
+    return  this.content;
+  }
+
 }

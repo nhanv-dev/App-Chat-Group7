@@ -234,4 +234,35 @@ export class HomeComponent implements OnInit {
     this.chatService.logout();
     await this.router.navigateByUrl('/login')
   }
+
+  forwardMessage: string | undefined;
+  isOpenForward: boolean = false;
+  handOpenedForward(data: any) {
+    this.isOpenForward = data.isOpenForward;
+    this.forwardMessage=data.content;
+    console.log("data", data);
+
+  }
+  handleForwardChat(room:Room){
+    if(this.forwardMessage) {
+      console.log(this.forwardMessage, room);
+      const data: Message = {
+        id: 0,
+        name: this.user?.name,
+        mes: this.forwardMessage,
+        to: room.name,
+        type: room.type === 'people' ? 0 : 1,
+        createAt: this.timeService.now(),
+      };
+      room.messages.push(data);
+      this.rooms = this.rooms.filter(r => room != r);
+      this.rooms.unshift(room);
+      this.chatService.sendChat({type: room.type, to: room.name, mes: data.mes})
+    }
+  }
+  closeForward(){
+    this.isOpenForward=false;
+  }
+
+
 }
