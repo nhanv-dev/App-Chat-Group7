@@ -28,15 +28,17 @@
           <div class="chat-conversation__avatar">
             <img src="/assets/images/user.jpg" alt="avatar">
           </div>
-          <div class="d-flex flex-column gap-0 chat-color" [ngClass]="message.name === user?.name ? 'align-items-end':''">
+          <div class="d-flex flex-column gap-0 chat-color"
+               [ngClass]="message.name === user?.name ? 'align-items-end':''">
             <div class="chat-conversation__message-container"
                  [ngClass]="message.name === user?.name ? 'flex-row-reverse':''">
               <div class="chat-conversation__message-container__message"
                    [ngClass]="message.name === user?.name ? 'right':'left'" [innerHTML]="message.mes">
               </div>
               <button class="chat-conversation__message-forward"
-                      [ngClass]="message.name === user?.name ? 'right':'left'" (click)="getMess(message.mes)">
-                <i class="fa-solid fa-share-nodes" ></i>
+                      [ngClass]="message.name === user?.name ? 'right':'left'"
+                      (click)="handleForwardMessage(message.mes)">
+                <i class="fa-solid fa-share-nodes"></i>
                 <p>Forward</p>
               </button>
             </div>

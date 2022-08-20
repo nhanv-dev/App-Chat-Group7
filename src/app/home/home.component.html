@@ -26,11 +26,13 @@
                        (joinRoom)="joinRoom($event)" (createRoom)="createRoom($event)"></app-new-contact>
     </div>
     <div class="box-chat__content position-relative">
-      <app-box-chat class="container__chat-conversation" (forwardMessage)="handOpenedForward($event)" [isOpenForward]="isOpenForward" [activeRoom]="activeRoom" [user]="user"  [rooms]="rooms"  (loadHistory)="loadHistory()" [dataRetrieved]="dataRetrieved" ></app-box-chat>
-
+      <app-box-chat class="container__chat-conversation" (forwardMessage)="handOpenedForward($event)"
+                    [isOpenForward]="isOpenForward" [activeRoom]="activeRoom" [user]="user"
+                    (loadHistory)="loadHistory()" [dataRetrieved]="dataRetrieved"></app-box-chat>
       <app-chat-bar (sendChat)="sendChat($event)"></app-chat-bar>
     </div>
   </div>
 </div>
-<app-forward [rooms]="rooms" [isOpenForward]="isOpenForward"  (closeForward)="closeForward()" [content]="forwardMessage" (sendChat)="handleForwardChat($event)"></app-forward>
+<app-forward [rooms]="rooms" [isOpenForward]="isOpenForward" (closeForward)="closeForward()" [forwardMessage]="forwardMessage"
+             (sendChat)="handleForwardChat($event)"></app-forward>
 

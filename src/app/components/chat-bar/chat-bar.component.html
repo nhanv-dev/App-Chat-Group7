@@ -5,19 +5,15 @@
     </button>
     <label for="imageFile" class="custom-button button-primary">
       <i class="fa-solid fa-plus"></i>
-      <input id="imageFile" type="file" class="d-none" accept=""
+      <input id="imageFile" type="file" class="d-none" accept="image/png, image/jpg, image/jpeg" multiple
              (change)="chooseFile($event)">
     </label>
     <div class="box-chat__content__form__input">
       <ng-container *ngIf="images.length != 0">
         <div class="box-chat__content__form__box-images">
           <ng-container *ngFor="let image of images">
-            <div class="box-chat__content__form__box-images__item">
-              <img id="image" src="{{image.url}}" alt="">
-              <button class="box-chat__content__form__box-images__item-remove" (click)="removeFile(image.id)">
-                <i class="fa-solid fa-xmark"></i>
-              </button>
-            </div>
+            <app-upload-file [image]="image" [isUpload]="isUpload" (sendImage)="sendImage($event)"
+                             (removeImage)="removeImage($event)"></app-upload-file>
           </ng-container>
         </div>
       </ng-container>
@@ -27,8 +23,9 @@
     <button class="custom-button send-button" type="submit">
       <i class="fa-solid fa-paper-plane"></i>
     </button>
-    <emoji-mart color="#1c9dea" class="emoji-container" [emojiTooltip]='false' [darkMode]='check()' [skin]='3.0'
-                [showPreview]="false" *ngIf="isEmojiPickerVisible" (emojiSelect)="addEmoji($event)"></emoji-mart>
+    <emoji-mart color="#1c9dea" class="emoji-container" [emojiTooltip]='false' [darkMode]='this.style === "dark-mode"'
+                [skin]='3.0' [showPreview]="false" *ngIf="isEmojiPickerVisible"
+                (emojiSelect)="addEmoji($event)"></emoji-mart>
   </form>
 </div>
 <div class="overlay-emoji" (click)="toggleEmoji()"></div>

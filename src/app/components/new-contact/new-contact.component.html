@@ -61,7 +61,9 @@
   <div class="new-contact__group new-contact__common" [ngClass]="isOpenedGroup ? 'show':'hidden'">
     <div class="new-contact__common__header">
       <h5>join new room</h5>
-      <button (click)="close()"><i class="fa-solid fa-xmark"></i></button>
+      <button (click)="close()">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
     </div>
     <div class="new-contact__common__content">
       <div class="new-contact__common__form">
@@ -71,7 +73,10 @@
             <i class="fa-solid fa-plus"></i>
             <p>Create room</p>
           </button>
-          <button (click)="handleJoinRoom()"><i class="fa-solid fa-right-to-bracket"></i></button>
+          <button (click)="handleJoinRoom()">
+            <i class="fa-solid fa-right-to-bracket"></i>
+            <p>Join room</p>
+          </button>
         </div>
       </div>
       <div class="new-contact__common__list">
@@ -85,8 +90,10 @@
                 <p class="new-contact__common__item__name">{{room.name || 'Anonymous'}}</p>
                 <ng-container *ngIf="room.messages.length > 0">
                   <div class="d-flex gap-3 align-items-center">
-                    <p class="new-contact__common__item__message">{{room.messages[0].mes}}</p>
-                    <p class="new-contact__common__item__time">{{room.messages[0].createAt | date:'shortTime'}}</p>
+                    <p class="new-contact__common__item__message"
+                       [innerHtml]="room.messages[room.messages.length-1].mes"></p>
+                    <p
+                      class="new-contact__common__item__time">{{room.messages[room.messages.length - 1].createAt | date:'shortTime'}}</p>
                   </div>
                 </ng-container>
                 <ng-container *ngIf="room.messages.length <= 0">

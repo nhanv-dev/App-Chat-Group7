@@ -4,6 +4,7 @@ import {AuthenticationService} from "../services/authentication/authentication.s
 import {Router} from "@angular/router";
 import {environment} from "../../environments/environment";
 import {TimeService} from "../services/time/time.service";
+import {user} from "@angular/fire/auth";
 
 
 @Component({
@@ -20,7 +21,7 @@ export class HomeComponent implements OnInit {
   searching: string = '';
   ready: any = false;
   isLoadingHistory: boolean = false;
-  dataRetrieved: boolean = true;
+  dataRetrieved: any = {change: false};
   @ViewChild('sidebar') sidebar: any;
 
   constructor(
@@ -86,7 +87,7 @@ export class HomeComponent implements OnInit {
       const type: string = room.type === 0 ? 'people' : 'room';
       const item: Room = {name, type, messages: []}
       return item;
-    });
+    }).filter((room: Room) => !(room.name === this.user?.name && room.type === this.user?.type));
     this.rooms.forEach((room: Room) => this.getMessages(room.name, 1, room.type))
     this.activeRoom = this.rooms[0]
   }
@@ -162,8 +163,8 @@ export class HomeComponent implements OnInit {
   }
 
   async addPeople(name: string) {
-    console.log('home', name);
-    this.chatService.joinRoom(name);
+    const room: Room = {name: name, type: 'people', messages: []};
+    this.chatService.sendChat({type: 0, to: room.name, mes: ''})
   }
 
   async joinRoom(name: string) {
@@ -177,15 +178,14 @@ export class HomeComponent implements OnInit {
   }
 
   async handleJoinRoom(message: any) {
-
+    console.log(message)
   }
 
   async handleCreateRoom(message: any) {
-
+    console.log(message)
   }
 
   async sendChat(message: string) {
-    this.dataRetrieved = true;
     const data: Message = {
       id: 0,
       name: this.user?.name,
@@ -197,15 +197,17 @@ export class HomeComponent implements OnInit {
     this.activeRoom.messages.push(data);
     this.rooms = this.rooms.filter(room => room != this.activeRoom);
     this.rooms.unshift(this.activeRoom);
+    this.dataRetrieved = {change: true};
     this.chatService.sendChat({type: this.activeRoom.type, to: this.activeRoom.name, mes: data.mes});
+
   }
 
   async receiveChat(message: any) {
     if (message.status === 'success') {
       const data = message.data;
-      data.createAt = this.timeService.changeTimeZone(data.createAt, 'Asia/Ho_Chi_Minh');
+      data.createAt = data.createAt ? this.timeService.changeTimeZone(data.createAt, 'Asia/Ho_Chi_Minh') : this.timeService.now();
       for (const room of this.rooms) {
-        if (room.name === data.to) {
+        if ((data.type === 0 && room.name === data.name) || (data.type === 1 && room.name === data.to)) {
           room.messages.push(data);
           break;
         }
@@ -237,14 +239,16 @@ export class HomeComponent implements OnInit {
 
   forwardMessage: string | undefined;
   isOpenForward: boolean = false;
+
   handOpenedForward(data: any) {
     this.isOpenForward = data.isOpenForward;
-    this.forwardMessage=data.content;
+    this.forwardMessage = data.content;
     console.log("data", data);
 
   }
-  handleForwardChat(room:Room){
-    if(this.forwardMessage) {
+
+  handleForwardChat(room: Room) {
+    if (this.forwardMessage) {
       console.log(this.forwardMessage, room);
       const data: Message = {
         id: 0,
@@ -260,8 +264,9 @@ export class HomeComponent implements OnInit {
       this.chatService.sendChat({type: room.type, to: room.name, mes: data.mes})
     }
   }
-  closeForward(){
-    this.isOpenForward=false;
+
+  closeForward() {
+    this.isOpenForward = false;
   }
 
 

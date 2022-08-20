@@ -7,8 +7,11 @@
     <div class="forward__common__form">
       <div class="forward__common__form__container">
         <input type="text" placeholder="Search for people and groups">
-        <button ><i class="fa-solid fa-search"></i></button>
+        <button><i class="fa-solid fa-search"></i></button>
       </div>
+    </div>
+    <div class="forward__common__message">
+      <span>Forward message: </span><span [innerHtml]="forwardMessage"></span>
     </div>
     <div class="forward__common__list">
       <ng-container *ngFor="let room of rooms">
@@ -20,19 +23,12 @@
                 <img *ngSwitchCase="'room'" src="/assets/images/group.jpg" alt="avatar">
               </ng-container>
             </div>
-            <div class="d-flex flex-column gap-0">
-              <p class="forward__users__item__name">
-                {{room.name || 'Anonymous'}}
-              </p>
-              <div class="d-flex align-items-center justify-content-between gap-0 w-100">
-                <ng-container
-                  *ngIf="room.messages && room.messages.length > 0 && room.messages[room.messages.length - 1]">
-                </ng-container>
-              </div>
-            </div>
+            <p class="forward__users__item__name">
+              {{room.name || 'Anonymous'}}
+            </p>
           </div>
           <button class="forward__common__item__status" (click)="forwardChat(room)">
-            Send
+            Forward
           </button>
         </div>
       </ng-container>
