@@ -11,7 +11,7 @@
       </div>
     </div>
     <div class="forward__common__message">
-      <span>Forward message: </span><span [innerHtml]="forwardMessage"></span>
+      <span>Forward message: </span><span [innerHtml]="messageConverter.convertMes(forwardMessage)"></span>
     </div>
     <div class="forward__common__list">
       <ng-container *ngFor="let room of rooms">

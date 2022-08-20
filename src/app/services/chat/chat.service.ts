@@ -3,6 +3,7 @@ import {environment} from "../../../environments/environment";
 import * as Rx from 'rxjs';
 import {WebsocketService} from "../websocket/websocket.service";
 import {AnonymousSubject} from "rxjs/internal/Subject";
+import {Message} from "../message-convert/message-convert.service";
 
 export interface User {
   name: any,
@@ -15,14 +16,7 @@ export interface Room {
   messages: Message[],
 }
 
-export interface Message {
-  id: number,
-  name: string,
-  type: number,
-  to: string,
-  mes: string,
-  createAt: string,
-}
+
 
 
 @Injectable({providedIn: 'root'})

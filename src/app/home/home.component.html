@@ -1,5 +1,12 @@
-
-<ng-container *ngIf="rooms.length != 0">
+<ng-container *ngIf="!user || (user && !rooms)">
+  <div class="preload">
+    <div class="preload__logo">
+      <img src="https://chitchat-react.vercel.app/assets/images/logo/logo_big.png" alt="logo">
+    </div>
+    <p class="preload__title">Simple, secure messaging for fast connect to world...!</p>
+  </div>
+</ng-container>
+<ng-container *ngIf="user">
   <div class="d-flex h-100 gap-0">
     <app-sidebar [user]="user" (logout)="handleLogout()" #sidebar></app-sidebar>
     <div class="box-chat">
@@ -22,37 +29,24 @@
           <app-search-chat (searchChat)="searchChat($event)"></app-search-chat>
         </div>
         <app-group-chat [rooms]="rooms" [activeRoom]="activeRoom" [searching]="searching"
-                        (changeRoom)="changeRoom($event)"
-                        class="d-flex flex-column overflow-hidden"></app-group-chat>
-        <app-new-contact [rooms]="rooms" (addPeople)="addPeople($event)"
-                         (joinRoom)="joinRoom($event)" (createRoom)="createRoom($event)"></app-new-contact>
+                        (changeRoom)="changeRoom($event)" class="d-flex flex-column overflow-hidden"></app-group-chat>
+        <app-new-contact [rooms]="rooms"
+                         [activeRoom]="activeRoom"
+                         (changeRoom)="changeRoom($event)"
+                         (addPeople)="addPeople($event)"
+                         (joinRoom)="joinRoom($event)"
+                         (createRoom)="createRoom($event)">
+        </app-new-contact>
       </div>
-      <app-group-chat [rooms]="rooms" [activeRoom]="activeRoom" [searching]="searching"
-                      (changeRoom)="changeRoom($event)"
-                      class="d-flex flex-column overflow-hidden"></app-group-chat>
-      <app-new-contact [rooms]="rooms" (addPeople)="addPeople($event)"
-                       (joinRoom)="joinRoom($event)" (createRoom)="createRoom($event)"></app-new-contact>
-    </div>
-    <div class="box-chat__content position-relative">
-      <app-box-chat class="container__chat-conversation" (forwardMessage)="handOpenedForward($event)"
-                    [isOpenForward]="isOpenForward" [activeRoom]="activeRoom" [user]="user"
-                    (loadHistory)="loadHistory()" [dataRetrieved]="dataRetrieved"></app-box-chat>
-      <app-chat-bar (sendChat)="sendChat($event)"></app-chat-bar>
+      <div class="box-chat__content position-relative">
+        <app-box-chat class="container__chat-conversation" (forwardMessage)="handOpenedForward($event)"
+                      [isOpenForward]="isOpenForward" [activeRoom]="activeRoom" [user]="user"
+                      (loadHistory)="loadHistory()" [dataRetrieved]="dataRetrieved"></app-box-chat>
+        <app-chat-bar (sendChat)="sendChat($event)"></app-chat-bar>
+      </div>
     </div>
   </div>
-</div>
-<app-forward [rooms]="rooms" [isOpenForward]="isOpenForward" (closeForward)="closeForward()" [forwardMessage]="forwardMessage"
-             (sendChat)="handleForwardChat($event)"></app-forward>
-
-
+  <app-forward [rooms]="rooms" [isOpenForward]="isOpenForward" (closeForward)="closeForward()"
+               [forwardMessage]="forwardMessage" (sendChat)="handleForwardChat($event)"></app-forward>
 </ng-container>
-<div class="wrapper">
-  <div class="container">
-    <div class="col-12">
-      <div class="box-img ">
-        <img src="https://chitchat-react.vercel.app/assets/images/logo/logo_big.png" alt="">
-      </div>
-      <p class="text-center pt-3 text-muted text-24"> Simple, secure messaging for fast connect to world...!</p>
-    </div>
-  </div>
-</div>
+

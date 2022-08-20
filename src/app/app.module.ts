@@ -18,17 +18,11 @@ import {ChatBarComponent} from './components/chat-bar/chat-bar.component';
 import {PickerModule} from "@ctrl/ngx-emoji-mart";
 import {ForwardComponent} from './components/forward/forward.component';
 import {NewContactComponent} from './components/new-contact/new-contact.component';
-import {initializeApp, provideFirebaseApp} from "@angular/fire/app";
-import {environment} from "../environments/environment";
-import {provideAuth, getAuth} from "@angular/fire/auth";
-import {provideFirestore, getFirestore} from "@angular/fire/firestore";
-import {provideStorage, getStorage} from "@angular/fire/storage";
 import {AngularFireModule} from "@angular/fire/compat";
-import {AngularFireDatabaseModule} from "@angular/fire/compat/database";
-import {AngularFireStorage, AngularFireStorageModule} from "@angular/fire/compat/storage";
+import {AngularFireStorageModule} from "@angular/fire/compat/storage";
 import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
-import {FirebaseService} from "./services/firebase/firebase.service";
-import { UploadFileComponent } from './components/upload-file/upload-file.component';
+import {UploadFileComponent} from './components/upload-file/upload-file.component';
+import {environment} from "../environments/environment";
 
 @NgModule({
   declarations: [
@@ -55,16 +49,8 @@ import { UploadFileComponent } from './components/upload-file/upload-file.compon
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
     AngularFireStorageModule,
-    // AngularFireModule.initializeApp(environment.firebaseConfig),
-    // AngularFireDatabaseModule,
-    // AngularFirestoreModule,
-    // AngularFireStorageModule,
-    // provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
-    // provideAuth(() => getAuth()),
-    // provideFirestore(() => getFirestore()),
-    // provideStorage(() => getStorage()),
   ],
-  providers: [WebsocketService, ChatService, AuthenticationService, FirebaseService],
+  providers: [WebsocketService, ChatService, AuthenticationService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

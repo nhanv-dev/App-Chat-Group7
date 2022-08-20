@@ -1,15 +1,12 @@
 import {
   Component,
-  ElementRef,
   EventEmitter,
   Input,
-  OnChanges,
   OnInit,
   Output,
-  SimpleChanges,
-  ViewChild
 } from '@angular/core';
-import {ChatService, Room} from "../../services/chat/chat.service";
+import {Room} from "../../services/chat/chat.service";
+import {MessageConvertService} from "../../services/message-convert/message-convert.service";
 
 @Component({
   selector: 'app-group-chat',
@@ -23,7 +20,7 @@ export class GroupChatComponent implements OnInit {
   @Output() changeRoom = new EventEmitter<any>();
   type: string = 'direct';
 
-  constructor() {
+  constructor(public messageConverter: MessageConvertService) {
   }
 
   ngOnInit(): void {
@@ -35,6 +32,7 @@ export class GroupChatComponent implements OnInit {
     }
     return false;
   }
+
 
   connectChat(room: Room) {
     this.changeRoom.emit(room);
