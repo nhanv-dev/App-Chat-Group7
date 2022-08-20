@@ -468,3 +468,17 @@
 .box-chat__users::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+/*wait for loadding*/
+.box-img {
+  width: 230px;
+  margin: 15% auto 0;
+
+}
+.box-img img {
+  width: 100%;
+}
+.text-24{
+  font-size: 20px;
+  font-weight: 600;
+}
