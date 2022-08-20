@@ -26,6 +26,6 @@
     <emoji-mart color="#1c9dea" class="emoji-container" [emojiTooltip]='false' [darkMode]='this.style === "dark-mode"'
                 [skin]='3.0' [showPreview]="false" *ngIf="isEmojiPickerVisible"
                 (emojiSelect)="addEmoji($event)"></emoji-mart>
+    <div class="overlay-emoji" (click)="toggleEmoji()" [ngClass]="isEmojiPickerVisible ? 'show':'hidden'"></div>
   </form>
 </div>
-<div class="overlay-emoji" (click)="toggleEmoji()"></div>

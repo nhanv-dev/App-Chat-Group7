@@ -188,6 +188,22 @@
   transform: scale(0);
   transition: all .3s ease;
 }
+.move-message {
+  position: absolute;
+  right: 70px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.up-mess {
+  background: transparent;
+  color: #647589;
+  border: none;
+}
+.active-message {
+  color: #f00 !important;
+}
 
 .box-chat__sidebar__header__search.show {
   transform: scale(1);
@@ -243,3 +259,4 @@
   gap: 0;
   flex-direction: column;
 }
+

@@ -138,6 +138,7 @@ emoji-mart {
 .emoji-container {
   position: absolute;
   bottom: 86px;
+  z-index: 500;
 }
 
 .emoji-mart {
@@ -168,3 +169,25 @@ emoji-mart {
   height: 50px !important;
   border-radius: 8px;
 }
+
+.overlay-emoji {
+  position: fixed;
+  display: block;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255,1.0);
+  transition: transform .3s ease-out, opacity .15s linear;
+}
+.overlay-emoji.show {
+  visibility: visible;
+  opacity: .2;
+}
+
+.overlay-emoji.hidden {
+  visibility: hidden;
+  opacity: 0;
+}
+
+
