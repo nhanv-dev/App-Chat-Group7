@@ -185,6 +185,7 @@ export class HomeComponent implements OnInit {
   }
 
   async sendChat(message: string) {
+    this.dataRetrieved = true;
     const data: Message = {
       id: 0,
       name: this.user?.name,
@@ -193,7 +194,6 @@ export class HomeComponent implements OnInit {
       type: this.activeRoom.type === 'people' ? 0 : 1,
       createAt: this.timeService.now(),
     };
-    this.dataRetrieved = true;
     this.activeRoom.messages.push(data);
     this.rooms = this.rooms.filter(room => room != this.activeRoom);
     this.rooms.unshift(this.activeRoom);

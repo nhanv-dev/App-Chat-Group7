@@ -23,8 +23,6 @@ export class ChatBarComponent implements OnInit {
   }
 
   handleSendChat() {
-    console.log('image')
-    this.firebaseService.addData();
     this.icons.forEach((icon: any) => {
       this.message = this.message.replace(icon.native, icon.unified);
     })
@@ -57,13 +55,14 @@ export class ChatBarComponent implements OnInit {
 
   public chooseFile(event: any) {
     if (event.target.files) {
-      let reader = new FileReader();
+      const reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
       const image = {
         id: this.images.length,
         file: event.target.files[0],
       }
-      this.firebaseService.chooseFile(event)
+      this.firebaseService.chooseFile(event);
+      this.firebaseService.addData();
       reader.onload = (event: any) => {
         this.images.push({...image, url: event.target.result});
       };
