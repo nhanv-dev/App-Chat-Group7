@@ -10,18 +10,17 @@ import {MessageConvertService} from "../../services/message-convert/message-conv
 export class NewContactComponent implements OnInit {
   @Input() activeRoom: Room | undefined;
   @Input() rooms: Room[] | undefined;
+  @Input() messageNewContact: any;
   @Output() addPeople = new EventEmitter<any>();
   @Output() createRoom = new EventEmitter<any>();
   @Output() joinRoom = new EventEmitter<any>();
   @Output() changeRoom = new EventEmitter<any>();
+
   isOpened: boolean = false;
   isOpenedPeople: boolean = false;
   isOpenedGroup: boolean = false;
-  isNotification: boolean = false;
-  data :string='';
-  contentPeople: string='';
-  contentGroup: string='';
-  public newContact: string = '';
+  newContact: string = '';
+
 
   constructor(public messageConverter: MessageConvertService) {
   }
@@ -30,42 +29,59 @@ export class NewContactComponent implements OnInit {
   }
 
   handleChangeRoom(room: Room) {
+    this.messageNewContact = '';
     this.changeRoom.emit(room);
+    this.newContact = '';
+
   }
 
   handleAddPeople() {
-    this.data='';
+    this.messageNewContact = '';
     this.addPeople.emit(this.newContact);
+    this.newContact = '';
+
   }
 
   handleCreateRoom() {
-    this.data='';
+    this.messageNewContact = '';
     this.createRoom.emit(this.newContact);
-    console.log(this.newContact);
+    this.newContact = '';
+
   }
 
   handleJoinRoom() {
+    this.messageNewContact = '';
     this.joinRoom.emit(this.newContact);
+    this.newContact = '';
+
   }
 
   toggle() {
+    this.messageNewContact = '';
+    this.newContact = '';
     this.isOpened = !this.isOpened;
   }
 
   close() {
-    this.data='';
+    this.newContact = '';
+    this.messageNewContact = '';
     this.isOpenedPeople = false;
     this.isOpenedGroup = false;
   }
 
   toggleAddPeople() {
+    this.newContact = '';
+    this.messageNewContact = '';
     this.isOpened = !this.isOpened;
     this.isOpenedPeople = !this.isOpenedPeople;
   }
 
   toggleAddGroup() {
+    this.newContact = '';
+    this.messageNewContact = '';
     this.isOpened = !this.isOpened;
     this.isOpenedGroup = !this.isOpenedGroup;
   }
+
 
 }

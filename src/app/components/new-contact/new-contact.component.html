@@ -28,10 +28,10 @@
           <input type="text" placeholder="Create new chat" [(ngModel)]="newContact">
           <button (click)="handleAddPeople()">
             <i class="fa-solid fa-plus"></i>
-            <p>Add people</p>
+            <p>Add people {{messageNewContact}}</p>
           </button>
         </div>
-        <div class="forward__notification_people" [ngClass]="isNotification?'show':'hidden'">hell</div>
+        <div class="forward__notification_people" [ngClass]="messageNewContact?'show':'hidden'">*{{messageNewContact}}</div>
       </div>
       <div class="new-contact__common__list">
         <ng-container *ngFor="let room of rooms">
@@ -77,14 +77,14 @@
           <input type="text" placeholder="Create or join new room..." [(ngModel)]="newContact" name="new">
           <button (click)="handleCreateRoom()">
             <i class="fa-solid fa-plus"></i>
-            <p>Create room</p>
+            <p>Create room </p>
           </button>
           <button (click)="handleJoinRoom()">
             <i class="fa-solid fa-right-to-bracket"></i>
             <p>Join room</p>
           </button>
         </div>
-        <div class="forward__notification_group" [ngClass]="isNotification?'show':'hidden'">hello</div>
+        <div class="forward__notification_group" [ngClass]="messageNewContact?'show':'hidden'">*{{messageNewContact}}</div>
       </div>
       <div class="new-contact__common__list">
         <ng-container *ngFor="let room of rooms">

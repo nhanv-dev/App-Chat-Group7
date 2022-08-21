@@ -29,6 +29,9 @@ body.light-mode {
   background-color: #fff;
   color: #191b1f;
 }
+.dark-mode .chat-conversation__message-container__name{
+  color: #fff!important;
+}
 
 .dark-mode .chat-conversation__header {
   background-color: #191b1f !important;
