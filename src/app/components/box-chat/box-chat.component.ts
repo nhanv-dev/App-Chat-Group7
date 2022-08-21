@@ -35,7 +35,7 @@ export class BoxChatComponent implements OnInit, OnChanges, AfterViewChecked {
   }
 
   onScroll(event: any) {
-    if (event.target.scrollTop <= 500) this.loadHistory.emit()
+    if (event.target.scrollTop <= 1000) this.loadHistory.emit()
   }
 
   ngAfterViewChecked() {
