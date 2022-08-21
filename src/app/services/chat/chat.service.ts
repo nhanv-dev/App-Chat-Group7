@@ -14,9 +14,9 @@ export interface Room {
   name: any,
   type: any,
   messages: Message[],
+  maxPage: number | undefined,
+  users: User[]
 }
-
-
 
 
 @Injectable({providedIn: 'root'})

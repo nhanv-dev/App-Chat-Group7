@@ -16,7 +16,7 @@ import {Message} from "../services/message-convert/message-convert.service";
 export class HomeComponent implements OnInit {
   user: User | undefined;
   rooms: Room[] = [];
-  activeRoom: Room = {name: '', type: '', messages: []};
+  activeRoom: Room = {name: '', type: '', messages: [], users: [], maxPage: undefined};
   page: number = 1;
   searching: string = '';
   ready: any = false;
@@ -51,7 +51,6 @@ export class HomeComponent implements OnInit {
   async subscribe() {
     this.chatService.messages.subscribe(async (message) => {
       const {event, status, data} = message;
-      console.log('Response from server: ', message)
       if (event === 'AUTH' && status === 'error' && message.mes === 'User not Login') {
         const token = this.authenticationService.getToken();
         if (token) {
@@ -69,6 +68,7 @@ export class HomeComponent implements OnInit {
       } else if (event === environment.event.GET_PEOPLE_CHAT_MES) {
         await this.convertResponseToPeopleChat(message);
       } else if (event === environment.event.GET_ROOM_CHAT_MES) {
+        console.log('Response from server: ', message)
         await this.convertResponseToGroupChat(message);
       } else if (event === environment.event.CREATE_ROOM) {
         await this.handleCreateRoom(message);
@@ -85,7 +85,7 @@ export class HomeComponent implements OnInit {
     this.rooms = message.data.map((room: any) => {
       const name: any = room.name;
       const type: string = room.type === 0 ? 'people' : 'room';
-      const item: Room = {name, type, messages: []}
+      const item: Room = {name, type, messages: [], users: [], maxPage: undefined};
       return item;
     }).filter((room: Room) => !(room.name === this.user?.name && room.type === this.user?.type));
     this.rooms.forEach((room: Room) => this.getMessages(room.name, 1, room.type))
@@ -102,6 +102,7 @@ export class HomeComponent implements OnInit {
     const response = message.data[0];
     if (!response) return;
     if (this.isLoadingHistory) {
+
       this.activeRoom.messages.unshift(...this.convertMessages(message.data));
       this.isLoadingHistory = false;
     } else {
@@ -121,31 +122,34 @@ export class HomeComponent implements OnInit {
     if (message.status !== 'success') return;
     const messages = message.data.chatData;
     if (messages && messages.length > 0) {
-      if (this.isLoadingHistory) {
-        this.activeRoom.messages.unshift(...this.convertMessages(messages));
-        this.isLoadingHistory = false;
-      } else {
-        for (const room of this.rooms) {
-          if (room.name === messages[0].to && room.type === 'room') {
+      for (const room of this.rooms) {
+        if (room.name === messages[0].to && room.type === 'room') {
+          if (this.isLoadingHistory) {
+            this.isLoadingHistory = false;
+            console.log('convert ', this.page)
+            room.messages.unshift(...this.convertMessages(messages));
+            console.log('convert ', this.page)
+            break
+          } else {
             room.messages = this.convertMessages(messages);
             break;
           }
         }
       }
     }
-
   }
 
   private convertMessages(messages: Message[]): Message[] {
     return messages.filter((message: any) => {
       if (message.mes) {
-        message.createAt = this.timeService.changeTimeZone(message.createAt, "Asia/Ho_Chi_Minh");
+        message.createAt = message.createAt ? this.timeService.changeTimeZone(message.createAt, "Asia/Ho_Chi_Minh") : message.createAt;
         return message;
       }
     }).reverse()
   }
 
   async changeRoom(room: Room) {
+    console.log('change room')
     if (this.activeRoom !== room) {
       this.isLoadingHistory = false;
       this.activeRoom = room;
@@ -158,12 +162,13 @@ export class HomeComponent implements OnInit {
     if (!this.isLoadingHistory) {
       this.page++;
       this.isLoadingHistory = true;
+      console.log('load', this.page, this.isLoadingHistory);
       await this.getMessages(this.activeRoom.name, this.page, this.activeRoom.type);
     }
   }
 
   async addPeople(name: string) {
-    const room: Room = {name: name, type: 'people', messages: []};
+    const room: Room = {name: name, type: 'people', messages: [], users: [], maxPage: undefined};
     this.rooms.unshift(room);
     this.chatService.sendChat({type: room.type, to: room.name, mes: ''});
   }
@@ -177,13 +182,19 @@ export class HomeComponent implements OnInit {
   }
 
   async handleJoinRoom(message: any) {
+    console.log(message)
     if (message.status === 'success') {
-      const room: Room = {
-        type: 'room',
-        name: message.data.name,
-        messages: message.data.chatData,
+      const rooms = this.rooms.filter((room: Room) => message.data.name === room.name && room.type === 'room')
+      if (!rooms) {
+        const room: Room = {
+          type: 'room',
+          name: message.data.name,
+          messages: message.data.chatData,
+          users: message.data.userList,
+          maxPage: undefined
+        }
+        this.rooms.unshift(room);
       }
-      this.rooms.unshift(room);
     }
   }
 
@@ -193,6 +204,8 @@ export class HomeComponent implements OnInit {
         type: 'room',
         name: message.data.name,
         messages: message.data.chatData,
+        users: [],
+        maxPage: undefined
       }
       this.rooms.unshift(room);
     }
@@ -225,6 +238,8 @@ export class HomeComponent implements OnInit {
           break;
         }
       }
+      this.rooms = this.rooms.filter(room => room != this.activeRoom);
+      this.rooms.unshift(this.activeRoom);
     }
   }
 
@@ -256,13 +271,10 @@ export class HomeComponent implements OnInit {
   handOpenedForward(data: any) {
     this.isOpenForward = data.isOpenForward;
     this.forwardMessage = data.content;
-    console.log("data", data);
-
   }
 
   handleForwardChat(room: Room) {
     if (this.forwardMessage) {
-      console.log(this.forwardMessage, room);
       const data: Message = {
         id: 0,
         name: this.user?.name,
@@ -281,6 +293,4 @@ export class HomeComponent implements OnInit {
   closeForward() {
     this.isOpenForward = false;
   }
-
-
 }
