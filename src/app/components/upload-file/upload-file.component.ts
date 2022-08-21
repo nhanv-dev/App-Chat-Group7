@@ -33,7 +33,6 @@ export class UploadFileComponent implements OnInit, OnChanges {
   }
 
   handleRemoveImage(image: any) {
-    console.log('remove')
     this.removeImage.emit(image);
   }
 
