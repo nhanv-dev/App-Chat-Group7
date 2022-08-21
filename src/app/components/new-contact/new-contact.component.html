@@ -24,9 +24,11 @@
     <div class="new-contact__common__content">
       <div class="new-contact__common__form">
         <div class="new-contact__common__form__container">
-          <input type="text" placeholder="Create new chat" [(ngModel)]="newContact">
+          <input type="text" placeholder="Create new chat" [(ngModel)]="newContact" [(ngModel)]="data">
           <button (click)="handleAddPeople()"><i class="fa-solid fa-plus"></i></button>
         </div>
+        <div class="forward__notification_people" [ngClass]="isNotification?'show':'hidden'" [(ngModel)]="contentPeople">hell</div>
+
       </div>
       <div class="new-contact__common__list">
         <ng-container *ngFor="let room of rooms">
@@ -69,7 +71,7 @@
     <div class="new-contact__common__content">
       <div class="new-contact__common__form">
         <div class="new-contact__common__form__container">
-          <input type="text" placeholder="Create or join new room..." [(ngModel)]="newContact">
+          <input type="text" placeholder="Create or join new room..." [(ngModel)]="newContact" [(ngModel)]="data">
           <button (click)="handleCreateRoom()">
             <i class="fa-solid fa-plus"></i>
             <p>Create room</p>
@@ -79,6 +81,7 @@
             <p>Join room</p>
           </button>
         </div>
+        <div class="forward__notification_group" [ngClass]="isNotification?'show':'hidden'" [(ngModel)]="contentGroup">hello</div>
       </div>
       <div class="new-contact__common__list">
         <ng-container *ngFor="let room of rooms">

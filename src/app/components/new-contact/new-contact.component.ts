@@ -17,6 +17,10 @@ export class NewContactComponent implements OnInit {
   isOpened: boolean = false;
   isOpenedPeople: boolean = false;
   isOpenedGroup: boolean = false;
+  isNotification: boolean = false;
+  data :string='';
+  contentPeople: string='';
+  contentGroup: string='';
   public newContact: string = '';
 
   constructor(public messageConverter: MessageConvertService) {
@@ -30,11 +34,14 @@ export class NewContactComponent implements OnInit {
   }
 
   handleAddPeople() {
+    this.data='';
     this.addPeople.emit(this.newContact);
   }
 
   handleCreateRoom() {
+    this.data='';
     this.createRoom.emit(this.newContact);
+    console.log(this.newContact);
   }
 
   handleJoinRoom() {
@@ -46,6 +53,7 @@ export class NewContactComponent implements OnInit {
   }
 
   close() {
+    this.data='';
     this.isOpenedPeople = false;
     this.isOpenedGroup = false;
   }

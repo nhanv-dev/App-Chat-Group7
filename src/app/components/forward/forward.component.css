@@ -227,3 +227,9 @@
   font-size: 14px;
   font-weight: 500;
 }
+.forward__icon.hidden{
+  display: none;
+}
+.forward__icon.show{
+  display: block;
+}

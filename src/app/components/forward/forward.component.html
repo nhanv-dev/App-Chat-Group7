@@ -6,8 +6,11 @@
   <div class="forward__common__content">
     <div class="forward__common__form">
       <div class="forward__common__form__container">
-        <input type="text" placeholder="Search for people and groups">
-        <button><i class="fa-solid fa-search"></i></button>
+        <input type="text" class="forward__search-input" placeholder="Search for people and groups"
+               (change)="handleSearchChat()"
+               [(ngModel)]="searching" >
+        <button class="forward__icon" [ngClass]="isOpenedSearch?'show':'hidden'" (click)="changeToggel()"><i class="fa-solid fa-search"></i></button>
+        <button class="forward__icon" [ngClass]="isOpenedSearch?'hidden':'show'" (click)="deleteData()"><i class="fa-solid fa-minus"></i></button>
       </div>
     </div>
     <div class="forward__common__message">
@@ -15,6 +18,7 @@
     </div>
     <div class="forward__common__list">
       <ng-container *ngFor="let room of rooms">
+        <ng-container *ngIf="filterRoom(room)">
         <div class="forward__common__item">
           <div class="forward__common__item__content">
             <div class="forward__users__item__avatar">
@@ -31,6 +35,7 @@
             Forward
           </button>
         </div>
+        </ng-container>
       </ng-container>
     </div>
   </div>

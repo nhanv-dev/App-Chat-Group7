@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit {
   activeRoom: Room = {name: '', type: '', messages: [], users: [], maxPage: undefined};
   page: number = 1;
   searching: string = '';
+  searchingForward: string = '';
   ready: any = false;
   isLoadingHistory: boolean = false;
   dataRetrieved: any = {change: false};
@@ -245,6 +246,9 @@ export class HomeComponent implements OnInit {
 
   async searchChat(searching: string) {
     this.searching = searching;
+  }
+  async searchChatForward(searching: string) {
+    this.searchingForward = searching;
   }
 
   async handleReLogin(message: any) {
