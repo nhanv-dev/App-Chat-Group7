@@ -78,12 +78,10 @@ export class ChatBarComponent implements OnInit {
     if (event?.emoji?.native) {
       let icon = {
         begin: this.message.length,
-        end: this.message.length + event.emoji.native.length,
         native: event.emoji.native,
         unified: `&#x${event.emoji.unified.split('-')[0]};`,
       }
       this.message += event.emoji.native;
-      console.log(icon, this.message.substring(icon.begin, icon.end))
       this.icons.push(icon);
     }
   }
@@ -93,9 +91,4 @@ export class ChatBarComponent implements OnInit {
     this.style = document.getElementsByTagName('body')[0].classList.value;
   }
 
-  changeMessage(event: any) {
-    this.icons = this.icons.filter((icon: any) => {
-      return event.substring(icon.begin, icon.end) === icon.native;
-    })
-  }
 }

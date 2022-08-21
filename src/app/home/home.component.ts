@@ -179,7 +179,7 @@ export class HomeComponent implements OnInit {
   async handleJoinRoom(message: any) {
     if (message.status === 'success') {
       const rooms = this.rooms.filter((room: Room) => message.data.name === room.name && room.type === 'room')
-      if (!rooms) {
+      if (!rooms || rooms.length <= 0) {
         const room: Room = {
           type: 'room',
           name: message.data.name,

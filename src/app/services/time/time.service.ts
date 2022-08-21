@@ -9,9 +9,9 @@ export class TimeService {
   }
 
   public changeTimeZone(date: string, timeZone: string) {
-    const time = new Date(date);
-    time.setHours(time.getHours() + 7,)
-    return time.toLocaleString();
+    const time = new Date(date).toLocaleString('en-US', {timeZone});
+    const utc = this.convertUTCDateToLocalDate(new Date(time))
+    return utc.toLocaleString();
   }
 
   public now() {

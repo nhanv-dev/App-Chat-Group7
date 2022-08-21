@@ -32,9 +32,16 @@
                [ngClass]="message.name === user?.name ? 'align-items-end':''">
             <div class="chat-conversation__message-container"
                  [ngClass]="message.name === user?.name ? 'flex-row-reverse':''">
-              <div class="chat-conversation__message-container__message"
-                   [ngClass]="message.name === user?.name ? 'right':'left'" [innerHTML]="message.mes">
-              </div>
+              <ng-container *ngIf="messageConverter.isHtml(message)">
+                <div class="chat-conversation__message-container__message p-0"
+                     [ngClass]="message.name === user?.name ? 'right':'left'" [innerHTML]="message.mes">
+                </div>
+              </ng-container>
+              <ng-container *ngIf="!messageConverter.isHtml(message)">
+                <div class="chat-conversation__message-container__message"
+                     [ngClass]="message.name === user?.name ? 'right':'left'" [innerHTML]="message.mes">
+                </div>
+              </ng-container>
               <button class="chat-conversation__message-forward"
                       [ngClass]="message.name === user?.name ? 'right':'left'"
                       (click)="handleForwardMessage(message.mes)">

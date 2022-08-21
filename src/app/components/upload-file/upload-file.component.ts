@@ -19,6 +19,7 @@ export class UploadFileComponent implements OnInit, OnChanges {
   @Output() removeImage = new EventEmitter();
   task: AngularFireUploadTask | undefined;
   snapshot: Observable<any> | undefined;
+  percentage: Observable<any> | undefined;
   downloadURL: string | undefined;
 
   constructor(private storage: AngularFireStorage, private db: AngularFirestore) {
@@ -41,13 +42,15 @@ export class UploadFileComponent implements OnInit, OnChanges {
       const path = `${new Date().getTime()}-${this.image.file.name}`;
       const ref = this.storage.ref(path);
       this.task = this.storage.upload(path, this.image.file);
+      this.percentage = this.task.percentageChanges();
       this.snapshot = this.task.snapshotChanges().pipe(
         finalize(async () => {
           this.downloadURL = await lastValueFrom(ref.getDownloadURL());
           if (this.downloadURL) await this.sendImage.emit({...this.image, downloadURL: this.downloadURL})
         })
       )
-      this.snapshot.subscribe()
+      this.percentage.subscribe();
+      this.snapshot.subscribe();
     }
   }
 }
