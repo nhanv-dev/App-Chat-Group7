@@ -27,18 +27,18 @@ export class SearchMessageComponent implements OnInit {
     this.position = 0;
   }
 
-  searchMessage() {
+  public searchMessage() {
     if (this.valueSearch) {
       this.searching = [];
-      this.position = 1;
       this.activeRoom?.messages.forEach((message) => {
-        if (message.mes.includes(this.valueSearch)) this.searching.push(message.id)
+        if (message.mes === this.valueSearch) this.searching.push(message.id);
       });
-      if (this.searching.length) {
+      if (this.searching.length > 0) {
+        this.position = 1;
         this.scrollMess(this.position);
-      }
-    }
-  }
+      };
+    };
+  };
 
   public changePosition(value: any) {
     this.position += value;
@@ -46,7 +46,6 @@ export class SearchMessageComponent implements OnInit {
     if (this.position > this.searching.length) this.position = 1;
     this.scrollMess(this.position);
   }
-
 
   public scrollMess(value: any) {
     this.removeActive();

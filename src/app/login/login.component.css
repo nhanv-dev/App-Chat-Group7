@@ -330,3 +330,23 @@
     transform: translateX(100%);
   }
 }
+
+/*eye password*/
+.eye-password {
+  position: relative;
+}
+.eye,.eye-password__repeat {
+  position: absolute;
+  top: 35px;
+  right: 0px;
+  padding: 10px;
+  opacity: 0;
+}
+.eye.show, .eye-password__repeat.show {
+  opacity: 1;
+  transition: all .7s ease;
+}
+.eye.hidden, eye-password__repeat.hidden {
+  opacity: 0;
+  transition: all .5s ease;
+}
