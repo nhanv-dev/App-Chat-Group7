@@ -32,7 +32,7 @@ export class RegisterComponent implements OnInit {
           router.navigateByUrl('/login');
         } else if (message.mes === 'Creating account error, Duplicate Username') {
           notification_username.innerHTML = 'Account already exists';
-          this.checkValidate(password,re_password,notification_pass,notification_repass);
+          this.checkValidate(password, re_password, notification_pass, notification_repass);
         } else {
           notification_repass.style.display = 'block';
           notification_repass.innerHTML = "Please enter data!";
@@ -43,7 +43,7 @@ export class RegisterComponent implements OnInit {
         }
       } else {
         notification_username.innerHTML = "Please enter data!";
-        this.checkValidate(password,re_password,notification_pass,notification_repass);
+        this.checkValidate(password, re_password, notification_pass, notification_repass);
       }
     });
   }
@@ -61,6 +61,7 @@ export class RegisterComponent implements OnInit {
       pass: this.registerForm.controls.password.value,
     })
   }
+
   checkValidate(password: HTMLInputElement, re_password: HTMLInputElement, notification_pass: HTMLDivElement, notification_repass: HTMLDivElement) {
     if (password.value === "" && re_password.value === "") {
       notification_repass.innerHTML = 'Please enter data!';
@@ -77,10 +78,30 @@ export class RegisterComponent implements OnInit {
       } else {
         notification_repass.style.display = 'none';
         notification_pass.style.display = 'none';
-
       }
-
     }
 
+  }
+
+  toggleEye(value: any) {
+    if (value != -1) {
+      // @ts-ignore
+      document.querySelector('.eye').previousElementSibling.setAttribute('type', 'password');
+      // @ts-ignore
+      let pass = document.querySelector('.eye').children[0].classList.toggle('fa-eye-slash');
+      if (pass) {
+        // @ts-ignore
+        document.querySelector('.eye').previousElementSibling.setAttribute('type', 'text');
+      }
+    } else {
+      // @ts-ignore
+      document.querySelector('.eye-password__repeat').previousElementSibling.setAttribute('type', 'password');
+      // @ts-ignore
+      let repeatPass = document.querySelector('.eye-password__repeat').children[0].classList.toggle('fa-eye-slash');
+      if (repeatPass) {
+        // @ts-ignore
+        document.querySelector('.eye-password__repeat').previousElementSibling.setAttribute('type', 'text');
+      }
+    }
   }
 }

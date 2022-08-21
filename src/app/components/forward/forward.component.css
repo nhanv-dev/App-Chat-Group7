@@ -125,12 +125,12 @@
 .forward__common__message {
   padding: 0 15px;
   display: flex;
-  gap: 10px;
+  gap: 8px;
 }
 
 .forward__common__message span:first-child {
   font-weight: 500;
-  font-size: 13px;
+  font-size: 14px;
   display: inline-block;
 }
 

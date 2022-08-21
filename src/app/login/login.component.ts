@@ -56,4 +56,17 @@ export class LoginComponent implements OnInit {
       pass: this.loginForm.controls.password.value
     })
   }
+
+  toggleEye(value : any) {
+    if(value == 1){
+      // @ts-ignore
+      document.querySelector('.eye').previousElementSibling.setAttribute('type','password');
+      // @ts-ignore
+      let ele = document.querySelector('.eye').children[0].classList.toggle('fa-eye-slash');
+      if(ele){
+        // @ts-ignore
+        document.querySelector('.eye').previousElementSibling.setAttribute('type','text');
+      }
+    }
+  }
 }

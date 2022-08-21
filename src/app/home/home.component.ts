@@ -2,9 +2,9 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {ChatService, Room, User} from "../services/chat/chat.service";
 import {AuthenticationService} from "../services/authentication/authentication.service";
 import {Router} from "@angular/router";
-import {environment} from "../../environments/environment";
 import {TimeService} from "../services/time/time.service";
 import {Message} from "../services/message-convert/message-convert.service";
+import {environment} from "../../environments/environment";
 
 
 @Component({
@@ -51,6 +51,7 @@ export class HomeComponent implements OnInit {
 
   async subscribe() {
     this.chatService.messages.subscribe(async (message) => {
+      console.log('Response from server: ', message)
       const {event, status, data} = message;
       if (event === 'AUTH' && status === 'error' && message.mes === 'User not Login') {
         const token = this.authenticationService.getToken();
@@ -69,7 +70,6 @@ export class HomeComponent implements OnInit {
       } else if (event === environment.event.GET_PEOPLE_CHAT_MES) {
         await this.convertResponseToPeopleChat(message);
       } else if (event === environment.event.GET_ROOM_CHAT_MES) {
-        console.log('Response from server: ', message)
         await this.convertResponseToGroupChat(message);
       } else if (event === environment.event.CREATE_ROOM) {
         await this.handleCreateRoom(message);
@@ -102,12 +102,11 @@ export class HomeComponent implements OnInit {
     if (message.status !== 'success') return;
     const response = message.data[0];
     if (!response) return;
-    if (this.isLoadingHistory) {
-
-      this.activeRoom.messages.unshift(...this.convertMessages(message.data));
-      this.isLoadingHistory = false;
-    } else {
-      for (const room of this.rooms) {
+    for (const room of this.rooms) {
+      if (this.isLoadingHistory) {
+        room.messages.unshift(...this.convertMessages(message.data));
+        this.isLoadingHistory = false;
+      } else {
         const condition1 = room.name === response.name || room.name === response.to;
         const condition2 = this.user?.name === response.name || this.user?.name === response.to;
         if (condition1 && condition2 && this.user?.name !== room.name && room.type === 'people') {
@@ -116,7 +115,6 @@ export class HomeComponent implements OnInit {
         }
       }
     }
-
   }
 
   async convertResponseToGroupChat(message: any) {
@@ -125,14 +123,13 @@ export class HomeComponent implements OnInit {
     if (messages && messages.length > 0) {
       for (const room of this.rooms) {
         if (room.name === messages[0].to && room.type === 'room') {
-          if (this.isLoadingHistory) {
+          if (this.isLoadingHistory && (!room.maxPage || this.page <= room.maxPage)) {
             this.isLoadingHistory = false;
-            console.log('convert ', this.page)
             room.messages.unshift(...this.convertMessages(messages));
-            console.log('convert ', this.page)
             break
           } else {
             room.messages = this.convertMessages(messages);
+            if (messages.length < 50) room.maxPage = 1;
             break;
           }
         }
@@ -150,7 +147,6 @@ export class HomeComponent implements OnInit {
   }
 
   async changeRoom(room: Room) {
-    console.log('change room')
     if (this.activeRoom !== room) {
       this.isLoadingHistory = false;
       this.activeRoom = room;
@@ -161,9 +157,8 @@ export class HomeComponent implements OnInit {
 
   async loadHistory() {
     if (!this.isLoadingHistory) {
-      this.page++;
+      ++this.page;
       this.isLoadingHistory = true;
-      console.log('load', this.page, this.isLoadingHistory);
       await this.getMessages(this.activeRoom.name, this.page, this.activeRoom.type);
     }
   }
@@ -183,10 +178,9 @@ export class HomeComponent implements OnInit {
   }
 
   async handleJoinRoom(message: any) {
-    console.log(message)
     if (message.status === 'success') {
       const rooms = this.rooms.filter((room: Room) => message.data.name === room.name && room.type === 'room')
-      if (!rooms) {
+      if (!rooms || rooms.length <= 0) {
         const room: Room = {
           type: 'room',
           name: message.data.name,

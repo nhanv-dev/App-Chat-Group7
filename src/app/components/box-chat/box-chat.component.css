@@ -169,7 +169,7 @@ app-forward {
   font-size: 14px;
   font-weight: 500;
   line-height: 22px;
-  border-radius: 5px;
+  border-radius: 8px;
   width: max-content;
   position: relative;
   overflow-wrap: break-word;
@@ -290,6 +290,8 @@ app-forward {
 }
 
 
-
-
+/*active message search*/
+.chat-conversation__message-container__message.active-message {
+  background-color: #3fcc35 !important;
+}
 

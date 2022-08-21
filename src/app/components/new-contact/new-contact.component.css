@@ -205,19 +205,21 @@
 
 .new-contact__common__form__container button p {
   position: absolute;
+  min-width: max-content;
+  left: 100%;
   top: 100%;
-  left: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: max-content;
-  padding: 5px 15px;
-  background: #ccc;
-  font-size: 14px;
+  padding: 4px 14px;
+  margin: 4px 0 0 4px;
+  border-radius: 0 50px 50px 50px;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  color: white;
+  background: #223645;
   font-weight: 500;
-  border-radius: 5px;
+  text-transform: capitalize;
   visibility: hidden;
   opacity: 0;
+  z-index: 10;
   transition: all .3s ease;
 }
 
