@@ -6,6 +6,7 @@ import {
 import {Room, User} from "../../services/chat/chat.service";
 import {HostListener} from '@angular/core';
 import {ForwardComponent} from "../forward/forward.component";
+import {MessageConvertService} from "../../services/message-convert/message-convert.service";
 
 @Component({
   selector: 'app-box-chat',
@@ -23,7 +24,7 @@ export class BoxChatComponent implements OnInit, OnChanges, AfterViewChecked {
   @ViewChild('boxChat') boxChat: any;
   private scroll: boolean = true;
 
-  constructor() {
+  constructor(public messageConverter: MessageConvertService) {
   }
 
   ngOnChanges(changes: SimpleChanges): void {

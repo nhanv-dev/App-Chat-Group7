@@ -27,6 +27,11 @@ export class MessageConvertService {
     return message.mes;
   }
 
+  isHtml(message: Message): boolean {
+    const doc = new DOMParser().parseFromString(message.mes, "text/html");
+    return Array.from(doc.body.childNodes).some(node => node.nodeType === 1);
+  }
+
   convertMes(message: string): string {
     const doc = new DOMParser().parseFromString(message, "text/html");
     const isHtml = Array.from(doc.body.childNodes).some(node => node.nodeType === 1);
@@ -34,12 +39,5 @@ export class MessageConvertService {
       return 'Send a image'
     }
     return message;
-  }
-
-  convertForward(message: Message): string {
-    if (message.mes.indexOf(this.tokenForward) === 0) {
-
-    }
-    return message.mes;
   }
 }
