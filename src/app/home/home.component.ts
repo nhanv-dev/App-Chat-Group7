@@ -23,6 +23,8 @@ export class HomeComponent implements OnInit {
   ready: any = false;
   isLoadingHistory: boolean = false;
   dataRetrieved: any = {change: false};
+  forwardMessage: string | undefined;
+  isOpenForward: boolean = false;
   @ViewChild('sidebar') sidebar: any;
 
   constructor(
@@ -103,14 +105,16 @@ export class HomeComponent implements OnInit {
     const response = message.data[0];
     if (!response) return;
     for (const room of this.rooms) {
-      if (this.isLoadingHistory) {
-        room.messages.unshift(...this.convertMessages(message.data));
+      if (this.isLoadingHistory && (!room.maxPage || this.page <= room.maxPage)) {
         this.isLoadingHistory = false;
+        this.activeRoom.messages.unshift(...this.convertMessages(message.data));
+        break;
       } else {
         const condition1 = room.name === response.name || room.name === response.to;
         const condition2 = this.user?.name === response.name || this.user?.name === response.to;
         if (condition1 && condition2 && this.user?.name !== room.name && room.type === 'people') {
           room.messages = this.convertMessages(message.data);
+          if (message.data.length < 50) room.maxPage = 1;
           break;
         }
       }
@@ -126,7 +130,7 @@ export class HomeComponent implements OnInit {
           if (this.isLoadingHistory && (!room.maxPage || this.page <= room.maxPage)) {
             this.isLoadingHistory = false;
             room.messages.unshift(...this.convertMessages(messages));
-            break
+            break;
           } else {
             room.messages = this.convertMessages(messages);
             if (messages.length < 50) room.maxPage = 1;
@@ -230,17 +234,19 @@ export class HomeComponent implements OnInit {
       for (const room of this.rooms) {
         if ((data.type === 0 && room.name === data.name) || (data.type === 1 && room.name === data.to)) {
           room.messages.push(data);
+          this.rooms = this.rooms.filter(item => item != room);
+          this.rooms.unshift(room);
           break;
         }
       }
-      this.rooms = this.rooms.filter(room => room != this.activeRoom);
-      this.rooms.unshift(this.activeRoom);
+
     }
   }
 
   async searchChat(searching: string) {
     this.searching = searching;
   }
+
   async searchChatForward(searching: string) {
     this.searchingForward = searching;
   }
@@ -262,9 +268,6 @@ export class HomeComponent implements OnInit {
     this.chatService.logout();
     await this.router.navigateByUrl('/login')
   }
-
-  forwardMessage: string | undefined;
-  isOpenForward: boolean = false;
 
   handOpenedForward(data: any) {
     this.isOpenForward = data.isOpenForward;
