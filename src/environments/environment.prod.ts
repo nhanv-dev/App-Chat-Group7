@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  CHAT_URL: "wss://140.238.54.136:8080/chat/chat",
+  CHAT_URL: "ws://140.238.54.136:8080/chat/chat",
   action: "onchat",
   event: {
     LOGIN: "LOGIN",
