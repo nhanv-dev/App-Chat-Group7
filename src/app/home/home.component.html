@@ -47,7 +47,7 @@
     </div>
   </div>
   <app-forward [rooms]="rooms" [isOpenForward]="isOpenForward" (closeForward)="closeForward()"
-               [forwardMessage]="forwardMessage" (sendChat)="handleForwardChat($event)"></app-forward>
+               [content]="forwardMessage" (sendChat)="handleForwardChat($event)"
+               (searchChat)="searchChatForward($event)"></app-forward>
 </ng-container>
-<app-forward [rooms]="rooms" [isOpenForward]="isOpenForward"  (closeForward)="closeForward()" [content]="forwardMessage" (sendChat)="handleForwardChat($event)" (searchChat)="searchChatForward($event)"></app-forward>
 
