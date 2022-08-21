@@ -20,7 +20,7 @@
        [ngClass]="activeRoom && activeRoom.messages && activeRoom.messages.length ? 'show': 'hidden'">
     <ng-container *ngFor="let message of activeRoom?.messages; let i = index">
       <ng-container *ngIf="message && message.mes && activeRoom && activeRoom.messages">
-        <div class="chat-conversation__content__divide-time" *ngIf="divideDate(i) && message.createAt">
+        <div class="chat-conversation__content__divide-time" *ngIf="message.createAt && divideDate(i)">
           {{message.createAt | date:'fullDate'}}
         </div>
         <div class="d-flex gap-3 pb-4 align-items-end" id="{{message.id}}"
