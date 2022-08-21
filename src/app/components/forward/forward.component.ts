@@ -13,8 +13,15 @@ export class ForwardComponent implements OnInit {
   @Input() isOpenForward: boolean = false;
   @Output() sendChat = new EventEmitter();
   @Output() closeForward = new EventEmitter();
+  @Output() searchChat = new EventEmitter();
+  @Input() content :any |undefined;
 
-  constructor(public messageConverter:MessageConvertService) {
+  isOpenedSearch: boolean = true;
+  searching: string = '';
+  type: string = 'direct';
+
+
+  constructor(public messageConverter: MessageConvertService) {
   }
 
   ngOnInit(): void {
@@ -26,5 +33,38 @@ export class ForwardComponent implements OnInit {
 
   forwardChat(room: Room) {
     this.sendChat.emit(room);
+  }
+
+  handleSearchChat() {
+    this.searchChat.emit(this.searching);
+    this.isOpenedSearch = !this.isOpenedSearch;
+
+  }
+
+  filterRoom(room: Room): boolean {
+    if (room.type === this.type || this.type === 'direct') {
+      return room.name?.includes(this.searching) || !this.searching
+    }
+    return false;
+  }
+
+  changeToggel() {
+    var text = document.querySelector('.forward__search-input') as HTMLInputElement;
+    if (text.value != "") {
+      this.isOpenedSearch = !this.isOpenedSearch;
+    }
+
+  }
+
+  deleteData() {
+    if (this.isOpenedSearch === false) {
+      this.searching = ''
+      this.searchChat.emit(this.searching)
+      this.isOpenedSearch = !this.isOpenedSearch;
+    }
+
+  }
+  handleRoom(){
+
   }
 }

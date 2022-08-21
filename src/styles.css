@@ -57,6 +57,32 @@ body.light-mode {
   background-color: #191b1f !important;
 
 }
+.dark-mode .new-contact__common__content,.dark-mode .forward__common__content{
+  background-color: #25262c !important;
+
+}
+.dark-mode .new-contact__common__header i,.dark-mode .forward__common__header i{
+  background-color: #191b1f !important;
+  color: #fff!important;
+
+}
+.dark-mode .new-contact__people,.dark-mode .forward_list {
+  border: #191b1f solid 1px!important;
+}
+.dark-mode .forward__users__item__name{
+  color: #fff!important;
+
+}
+
+
+.dark-mode .new-contact__common__header,.dark-mode .forward__common__header{
+  background-color: #191b1f !important;
+
+}
+.dark-mode .box-chat__content__form__input input {
+  background-color: #191b1f !important;
+
+}
 
 .dark-mode .chat-conversation {
   background-color: #25262c !important;
