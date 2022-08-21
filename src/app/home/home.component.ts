@@ -145,7 +145,7 @@ export class HomeComponent implements OnInit {
   private convertMessages(messages: Message[]): Message[] {
     return messages.filter((message: any) => {
       if (message.mes) {
-        message.createAt = message.createAt ? this.timeService.changeTimeZone(message.createAt, "Asia/Ho_Chi_Minh") : message.createAt;
+        message.createAt = message.createAt ? this.timeService.changeTimeZone(message.createAt) : message.createAt;
         return message;
       }
     }).reverse()
@@ -238,7 +238,7 @@ export class HomeComponent implements OnInit {
   async receiveChat(message: any) {
     if (message.status === 'success') {
       const data = message.data;
-      data.createAt = data.createAt ? this.timeService.changeTimeZone(data.createAt, 'Asia/Ho_Chi_Minh') : this.timeService.now();
+      data.createAt = data.createAt ? this.timeService.changeTimeZone(data.createAt) : this.timeService.now();
       for (const room of this.rooms) {
         if ((data.type === 0 && room.name === data.name) || (data.type === 1 && room.name === data.to)) {
           room.messages.push(data);
