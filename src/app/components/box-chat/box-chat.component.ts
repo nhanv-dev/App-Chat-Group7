@@ -54,13 +54,8 @@ export class BoxChatComponent implements OnInit, OnChanges, AfterViewChecked {
     const current: any = this.activeRoom?.messages[index].createAt;
     const prevDate = new Date(prev);
     const currentDate = new Date(current);
-    if (prevDate.getDate() !== currentDate.getDate() ||
-      prevDate.getMonth() !== currentDate.getMonth() ||
-      prevDate.getFullYear() !== currentDate.getFullYear()) {
-      return true;
-    }
-    // console.log(this.activeRoom?.messages[index - 1].mes, prev, this.activeRoom?.messages[index].mes, current)
-    return false;
+    return prevDate.getDate() !== currentDate.getDate() || prevDate.getMonth() !== currentDate.getMonth() || prevDate.getFullYear() !== currentDate.getFullYear();
+
   }
 
   handleForwardMessage(value: any) {
