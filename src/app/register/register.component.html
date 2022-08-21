@@ -13,17 +13,25 @@
                  required>
           <p class="notification" id="notification_username"></p>
         </div>
-        <div class="form__input">
+        <div class="form__input eye-password">
           <label for="password">Password</label>
           <input id="password" type="password" formControlName="password" name="password"
                  placeholder="Write your password..." required>
+          <div class="eye" [ngClass]=" registerForm.controls.password.value  ? 'show': 'hidden'"
+               (click)="toggleEye(1)">
+            <i class="fa-solid fa-eye"></i>
+          </div>
           <p class="notification" id="notification_password"></p>
 
         </div>
-        <div class="form__input">
+        <div class="form__input eye-password">
           <label for="password">Confirm password</label>
           <input id="repeat-password" type="password" formControlName="repeatPassword" name="repeatPassword"
                  placeholder="Write your password again..." required>
+          <div class="eye-password__repeat" [ngClass]="registerForm.controls.repeatPassword.value ? 'show': 'hidden'"
+               (click)="toggleEye(-1)">
+            <i class="fa-solid fa-eye"></i>
+          </div>
           <p class="notification" id="notification_repassword"></p>
         </div>
         <div class="form__buttons">

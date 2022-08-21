@@ -21,7 +21,7 @@
     <ng-container *ngFor="let message of activeRoom?.messages; let i = index">
       <ng-container *ngIf="message && message.mes && activeRoom && activeRoom.messages">
         <div class="chat-conversation__content__divide-time" *ngIf="divideDate(i) && message.createAt">
-          {{message.createAt | date:'fullDate'}}
+          {{message.createAt }}
         </div>
         <div class="d-flex gap-3 pb-4 align-items-end" id="{{message.id}}"
              [ngClass]="message.name === user?.name ? 'flex-row-reverse': ''">
