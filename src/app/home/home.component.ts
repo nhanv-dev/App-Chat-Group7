@@ -24,6 +24,7 @@ export class HomeComponent implements OnInit {
   isLoadingHistory: boolean = false;
   dataRetrieved: any = {change: false};
   @ViewChild('sidebar') sidebar: any;
+  messageNewContact: any;
 
   constructor(
     private chatService: ChatService,
@@ -189,8 +190,13 @@ export class HomeComponent implements OnInit {
           maxPage: undefined
         }
         this.rooms.unshift(room);
+      } else {
+        this.messageNewContact = "Is connected";
       }
+    } else {
+      this.messageNewContact = message.mes;
     }
+
   }
 
   async handleCreateRoom(message: any) {
@@ -203,6 +209,8 @@ export class HomeComponent implements OnInit {
         maxPage: undefined
       }
       this.rooms.unshift(room);
+    } else {
+      this.messageNewContact = message.mes;
     }
   }
 
@@ -241,6 +249,7 @@ export class HomeComponent implements OnInit {
   async searchChat(searching: string) {
     this.searching = searching;
   }
+
   async searchChatForward(searching: string) {
     this.searchingForward = searching;
   }
